@@ -25,7 +25,7 @@ fun Message(
 
     Row(
         modifier = modifier
-            .padding(top = 8.dp, bottom = 8.dp)
+            .padding(top = 8.dp, bottom = 8.dp, start = if (isUserMessage) 72.dp else 0.dp, end = if (isUserMessage) 0.dp else 72.dp)
     ) {
         if (isUserMessage) {
             Spacer(modifier = Modifier.weight(1f))
@@ -44,7 +44,7 @@ fun UserMessage(
 ) {
     Box(
         modifier = Modifier
-            .background(Color.Black, RoundedCornerShape(20.dp))
+            .background(Color.Black, RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp))
             .padding(12.dp)
     ) {
         Text(text = text, color = Color.White, fontWeight = FontWeight.Normal, fontSize = 12.sp)
@@ -57,7 +57,7 @@ fun BotMessage(
 ) {
     Box(
         modifier = Modifier
-            .background(mColors.surfaceContainer, RoundedCornerShape(20.dp))
+            .background(mColors.surfaceContainer, RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomEnd = 20.dp))
             .padding(12.dp)
     ) {
         Text(text = text, color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 12.sp)

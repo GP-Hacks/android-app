@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chat_bot.components.ChatBotTopBar
 import com.example.chat_bot.components.Message
 import com.example.chat_bot.components.MessageTextField
@@ -26,10 +28,10 @@ import com.example.ui.theme.mColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatBotRoute() {
-    var text by remember {
-        mutableStateOf("")
-    }
+fun ChatBotRoute(
+    viewModel: ChatBotViewModel = hiltViewModel()
+) {
+    val chatHistory by viewModel.chatHistory.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -45,91 +47,41 @@ fun ChatBotRoute() {
         },
         bottomBar = {
             Box(
-                modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp, bottom = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp, bottom = 16.dp),
                 contentAlignment = Alignment.BottomCenter
             ) {
                 MessageTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = text,
-                    onSendButtonClick = { /*TODO*/ },
-                    onChangeMessage = { text = it },
+                    text = viewModel.userRequest,
+                    onSendButtonClick = { viewModel.sendUserRequest() },
+                    onChangeMessage = { viewModel.changeUserRequest(it) },
                     placeholder = "Спросите"
                 )
             }
         }
-    ) {
+    ) { paddingValues ->
         Box {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(mColors.surface)
-                    .padding(top = it.calculateTopPadding(), start = 16.dp, end = 16.dp),
+                    .padding(top = paddingValues.calculateTopPadding(), start = 16.dp, end = 16.dp),
                 reverseLayout = true
             ) {
                 item {
-                    Spacer(modifier = Modifier.height(it.calculateBottomPadding() + 16.dp))
+                    Spacer(modifier = Modifier.height(paddingValues.calculateBottomPadding() + 16.dp))
                 }
 
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = true)
-                }
-                item {
-                    Message(text = "Test", isUserMessage = false)
+                chatHistory.reversed().forEach {
+                    item {
+                        Message(text = it.second, isUserMessage = false)
+                    }
+                    item {
+                        Message(text = it.first, isUserMessage = true)
+                    }
                 }
             }
         }

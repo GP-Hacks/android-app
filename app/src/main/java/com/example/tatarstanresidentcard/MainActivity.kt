@@ -14,7 +14,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.chat_bot.navigation.ChatBot
 import com.example.ui.theme.TatarstanResidentCardTheme
 import com.example.ui.theme.mColors
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 

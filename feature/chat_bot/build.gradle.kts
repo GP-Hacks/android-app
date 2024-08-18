@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":core:ui"))
     kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.serialization.json)
 
