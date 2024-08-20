@@ -43,8 +43,11 @@ android {
 
 dependencies {
 
-    implementation(libs.hilt.android)
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:common"))
+
+    implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 

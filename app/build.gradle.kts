@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -53,12 +54,24 @@ android {
 
 dependencies {
 
+    implementation(platform(libs.firebase.bom))
+
+    implementation(libs.maps.mobile)
+
     implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.hilt.android)
+    implementation(libs.firebase.messaging.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    implementation(project(":feature:home"))
+    implementation(project(":feature:places"))
+    implementation(project(":feature:news"))
+    implementation(project(":feature:services"))
+    implementation(project(":feature:stocks"))
+    implementation(project(":core:data"))
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":feature:chat_bot"))
 
