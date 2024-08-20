@@ -19,16 +19,16 @@ interface ColorScheme {
     val secondary: Color
     val secondaryContainer: Color
 
-    object DarkColorScheme : ColorScheme {
-        override val surface = BrightGray
-        override val onSurface = Black
-        override val surfaceContainer = White
-        override val background = BrightGray
-        override val primary = Green
-        override val primaryContainer = LightSkyBlue
-        override val secondary = LightSlateGray
-        override val secondaryContainer = SteelBlue
-    }
+//    object DarkColorScheme : ColorScheme {
+//        override val surface = BrightGray
+//        override val onSurface = Black
+//        override val surfaceContainer = White
+//        override val background = BrightGray
+//        override val primary = Green
+//        override val primaryContainer = LightSkyBlue
+//        override val secondary = LightSlateGray
+//        override val secondaryContainer = SteelBlue
+//    }
 //
 //    object LightColorScheme : ColorScheme {
 //        override val background = Color(1, 1, 1)
@@ -37,13 +37,15 @@ interface ColorScheme {
 
 val darkColorScheme = darkColorScheme(
     surface = White,
+    surfaceContainer = GrayGrayGrayGray,
     onSurface = Black,
-    surfaceContainer = Gray,
     background = BrightGray,
     primary = Green,
     onPrimary = White,
     secondary = Black,
-    onSecondary = White
+    onSecondary = GrayGray,
+    onTertiary = GrayGrayGray,
+    onSurfaceVariant = Green
 )
 
 
