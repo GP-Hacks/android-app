@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.chat_bot.navigation.ChatBot
+import com.example.home.navigation.Home
 import com.example.ui.theme.TatarstanResidentCardTheme
 import com.example.ui.theme.mColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
             TatarstanResidentCardTheme {
                 TatarstanResidentCardApp(
-                    startDestination = ChatBot,
+                    startDestination = Home,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(mColors.surface)
