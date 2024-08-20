@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.chat_bot.components.BotMessageLoading
 import com.example.chat_bot.components.ChatBotTopBar
 import com.example.chat_bot.components.Message
 import com.example.chat_bot.components.MessageTextField
+import com.example.common.model.ResultModel
 import com.example.ui.theme.mColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,6 +33,9 @@ import com.example.ui.theme.mColors
 fun ChatBotRoute(
     viewModel: ChatBotViewModel = hiltViewModel()
 ) {
+    var userRequest by remember {
+        mutableStateOf("")
+    }
     val chatHistory by viewModel.chatHistory.collectAsState()
 
     Scaffold(
@@ -55,9 +60,12 @@ fun ChatBotRoute(
                 MessageTextField(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = viewModel.userRequest,
-                    onSendButtonClick = { viewModel.sendUserRequest() },
-                    onChangeMessage = { viewModel.changeUserRequest(it) },
+                    text = userRequest,
+                    onSendButtonClick = {
+                        viewModel.sendUserRequest(userRequest)
+                        userRequest = ""
+                    },
+                    onChangeMessage = { userRequest = it },
                     placeholder = "Спросите"
                 )
             }
@@ -77,10 +85,20 @@ fun ChatBotRoute(
 
                 chatHistory.reversed().forEach {
                     item {
-                        Message(text = it.second, isUserMessage = false)
+                        when (it.second.status) {
+                            ResultModel.Status.FAILURE -> {
+                                Message(text = it.second.message.toString(), isUserMessage = false, isError = true)
+                            }
+                            ResultModel.Status.LOADING -> {
+                                BotMessageLoading()
+                            }
+                            else -> {
+                                Message(text = it.second.data?.response.toString(), isUserMessage = false, isError = false)
+                            }
+                        }
                     }
                     item {
-                        Message(text = it.first, isUserMessage = true)
+                        Message(text = it.first, isUserMessage = true, isError = false)
                     }
                 }
             }
