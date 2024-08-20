@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1067663041314",
+    "project_id": "tatarstan-resident-card",
+    "storage_bucket": "tatarstan-resident-card.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067663041314:android:ad5a7a3a8db0dfb8893b7b",
+        "android_client_info": {
+          "package_name": "com.example.tatarstanresidentcard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADrDLeuVNi2cYusE_IPa4aEHTHH5JWXlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
