@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,7 +21,8 @@ import com.example.ui.theme.mColors
 fun Message(
     modifier: Modifier = Modifier,
     text: String,
-    isUserMessage: Boolean
+    isUserMessage: Boolean,
+    isError: Boolean
 ) {
 
     Row(
@@ -29,9 +31,9 @@ fun Message(
     ) {
         if (isUserMessage) {
             Spacer(modifier = Modifier.weight(1f))
-            UserMessage(text = text)
+            UserMessage(text = text, isError = isError)
         } else {
-            BotMessage(text = text)
+            BotMessage(text = text, isError = isError)
             Spacer(modifier = Modifier.weight(1f))
         }
     }
@@ -40,11 +42,15 @@ fun Message(
 
 @Composable
 fun UserMessage(
-    text: String
+    text: String,
+    isError: Boolean
 ) {
     Box(
         modifier = Modifier
-            .background(Color.Black, RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp))
+            .background(
+                Color.Black,
+                RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp, bottomEnd = 20.dp)
+            )
             .padding(12.dp)
     ) {
         Text(text = text, color = Color.White, fontWeight = FontWeight.Normal, fontSize = 12.sp)
@@ -53,13 +59,33 @@ fun UserMessage(
 
 @Composable
 fun BotMessage(
-    text: String
+    text: String,
+    isError: Boolean
 ) {
     Box(
         modifier = Modifier
-            .background(mColors.surfaceContainer, RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomEnd = 20.dp))
+            .background(
+                mColors.surfaceContainer,
+                RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomEnd = 20.dp)
+            )
             .padding(12.dp)
     ) {
-        Text(text = text, color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 12.sp)
+        Text(text = text, color = if (!isError) Color.Black else Color.Red, fontWeight = FontWeight.Normal, fontSize = 12.sp)
+    }
+}
+
+@Composable
+fun BotMessageLoading() {
+    Box(
+        modifier = Modifier
+            .background(
+                mColors.surfaceContainer,
+                RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomEnd = 20.dp)
+            )
+            .padding(12.dp)
+    ) {
+        CircularProgressIndicator(
+            color = mColors.primary
+        )
     }
 }
