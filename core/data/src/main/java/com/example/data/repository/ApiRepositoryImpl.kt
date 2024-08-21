@@ -54,6 +54,18 @@ class ApiRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getPlacesCategories(): Flow<ResultModel<List<String>>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getPlacesCategories()
+
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.response))
+        } else {
+            emit(ResultModel.failure(result.message))
+        }
+    }
+
     override fun getPlaces(
         latitude: Double,
         longitude: Double,

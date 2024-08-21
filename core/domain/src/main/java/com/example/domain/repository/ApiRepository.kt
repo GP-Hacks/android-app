@@ -13,6 +13,8 @@ interface ApiRepository {
 
     suspend fun sendDeviceToken()
 
+    fun getPlacesCategories(): Flow<ResultModel<List<String>>>
+
     fun getPlaces(latitude: Double, longitude: Double, category: String): Flow<ResultModel<List<PlaceModel>>>
 
     fun getNews(pageSize: Int): Flow<PagingData<NewsModel>>

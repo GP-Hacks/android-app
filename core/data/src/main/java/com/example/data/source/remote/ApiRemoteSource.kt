@@ -9,6 +9,7 @@ import com.example.data.response.ListNewsResponse
 import com.example.data.response.NewsResponse
 import com.example.data.response.PlaceListResponse
 import com.example.data.response.PlaceResponse
+import com.example.data.response.PlacesCategoriesResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -37,6 +38,24 @@ class ApiRemoteSource {
                     ignoreUnknownKeys = true
                 }
             )
+        }
+    }
+
+    suspend fun getPlacesCategories(): ResultModel<PlacesCategoriesResponse> {
+        try {
+            val request = httpClient.get(KdtApiRoutes.PLACES_CATEGORIES)
+
+            return if (request.status.value in 200..299) {
+                val response: PlacesCategoriesResponse = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.e("GET PLACES CAT", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("GET PLACES CAT", e.toString())
+            return ResultModel.failure("Непредвиденная ошибка.")
         }
     }
 

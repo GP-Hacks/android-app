@@ -1,26 +1,14 @@
 package com.example.places
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
-import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,10 +19,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -46,7 +31,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -54,33 +38,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.common.model.ResultModel
 import com.example.domain.model.PlaceModel
 import com.example.places.components.FullInfoPlaceDialog
 import com.example.places.components.PlaceCard
-import com.example.places.navigation.AnimatedTab
-import com.example.places.utils.LocationUtils
-import com.example.places.utils.RequestLocationPermission
+import com.example.places.components.AnimatedTab
 import com.example.ui.theme.mColors
-import com.google.android.gms.location.LocationServices
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.map.MapObjectTapListener
-import com.yandex.mapkit.map.MapType
-import com.yandex.mapkit.map.PlacemarkMapObject
-import com.yandex.mapkit.map.TextStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun PlacesRoute(
@@ -97,6 +69,7 @@ fun PlacesRoute(
     val firstVisibleItemIndex = remember { derivedStateOf { listState.firstVisibleItemIndex } }
 
     LaunchedEffect(Unit) {
+        viewModel.loadPlacesCategories()
         viewModel.loadPlaces()
     }
 
@@ -157,7 +130,7 @@ fun PlacesRoute(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-            val categoriesList = listOf("Обзорная площадка", "Историческое место", "Площадь", "Исторический музей", "Музей", "Памятник", "Публичное искусство", "Парк развлечений", "Научный музей", "Художественная галерея", "Зоопарк")
+            val categoriesList = viewModel.listPlacesCategories.collectAsState()
             LazyRow {
                 item {
                     Text(
@@ -179,7 +152,7 @@ fun PlacesRoute(
                     )
                 }
 
-                categoriesList.forEach {
+                categoriesList.value.data?.forEach {
                     item {
                         Text(
                             text = it,

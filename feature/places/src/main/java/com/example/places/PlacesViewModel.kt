@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.PlaceModel
 import com.example.domain.usecase.BuyTicketForPlaceUseCase
+import com.example.domain.usecase.GetPlacesCategoriesUseCase
 import com.example.domain.usecase.GetPlacesUseCase
 import com.example.places.utils.LocationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PlacesViewModel @Inject constructor(
     private val getPlacesUseCase: GetPlacesUseCase,
-    private val buyTicketForPlaceUseCase: BuyTicketForPlaceUseCase
+    private val buyTicketForPlaceUseCase: BuyTicketForPlaceUseCase,
+    private val getPlacesCategoriesUseCase: GetPlacesCategoriesUseCase
 //    private val locationUtils: LocationUtils
 ): ViewModel() {
 
@@ -30,11 +32,28 @@ class PlacesViewModel @Inject constructor(
     val listPlaces: StateFlow<ResultModel<List<PlaceModel>>>
         get() = _listPlaces
 
+    private val _listPlacesCategories = MutableStateFlow<ResultModel<List<String>>>(ResultModel.none())
+    val listPlacesCategories: StateFlow<ResultModel<List<String>>>
+        get() = _listPlacesCategories
+
     var currentCategory = mutableStateOf("all")
         private set
 
     fun changeCategory(category: String) {
         currentCategory.value = category
+    }
+
+    fun loadPlacesCategories() {
+        viewModelScope.launch {
+            getPlacesCategoriesUseCase()
+                .flowOn(Dispatchers.IO)
+                .catch {
+                    _listPlacesCategories.value = ResultModel.failure("Непредвиденная ошибка.")
+                }
+                .collect {
+                    _listPlacesCategories.value = it
+                }
+        }
     }
 
     fun loadPlaces() {
