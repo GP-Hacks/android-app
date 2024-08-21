@@ -40,6 +40,22 @@ class ApiRemoteSource {
         }
     }
 
+    suspend fun sendToken(token: String) {
+        try {
+            val jsonBody = """
+                {
+                    "token": "$token"
+                }
+            """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.USER_TOKEN) {
+                header(key = "Authorization", value = "Bearer example@gmail.com")
+                setBody(jsonBody)
+            }
+        } catch (e: Exception) {
+            Log.e("SEND TOKEN", e.toString())
+        }
+    }
+
     suspend fun buyTicketForPlace(id: Int, utc: String): ResultModel<Boolean> {
         try {
             val jsonBody = """

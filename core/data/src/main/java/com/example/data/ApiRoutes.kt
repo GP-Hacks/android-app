@@ -8,6 +8,8 @@ object KdtApiRoutes {
     const val PLACES = "$BASE/places"
     const val PLACES_GET = "$PLACES/get"
     const val PLACES_BUY = "$PLACES/buy"
+    const val USER = "$BASE/user"
+    const val USER_TOKEN = "$BASE/user/token"
 
 }
 

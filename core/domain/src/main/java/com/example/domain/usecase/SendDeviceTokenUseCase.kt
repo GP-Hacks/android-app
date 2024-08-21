@@ -9,7 +9,7 @@ class SendDeviceTokenUseCase @Inject constructor(
 ) {
 
     operator fun invoke(token: String) {
-        Log.i("DEVICE TOKEN", token)
+        apiRepository.sendDeviceToken(token)
     }
 
 }

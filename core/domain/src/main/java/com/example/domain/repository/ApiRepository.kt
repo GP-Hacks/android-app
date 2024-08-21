@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
 
+    fun sendDeviceToken(token: String)
+
     fun getPlaces(latitude: Double, longitude: Double, category: String): Flow<ResultModel<List<PlaceModel>>>
 
     fun getNews(pageSize: Int): Flow<PagingData<NewsModel>>

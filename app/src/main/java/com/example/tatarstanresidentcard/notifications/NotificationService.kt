@@ -12,19 +12,23 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.domain.usecase.SendDeviceTokenUseCase
 import com.example.tatarstanresidentcard.MainActivity
 import com.example.tatarstanresidentcard.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import javax.inject.Inject
 
-class NotificationService: FirebaseMessagingService() {
+class NotificationService @Inject constructor(
+    private val sendDeviceTokenUseCase: SendDeviceTokenUseCase
+): FirebaseMessagingService() {
 
     private val tag = "NOTIFICATIONS_FCM"
     private val channelId = "tatarstan_resident_card_notification_channel_id"
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-
+        sendDeviceTokenUseCase(token)
         Log.i("TOKEN", token)
     }
 

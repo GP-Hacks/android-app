@@ -13,13 +13,22 @@ import com.example.domain.model.ChatBotAnswerModel
 import com.example.domain.model.NewsModel
 import com.example.domain.model.PlaceModel
 import com.example.domain.repository.ApiRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource
 ): ApiRepository {
+    override fun sendDeviceToken(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            apiRemoteSource.sendToken(token)
+        }
+    }
+
     override fun getPlaces(
         latitude: Double,
         longitude: Double,
