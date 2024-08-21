@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,9 +28,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -150,6 +154,51 @@ fun PlacesRoute(
                             selectedType = it
                         }
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+            val categoriesList = listOf("Обзорная площадка", "Историческое место", "Площадь", "Исторический музей", "Музей", "Памятник", "Публичное искусство", "Парк развлечений", "Научный музей", "Художественная галерея", "Зоопарк")
+            LazyRow {
+                item {
+                    Text(
+                        text = "Все",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        modifier = Modifier
+                            .background(
+                                if (viewModel.currentCategory.value == "all") Color(
+                                    0xFF008935
+                                ) else mColors.primary, RoundedCornerShape(6.dp)
+                            )
+                            .clickable {
+                                viewModel.changeCategory("all")
+                                viewModel.loadPlaces()
+                            }
+                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
+                        color = Color.White
+                    )
+                }
+
+                categoriesList.forEach {
+                    item {
+                        Text(
+                            text = it,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,
+                            modifier = Modifier
+                                .background(
+                                    if (viewModel.currentCategory.value == it) Color(
+                                        0xFF008935
+                                    ) else mColors.primary, RoundedCornerShape(6.dp)
+                                )
+                                .clickable {
+                                    viewModel.changeCategory(it)
+                                    viewModel.loadPlaces()
+                                }
+                                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
@@ -216,30 +265,46 @@ fun PlacesListColumn(
         state = listState,
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (listPlaces.status) {
             ResultModel.Status.SUCCESS -> {
                 listPlaces.data?.forEach {
                     item {
                         Spacer(modifier = Modifier.height(16.dp))
-                        PlaceCard(
-//                            image = it.photos[0] ?: "",
-                            image = "",
-                            title = it.name,
-                            geo = it.location,
-                            category = it.category,
-                            site = if (it.website != "") it.website else null,
-                            openDialog = {
-                                currentItem = it
-                                isOpenDialog = true
-                            }
-                        )
+                        if (it.photos.isEmpty()) {
+                            PlaceCard(
+                                image = null,
+                                title = it.name,
+                                geo = it.location,
+                                category = it.category,
+                                site = if (it.website != "") it.website else null,
+                                openDialog = {
+                                    currentItem = it
+                                    isOpenDialog = true
+                                }
+                            )
+                        } else {
+                            PlaceCard(
+                                image = it.photos[0],
+//                                image = "",
+                                title = it.name,
+                                geo = it.location,
+                                category = it.category,
+                                site = if (it.website != "") it.website else null,
+                                openDialog = {
+                                    currentItem = it
+                                    isOpenDialog = true
+                                }
+                            )
+                        }
                     }
                 }
             }
             ResultModel.Status.LOADING -> {
                 item {
+                    Spacer(modifier = Modifier.height(32.dp))
                     CircularProgressIndicator(
                         color = mColors.primary
                     )
@@ -296,6 +361,7 @@ fun PlacesMap(
         update = { it ->
             mapView = it
             val mapObjects = it.mapWindow.map.mapObjects
+            mapObjects.clear()
 
             if (listPlaces.data != null && listPlaces.status == ResultModel.Status.SUCCESS) {
                 listPlaces.data!!.forEach { place ->

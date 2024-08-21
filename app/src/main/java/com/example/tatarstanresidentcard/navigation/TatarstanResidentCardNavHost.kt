@@ -63,7 +63,7 @@ fun TatarstanResidentCardNavHost(
         "com.example.services.navigation.Services" -> true
         "com.example.stocks.navigation.Stocks" -> true
         "com.example.news.navigation.News" -> true
-        "com.example.places.Places" -> true
+        "com.example.places.navigation.Places" -> true
         else -> false
     }
     Log.i("ROUTE CURR", currentRouteReal.toString())
@@ -90,7 +90,9 @@ fun TatarstanResidentCardNavHost(
                 navigateToReadersDiary = {},
                 navigateToVoting = {},
                 navigateToSchoolElectronDiary = {},
-                navigateToStocks = {},
+                navigateToStocks = {
+                    navController.navigateToStocks()
+                },
                 navigateToPortalCare = {}
             )
             stocksScreen()

@@ -1,6 +1,7 @@
 package com.example.places
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
@@ -29,9 +30,16 @@ class PlacesViewModel @Inject constructor(
     val listPlaces: StateFlow<ResultModel<List<PlaceModel>>>
         get() = _listPlaces
 
+    var currentCategory = mutableStateOf("all")
+        private set
+
+    fun changeCategory(category: String) {
+        currentCategory.value = category
+    }
+
     fun loadPlaces() {
         viewModelScope.launch {
-            getPlacesUseCase()
+            getPlacesUseCase(category = currentCategory.value)
                 .flowOn(Dispatchers.IO)
                 .catch {
                     _listPlaces.value = ResultModel.failure("Непредвиденная ошибка.")
