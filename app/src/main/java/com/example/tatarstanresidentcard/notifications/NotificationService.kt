@@ -15,20 +15,29 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.domain.usecase.SendDeviceTokenUseCase
 import com.example.tatarstanresidentcard.MainActivity
 import com.example.tatarstanresidentcard.R
+import com.example.tatarstanresidentcard.TatarstanResidentCardApplication
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NotificationService @Inject constructor(
-    private val sendDeviceTokenUseCase: SendDeviceTokenUseCase
-): FirebaseMessagingService() {
+@AndroidEntryPoint
+class NotificationService: FirebaseMessagingService() {
+
+    @Inject
+    lateinit var sendDeviceTokenUseCase: SendDeviceTokenUseCase
 
     private val tag = "NOTIFICATIONS_FCM"
     private val channelId = "tatarstan_resident_card_notification_channel_id"
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        sendDeviceTokenUseCase(token)
+        CoroutineScope(Dispatchers.IO).launch {
+            sendDeviceTokenUseCase(token)
+        }
         Log.i("TOKEN", token)
     }
 
