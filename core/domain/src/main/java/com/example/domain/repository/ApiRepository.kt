@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
 
-    fun sendDeviceToken(token: String)
+    suspend fun sendDeviceToken(token: String)
+
+    suspend fun sendDeviceToken()
 
     fun getPlaces(latitude: Double, longitude: Double, category: String): Flow<ResultModel<List<PlaceModel>>>
 

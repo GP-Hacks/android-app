@@ -40,7 +40,7 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun sendToken(token: String) {
+    suspend fun sendToken(token: String): Boolean {
         try {
             val jsonBody = """
                 {
@@ -51,8 +51,15 @@ class ApiRemoteSource {
                 header(key = "Authorization", value = "Bearer example@gmail.com")
                 setBody(jsonBody)
             }
+
+            return if (request.status.value == 200) {
+                true
+            } else {
+                false
+            }
         } catch (e: Exception) {
             Log.e("SEND TOKEN", e.toString())
+            return false
         }
     }
 

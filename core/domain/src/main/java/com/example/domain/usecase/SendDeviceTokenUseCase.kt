@@ -8,8 +8,12 @@ class SendDeviceTokenUseCase @Inject constructor(
     private val apiRepository: ApiRepository
 ) {
 
-    operator fun invoke(token: String) {
+    suspend operator fun invoke(token: String) {
         apiRepository.sendDeviceToken(token)
+    }
+
+    suspend operator fun invoke() {
+        apiRepository.sendDeviceToken()
     }
 
 }

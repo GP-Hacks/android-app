@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import com.example.common.model.ResultModel
 import com.example.data.response.toChatBotAnswerModel
 import com.example.data.response.toPlaceModel
+import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.paging.NewsPagingSource
 import com.example.data.source.remote.ApiRemoteSource
 import com.example.data.utils.millisToUtcString
@@ -21,11 +22,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ApiRepositoryImpl @Inject constructor(
-    private val apiRemoteSource: ApiRemoteSource
+    private val apiRemoteSource: ApiRemoteSource,
+    private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
-    override fun sendDeviceToken(token: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            apiRemoteSource.sendToken(token)
+    override suspend fun sendDeviceToken(token: String) {
+        sharedPreferenceLocalSource.setDeviceToken(token)
+//        TODO(Проверка на авторизацию)
+        if (true) {
+            val result = apiRemoteSource.sendToken(token)
+
+            sharedPreferenceLocalSource.setBindDeviceTokenStatus(result)
+        } else {
+            sharedPreferenceLocalSource.setBindDeviceTokenStatus(false)
+        }
+    }
+
+    override suspend fun sendDeviceToken() {
+//        TODO(Проверка на авторизацию)
+        if (true) {
+            val status = sharedPreferenceLocalSource.getBindDeviceTokenStatus()
+
+            if (!status) {
+                val token = sharedPreferenceLocalSource.getDeviceToken()
+
+                if (token != null) {
+                    val result = apiRemoteSource.sendToken(token)
+
+                    sharedPreferenceLocalSource.setBindDeviceTokenStatus(result)
+                }
+            }
         }
     }
 
