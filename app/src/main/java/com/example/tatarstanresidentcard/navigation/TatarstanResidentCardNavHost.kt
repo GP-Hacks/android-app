@@ -40,6 +40,8 @@ import com.example.news.navigation.navigateToNews
 import com.example.news.navigation.newsScreen
 import com.example.places.navigation.navigateToPlaces
 import com.example.places.navigation.placesScreen
+import com.example.portal_care.navigation.navigateToPortalCare
+import com.example.portal_care.navigation.portalCareScreen
 import com.example.services.navigation.Services
 import com.example.services.navigation.navigateToServices
 import com.example.services.navigation.servicesScreen
@@ -97,7 +99,9 @@ fun TatarstanResidentCardNavHost(
                 navigateToStocks = {
                     navController.navigateToStocks()
                 },
-                navigateToPortalCare = {},
+                navigateToPortalCare = {
+                    navController.navigateToPortalCare()
+                },
                 navigateToCharity = {
                     navController.navigateToCharity()
                 }
@@ -105,6 +109,9 @@ fun TatarstanResidentCardNavHost(
             stocksScreen()
             placesScreen()
             charityScreen()
+            portalCareScreen {
+                navController.popBackStack()
+            }
         }
     }
 

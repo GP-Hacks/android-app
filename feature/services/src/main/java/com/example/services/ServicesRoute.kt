@@ -149,7 +149,10 @@ fun ServicesRoute(
             Card(
                 modifier = Modifier
                     .height(100.dp)
-                    .weight(1f),
+                    .weight(1f)
+                    .clickable {
+                        navigateToPortalCare()
+                    },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFF5780EA)
                 )

@@ -71,6 +71,7 @@ dependencies {
     implementation(project(":feature:news"))
     implementation(project(":feature:services"))
     implementation(project(":feature:stocks"))
+    implementation(project(":feature:portal_care"))
     implementation(project(":feature:chat_bot"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))

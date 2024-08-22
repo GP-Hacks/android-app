@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/news" />
             <option value="$PROJECT_DIR$/feature/places" />
+            <option value="$PROJECT_DIR$/feature/portal_care" />
             <option value="$PROJECT_DIR$/feature/services" />
             <option value="$PROJECT_DIR$/feature/stocks" />
           </set>
