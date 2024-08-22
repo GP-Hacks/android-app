@@ -86,57 +86,38 @@ fun FullInfoPlaceDialog(
                 containerColor = mColors.surface
             )
         ) {
-
-//            AnimatedContent(
-//                targetState = currentScreen,
-//                transitionSpec = {
-////                    if (isForward) {
-////                        slideInHorizontally(initialOffsetX = { fullWidth -> fullWidth }) +
-////                                fadeIn(animationSpec = tween(50)) with
-////                                slideOutHorizontally(targetOffsetX = { fullWidth -> -fullWidth }) +
-////                                fadeOut(animationSpec = tween(50))
-////                    } else {
-////                        slideInHorizontally(initialOffsetX = { fullWidth -> -fullWidth }) +
-////                                fadeIn(animationSpec = tween(50)) with
-////                                slideOutHorizontally(targetOffsetX = { fullWidth -> fullWidth }) +
-////                                fadeOut(animationSpec = tween(50))
-////                    }
-//                }
-//            ) { targetState ->
-                when (currentScreen) {
-                    0 -> InfoPage(place = place) {
-                        isForward = true
-                        currentScreen = 1
-                    }
-                    1 -> DatePickerForBuyPage(
-                        onBack = {
-                            isForward = false
-                            currentScreen = 0
-                        },
-                        onNext =  {
-                            isForward = true
-                            currentScreen = 2
-                        },
-                        onSelectDate = {
-                            selectedDate = it
-                        }
-                    )
-                    2 -> TimePickerForBuy(
-                        times = listOf("00:10", "14:00", "15:00"),
-                        onBack = {
-                            isForward = false
-                            currentScreen = 1
-                        },
-                        onBuy = {
-                            onBuyTicket(selectedDate, it)
-                            onDismissRequest()
-                        },
-                        currentDate = selectedDate
-                    )
+            when (currentScreen) {
+                0 -> InfoPage(place = place) {
+                    isForward = true
+                    currentScreen = 1
                 }
+                1 -> DatePickerForBuyPage(
+                    onBack = {
+                        isForward = false
+                        currentScreen = 0
+                    },
+                    onNext =  {
+                        isForward = true
+                        currentScreen = 2
+                    },
+                    onSelectDate = {
+                        selectedDate = it
+                    }
+                )
+                2 -> TimePickerForBuy(
+                    times = listOf("00:10", "14:00", "15:00"),
+                    onBack = {
+                        isForward = false
+                        currentScreen = 1
+                    },
+                    onBuy = {
+                        onBuyTicket(selectedDate, it)
+                        onDismissRequest()
+                    },
+                    currentDate = selectedDate
+                )
             }
-
-//        }
+        }
     }
     
 }
@@ -348,9 +329,7 @@ fun TimePickerForBuy(
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = s, color = Color.Black, fontSize = 12.sp)
             }
-//            if (index != times.size - 1) {
-                Spacer(modifier = Modifier.height(8.dp))
-//            }
+            Spacer(modifier = Modifier.height(8.dp))
         }
 
         Row(
@@ -392,27 +371,21 @@ fun timeStringToMillis(timeString: String): Long {
     return time?.time ?: 0L
 }
 
-// Функция для проверки, что время из строки больше текущего времени
 fun isTimeAfterCurrent(timeString: String, dateMillis: Long): Boolean {
-    // Получите текущее время
     val now = Calendar.getInstance()
     val currentTimeMillis = now.timeInMillis
 
-    // Установите дату для сравнения
     val date = Calendar.getInstance().apply {
         timeInMillis = dateMillis
     }
 
-    // Установите время на начало дня
     date.set(Calendar.HOUR_OF_DAY, 0)
     date.set(Calendar.MINUTE, 0)
     date.set(Calendar.SECOND, 0)
     date.set(Calendar.MILLISECOND, 0)
 
-    // Преобразуйте строку времени в миллисекунды от начала дня
     val timeMillis = timeStringToMillis(timeString)
     val targetTimeMillis = date.timeInMillis + timeMillis
 
-    // Сравните время из строки с текущим временем
     return targetTimeMillis > currentTimeMillis
 }
