@@ -1,5 +1,9 @@
 package com.example.charity.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -15,6 +19,23 @@ fun NavController.navigateToCharity(
 ) = navigate(Charity, navOptions)
 
 fun NavGraphBuilder.charityScreen(
-) = composable<Charity> {
+) = composable<Charity>(
+    enterTransition = {
+        slideInHorizontally(
+            initialOffsetX = { it / 6 }
+        ) + fadeIn()
+    },
+    exitTransition = {
+        fadeOut()
+    },
+    popEnterTransition = {
+        fadeIn()
+    },
+    popExitTransition = {
+        slideOutHorizontally(
+            targetOffsetX = { it / 6 }
+        ) + fadeOut()
+    },
+) {
     CharityRoute()
 }

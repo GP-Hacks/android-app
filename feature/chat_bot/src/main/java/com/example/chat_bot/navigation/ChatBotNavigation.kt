@@ -1,5 +1,10 @@
 package com.example.chat_bot.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -15,9 +20,23 @@ fun NavController.navigateToChatBot(
     navOptions: NavOptionsBuilder.() -> Unit = {}
 ) = navigate(ChatBot, navOptions)
 
-fun NavGraphBuilder.chatBotScreen(
-//    changeVisibleNavBar: () -> Unit
-) = composable<ChatBot> {
-//    changeVisibleNavBar()
+fun NavGraphBuilder.chatBotScreen() = composable<ChatBot>(
+    enterTransition = {
+        slideInHorizontally(
+            initialOffsetX = { it / 6 }
+        ) + fadeIn()
+    },
+    exitTransition = {
+        fadeOut()
+    },
+    popEnterTransition = {
+        fadeIn()
+    },
+    popExitTransition = {
+        slideOutHorizontally(
+            targetOffsetX = { it / 6 }
+        ) + fadeOut()
+    },
+) {
     ChatBotRoute()
 }
