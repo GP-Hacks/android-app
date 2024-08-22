@@ -43,8 +43,19 @@ android {
 
 dependencies {
 
+    implementation(project(":core:domain"))
+
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
+
+    implementation("com.yandex.android:maps.mobile:4.7.0-lite")
+
     implementation(libs.hilt.android)
     implementation(libs.androidx.material3.android)
+    implementation(project(":core:ui"))
+    implementation(project(":core:common"))
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
