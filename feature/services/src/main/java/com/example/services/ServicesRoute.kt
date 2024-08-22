@@ -45,10 +45,10 @@ fun ServicesRoute(
         Row {
             Card(
                 modifier = Modifier
-                    .height(90.dp)
-                    .weight(1.5f),
+                    .height(100.dp)
+                    .weight(1f),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFFC9101)
+                    containerColor = Color(0xFF51AADB)
                 )
             ) {
                 Box(
@@ -57,19 +57,44 @@ fun ServicesRoute(
                         .padding(16.dp),
                     contentAlignment = Alignment.BottomEnd
                 ) {
-                    Image(painter = painterResource(id = R.drawable.readers_diary_icon), contentDescription = null)
+                    Image(painter = painterResource(id = R.drawable.school_electron_diary_icon), contentDescription = null)
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Читательский билет", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Сохраняйте в электронном формате", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Школьный электронный дневник", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
                     }
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
             Card(
                 modifier = Modifier
-                    .height(90.dp)
+                    .height(100.dp)
+                    .weight(1.5f),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFB262C0)
+                )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    Image(painter = painterResource(id = R.drawable.charity_icon), contentDescription = null)
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Text(text = "Благотворительность", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+                        Text(text = "Вкладывайтесь в добро", fontSize = 10.sp, color = Color.White)
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Row {
+            Card(
+                modifier = Modifier
+                    .height(100.dp)
                     .weight(1f),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFF373EA4)
@@ -90,37 +115,11 @@ fun ServicesRoute(
                     }
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Row {
-            Card(
-                modifier = Modifier
-                    .height(90.dp)
-                    .weight(1f),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF51AADB)
-                )
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.BottomEnd
-                ) {
-                    Image(painter = painterResource(id = R.drawable.school_electron_diary_icon), contentDescription = null)
-                    Column(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text(text = "Школьный электронный дневник", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-//                        Text(text = "Сохраняйте в электронном формате", fontSize = 10.sp, color = Color.White)
-                    }
-                }
-            }
             Spacer(modifier = Modifier.width(16.dp))
             Card(
                 modifier = Modifier
-                    .height(90.dp)
-                    .weight(1.5f)
+                    .height(100.dp)
+                    .weight(1f)
                     .clickable {
                         navigateToStocks()
                     },
@@ -143,12 +142,36 @@ fun ServicesRoute(
                     }
                 }
             }
+            Spacer(modifier = Modifier.width(16.dp))
+            Card(
+                modifier = Modifier
+                    .height(100.dp)
+                    .weight(1f),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF5780EA)
+                )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.BottomEnd
+                ) {
+                    Image(painter = painterResource(id = R.drawable.poral_care_icon), contentDescription = null)
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Text(text = "Портал Забота", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+                        Text(text = "Социальные льготы и начисления", fontSize = 10.sp, color = Color.White)
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             Card(
                 modifier = Modifier
-                    .height(90.dp)
+                    .height(100.dp)
                     .weight(1.5f)
                     .clickable {
                         navigateToPlaces()
@@ -175,10 +198,10 @@ fun ServicesRoute(
             Spacer(modifier = Modifier.width(16.dp))
             Card(
                 modifier = Modifier
-                    .height(90.dp)
+                    .height(100.dp)
                     .weight(1f),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF5780EA)
+                    containerColor = Color(0xFFFC9101)
                 )
             ) {
                 Box(
@@ -187,12 +210,12 @@ fun ServicesRoute(
                         .padding(16.dp),
                     contentAlignment = Alignment.BottomEnd
                 ) {
-                    Image(painter = painterResource(id = R.drawable.poral_care_icon), contentDescription = null)
+                    Image(painter = painterResource(id = R.drawable.readers_diary_icon), contentDescription = null)
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Портал Забота", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Социальные льготы и начисления", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Читательский билет", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+                        Text(text = "Сохраняйте в электронном виде", fontSize = 10.sp, color = Color.White)
                     }
                 }
             }
