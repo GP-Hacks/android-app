@@ -44,7 +44,9 @@ import dev.chrisbanes.haze.haze
 import dev.chrisbanes.haze.hazeChild
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    navigateToAuthScreen: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -97,7 +99,7 @@ fun HomeRoute() {
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp)
                         .fillMaxWidth(),
-                    onClick = { /*TODO*/ },
+                    onClick = { navigateToAuthScreen() },
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = mColors.primary,

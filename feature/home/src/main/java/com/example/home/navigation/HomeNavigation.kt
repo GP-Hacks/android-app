@@ -16,8 +16,7 @@ fun NavController.navigateToHome(
 ) = navigate(Home, navOptions)
 
 fun NavGraphBuilder.homeScreen(
-//    changeVisibleNavBar: () -> Unit
+    navigateToAuthScreen: () -> Unit
 ) = composable<Home> {
-//    changeVisibleNavBar()
-    HomeRoute()
+    HomeRoute(navigateToAuthScreen)
 }

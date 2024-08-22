@@ -67,6 +67,7 @@ dependencies {
 
     implementation(project(":feature:home"))
     implementation(project(":feature:charity"))
+    implementation(project(":feature:auth"))
     implementation(project(":feature:places"))
     implementation(project(":feature:news"))
     implementation(project(":feature:services"))

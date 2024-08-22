@@ -28,6 +28,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.auth.navigation.Auth
+import com.example.auth.navigation.authScreen
+import com.example.auth.navigation.navigateToAuth
 import com.example.charity.navigation.charityScreen
 import com.example.charity.navigation.navigateToCharity
 import com.example.chat_bot.navigation.chatBotScreen
@@ -87,7 +90,9 @@ fun TatarstanResidentCardNavHost(
             chatBotScreen {
                 navController.popBackStack()
             }
-            homeScreen()
+            homeScreen {
+                navController.navigateToAuth()
+            }
             newsScreen()
             servicesScreen(
                 navigateToPlaces = {
@@ -111,6 +116,11 @@ fun TatarstanResidentCardNavHost(
             charityScreen()
             portalCareScreen {
                 navController.popBackStack()
+            }
+            authScreen {
+                navController.navigateToHome {
+                    popUpTo(0)
+                }
             }
         }
     }
