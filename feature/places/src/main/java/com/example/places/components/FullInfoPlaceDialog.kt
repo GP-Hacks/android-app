@@ -197,11 +197,15 @@ fun InfoPage(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = place.category,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = Color.Black,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier
+                    .background(
+                        Color(0xFF1E1E1E),
+                        RoundedCornerShape(7.dp)
+                    )
+                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
             )
             if (place.website != "") {
                 Spacer(modifier = Modifier.height(4.dp))
