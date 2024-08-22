@@ -129,19 +129,26 @@ fun InfoPage(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         val pagerState = rememberPagerState(0, 0f, pageCount = {
-            return@rememberPagerState place.photos.size
+            return@rememberPagerState if (place.photos.isEmpty()) 1 else place.photos.size
         })
         HorizontalPager(state = pagerState, modifier = Modifier.background(mColors.surface)) {
             Box(
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
-                    model = place.photos[it],
+                    model = if (place.photos.isEmpty()) {
+                        ""
+                    } else {
+                        place.photos[it]
+                    },
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -154,12 +161,19 @@ fun InfoPage(
                     onSuccess = {
                         isLoading = false
                     },
+                    onError = {
+                        isLoading = false
+                        isError = true
+                    },
                     contentScale = ContentScale.Crop
                 )
                 if (isLoading) {
                     CircularProgressIndicator(
                         color = mColors.primary
                     )
+                }
+                if (isError) {
+                    Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
                 }
             }
         }

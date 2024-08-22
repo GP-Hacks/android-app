@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,11 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.stocks.R
 import com.example.ui.theme.mColors
 
 @Composable
@@ -42,6 +45,9 @@ fun PartnerCard(
     openDialog: () -> Unit
 ) {
     var isLoading by remember {
+        mutableStateOf(false)
+    }
+    var isError by remember {
         mutableStateOf(false)
     }
 
@@ -74,12 +80,19 @@ fun PartnerCard(
                     onSuccess = {
                         isLoading = false
                     },
+                    onError = {
+                        isLoading = false
+                        isError = true
+                    },
                     contentScale = ContentScale.Crop
                 )
                 if (isLoading) {
                     CircularProgressIndicator(
                         color = mColors.primary
                     )
+                }
+                if (isError) {
+                    Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
                 }
             }
             if (value != null) {

@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.charity.R
 import com.example.ui.theme.mColors
 
 @Composable
@@ -43,6 +44,9 @@ fun CharityCard(
     openDialog: () -> Unit
 ) {
     var isLoading by remember {
+        mutableStateOf(false)
+    }
+    var isError by remember {
         mutableStateOf(false)
     }
 
@@ -106,12 +110,19 @@ fun CharityCard(
                 onSuccess = {
                     isLoading = false
                 },
+                onError = {
+                    isLoading = false
+                    isError = true
+                },
                 contentScale = ContentScale.Crop
             )
             if (isLoading) {
                 CircularProgressIndicator(
                     color = mColors.primary
                 )
+            }
+            if (isError) {
+                Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
             }
         }
     }

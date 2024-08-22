@@ -51,6 +51,9 @@ fun PlaceCard(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     Card(
         shape = RoundedCornerShape(25.dp),
@@ -141,12 +144,19 @@ fun PlaceCard(
                 onSuccess = {
                     isLoading = false
                 },
+                onError = {
+                    isLoading = false
+                    isError = true
+                },
                 contentScale = ContentScale.Crop
             )
             if (isLoading) {
                 CircularProgressIndicator(
                     color = mColors.primary
                 )
+            }
+            if (isError) {
+                Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
             }
         }
     }

@@ -2,7 +2,7 @@ package com.example.data
 
 object KdtApiRoutes {
 
-    private const val BASE = "https://de0e-178-66-78-189.ngrok-free.app/api"
+    private const val BASE = "https://001d-178-66-78-189.ngrok-free.app/api"
 
     private const val CHAT = "$BASE/chat"
     const val CHAT_ASK = "$CHAT/ask"

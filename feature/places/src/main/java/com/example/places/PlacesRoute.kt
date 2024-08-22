@@ -248,7 +248,7 @@ fun PlacesListColumn(
                         Spacer(modifier = Modifier.height(16.dp))
                         if (it.photos.isEmpty()) {
                             PlaceCard(
-                                image = null,
+                                image = "",
                                 title = it.name,
                                 geo = it.location,
                                 category = it.category,

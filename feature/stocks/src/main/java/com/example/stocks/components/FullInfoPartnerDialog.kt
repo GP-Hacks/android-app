@@ -82,6 +82,9 @@ fun FullInfoPartnerDialog(
                 var isLoading by remember {
                     mutableStateOf(false)
                 }
+                var isError by remember {
+                    mutableStateOf(false)
+                }
 
                 Box(
                     modifier = Modifier.fillMaxWidth(),
@@ -101,12 +104,19 @@ fun FullInfoPartnerDialog(
                         onSuccess = {
                             isLoading = false
                         },
+                        onError = {
+                            isLoading = false
+                            isError = true
+                        },
                         contentScale = ContentScale.Crop
                     )
                     if (isLoading) {
                         CircularProgressIndicator(
                             color = mColors.primary
                         )
+                    }
+                    if (isError) {
+                        Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
                     }
                 }
 
