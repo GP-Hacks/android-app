@@ -69,7 +69,10 @@ fun ServicesRoute(
             Card(
                 modifier = Modifier
                     .height(100.dp)
-                    .weight(1.5f),
+                    .weight(1.5f)
+                    .clickable {
+                        navigateToCharity()
+                    },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFB262C0)
                 )
