@@ -12,6 +12,7 @@ import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.paging.NewsPagingSource
 import com.example.data.source.remote.ApiRemoteSource
 import com.example.data.utils.millisToUtcString
+import com.example.domain.model.CharityModel
 import com.example.domain.model.ChatBotAnswerModel
 import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
@@ -29,6 +30,10 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun getListCharity(category: String): Flow<ResultModel<List<CharityModel>>> = flow {
+        emit(ResultModel.loading())
+    }
+
     override fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>> = flow {
         emit(ResultModel.loading())
 

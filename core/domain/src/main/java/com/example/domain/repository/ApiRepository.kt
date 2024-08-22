@@ -2,6 +2,7 @@ package com.example.domain.repository
 
 import androidx.paging.PagingData
 import com.example.common.model.ResultModel
+import com.example.domain.model.CharityModel
 import com.example.domain.model.ChatBotAnswerModel
 import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
@@ -10,6 +11,8 @@ import com.example.domain.model.PlaceModel
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
+
+    fun getListCharity(category: String): Flow<ResultModel<List<CharityModel>>>
 
     fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>>
 
