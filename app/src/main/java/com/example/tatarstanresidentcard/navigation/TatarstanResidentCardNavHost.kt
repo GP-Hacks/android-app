@@ -82,7 +82,9 @@ fun TatarstanResidentCardNavHost(
             popExitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None}
         ) {
-            chatBotScreen()
+            chatBotScreen {
+                navController.popBackStack()
+            }
             homeScreen()
             newsScreen()
             servicesScreen(

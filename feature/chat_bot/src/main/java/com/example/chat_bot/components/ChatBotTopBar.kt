@@ -31,7 +31,6 @@ import com.example.ui.theme.mColors
 fun ChatBotTopBar(
     modifier: Modifier = Modifier,
     title: String,
-    additionalInfo: String,
     image: String,
     onBackPressed: () -> Unit,
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors()
@@ -39,26 +38,13 @@ fun ChatBotTopBar(
 
     TopAppBar(
         title = {
-            Column {
-                Text(text = title, color = Color.Black, fontWeight = FontWeight.Medium, fontSize = 20.sp)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(6.dp)
-                            .background(mColors.primary, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = additionalInfo, color = mColors.primary, fontWeight = FontWeight.Normal, fontSize = 14.sp)
-                }
-            }
+            Text(text = title, color = Color.Black, fontWeight = FontWeight.Medium, fontSize = 20.sp)
         },
         actions = {
             Box(
                 modifier = Modifier
                     .size(38.dp)
-                    .background(mColors.primary, CircleShape)
+                    .background(Color.Gray, CircleShape)
             )
             Spacer(modifier = Modifier.width(16.dp))
         },

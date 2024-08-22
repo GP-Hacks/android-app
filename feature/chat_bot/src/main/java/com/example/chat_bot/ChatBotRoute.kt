@@ -31,7 +31,8 @@ import com.example.ui.theme.mColors
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatBotRoute(
-    viewModel: ChatBotViewModel = hiltViewModel()
+    viewModel: ChatBotViewModel = hiltViewModel(),
+    onBack: () -> Unit
 ) {
     var userRequest by remember {
         mutableStateOf("")
@@ -45,9 +46,8 @@ fun ChatBotRoute(
         topBar = {
             ChatBotTopBar(
                 title = "Дракон (ИИ Ассистент)",
-                additionalInfo = "Онлайн",
                 image = "",
-                onBackPressed = { /*TODO*/ }
+                onBackPressed = { onBack() }
             )
         },
         bottomBar = {

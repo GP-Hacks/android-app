@@ -22,10 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chat_bot.R
 import com.example.ui.theme.mColors
 
 @Composable
@@ -43,7 +45,9 @@ fun MessageTextField(
     ) {
         TextField(
             maxLines = 6,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(47.dp),
             colors = TextFieldDefaults
                 .colors(
                     focusedContainerColor = mColors.surface,
@@ -59,7 +63,7 @@ fun MessageTextField(
             },
             trailingIcon = {
                 IconButton(onClick = { onSendButtonClick() }) {
-                    Icon(imageVector = Icons.Default.Send, contentDescription = null, tint = mColors.primary)
+                    Icon(painter = painterResource(id = R.drawable.send_icon), contentDescription = null, tint = mColors.primary)
                 }
             }
         )

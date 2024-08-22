@@ -20,7 +20,9 @@ fun NavController.navigateToChatBot(
     navOptions: NavOptionsBuilder.() -> Unit = {}
 ) = navigate(ChatBot, navOptions)
 
-fun NavGraphBuilder.chatBotScreen() = composable<ChatBot>(
+fun NavGraphBuilder.chatBotScreen(
+    onBack: () -> Unit
+) = composable<ChatBot>(
     enterTransition = {
         slideInHorizontally(
             initialOffsetX = { it / 6 }
@@ -38,5 +40,7 @@ fun NavGraphBuilder.chatBotScreen() = composable<ChatBot>(
         ) + fadeOut()
     },
 ) {
-    ChatBotRoute()
+    ChatBotRoute {
+        onBack()
+    }
 }
