@@ -45,6 +45,7 @@ fun PlaceCard(
     geo: String,
     category: String,
     site: String?,
+    cost: Int,
     openDialog: () -> Unit
 ) {
     var isLoading by remember {

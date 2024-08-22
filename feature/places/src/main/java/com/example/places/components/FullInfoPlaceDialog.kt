@@ -104,7 +104,7 @@ fun FullInfoPlaceDialog(
                     }
                 )
                 2 -> TimePickerForBuy(
-                    times = listOf("00:10", "14:00", "15:00"),
+                    times = place.times,
                     onBack = {
                         isForward = false
                         currentScreen = 1
@@ -190,7 +190,7 @@ fun InfoPage(
                         .background(Color(0xFF00B545).copy(0.19f), RoundedCornerShape(7.dp))
                         .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
                 ) {
-                    Text(text = "1000 ₽", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF00B545))
+                    Text(text = "${place.cost} ₽", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF00B545))
                 }
             }
 

@@ -19,7 +19,9 @@ data class PlaceResponse(
     val name: String,
     val tel: String,
     val website: String,
-    val photos: List<PlacesPhotoResponse>
+    val photos: List<PlacesPhotoResponse>,
+    val cost: Int,
+    val times: List<String>
 )
 
 @Serializable
@@ -28,5 +30,5 @@ data class PlacesPhotoResponse(
 )
 
 fun PlaceResponse.toPlaceModel() = PlaceModel(
-    id, category, description, latitude, longitude, location, name, tel, website, photos.map { it.url }
+    id, category, description, latitude, longitude, location, name, tel, website, photos.map { it.url }, cost, times
 )

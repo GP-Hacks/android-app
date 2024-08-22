@@ -10,5 +10,7 @@ data class PlaceModel(
     val name: String,
     val tel: String,
     val website: String,
-    val photos: List<String>
+    val photos: List<String>,
+    val cost: Int,
+    val times: List<String>
 )
