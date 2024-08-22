@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -120,7 +119,10 @@ fun ServicesRoute(
             Card(
                 modifier = Modifier
                     .height(90.dp)
-                    .weight(1.5f),
+                    .weight(1.5f)
+                    .clickable {
+                        navigateToStocks()
+                    },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFE13437)
                 )
@@ -131,7 +133,7 @@ fun ServicesRoute(
                         .padding(16.dp),
                     contentAlignment = Alignment.BottomEnd
                 ) {
-                    Image(painter = painterResource(id = R.drawable.stocks_icon), contentDescription = null)
+                    Image(painter = painterResource(id = R.drawable.stocks_red_icon), contentDescription = null)
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {

@@ -41,7 +41,6 @@ import com.example.places.navigation.placesScreen
 import com.example.services.navigation.Services
 import com.example.services.navigation.navigateToServices
 import com.example.services.navigation.servicesScreen
-import com.example.stocks.navigation.Stocks
 import com.example.stocks.navigation.navigateToStocks
 import com.example.stocks.navigation.stocksScreen
 import com.example.tatarstanresidentcard.R
@@ -130,13 +129,13 @@ fun BottomNavigationBar(
             icon = { Icon(painter = painterResource(id = R.drawable.house_icon), contentDescription = null) }
         )
         NavigationBarItem(
-            selected = currentRoute is Services,
-            onClick = { 
-                changeRoute(Services)
-                navController.navigateToServices()
+            selected = false,
+            onClick = {
+//                changeRoute(Stocks)
+//                navController.navigateToStocks()
             },
             label = {
-                Text(text = "Сервисы")
+                Text(text = "Платежи")
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,
@@ -145,7 +144,7 @@ fun BottomNavigationBar(
                 unselectedIconColor = mColors.onTertiary,
                 unselectedTextColor = mColors.onTertiary
             ),
-            icon = { Icon(painter = painterResource(id = R.drawable.services_icon), contentDescription = null) }
+            icon = { Icon(painter = painterResource(id = R.drawable.payments_icon), contentDescription = null) }
         )
         ElevatedButton(
             modifier = Modifier.size(50.dp),
@@ -160,13 +159,13 @@ fun BottomNavigationBar(
             Icon(painter = painterResource(id = R.drawable.stocks_icon), contentDescription = null)
         }
         NavigationBarItem(
-            selected = currentRoute is Stocks,
+            selected = currentRoute is Services,
             onClick = {
-                changeRoute(Stocks)
-                navController.navigateToStocks()
+                changeRoute(Services)
+                navController.navigateToServices()
             },
             label = {
-                Text(text = "Акции")
+                Text(text = "Сервисы")
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,
@@ -175,7 +174,7 @@ fun BottomNavigationBar(
                 unselectedIconColor = mColors.onTertiary,
                 unselectedTextColor = mColors.onTertiary
             ),
-            icon = { Icon(painter = painterResource(id = R.drawable.stocks_icon), contentDescription = null) }
+            icon = { Icon(painter = painterResource(id = R.drawable.services_icon), contentDescription = null) }
         )
         NavigationBarItem(
             selected = currentRoute is News,
