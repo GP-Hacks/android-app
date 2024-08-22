@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.home"
+    namespace = "com.example.charity"
     compileSdk = 34
 
     defaultConfig {
@@ -43,19 +43,18 @@ android {
 
 dependencies {
 
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
-
-    implementation("dev.chrisbanes.haze:haze:0.6.0")
-
-    implementation(libs.compose.cloudy)
-
-    implementation(libs.androidx.material3.android)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.material3.android)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
