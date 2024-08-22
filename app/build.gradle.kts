@@ -66,14 +66,15 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(project(":feature:home"))
+    implementation(project(":feature:charity"))
     implementation(project(":feature:places"))
     implementation(project(":feature:news"))
     implementation(project(":feature:services"))
     implementation(project(":feature:stocks"))
+    implementation(project(":feature:chat_bot"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
-    implementation(project(":feature:chat_bot"))
 
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.core.ktx)

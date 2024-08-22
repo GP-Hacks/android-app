@@ -31,7 +31,8 @@ fun ServicesRoute(
     navigateToSchoolElectronDiary: () -> Unit,
     navigateToStocks: () -> Unit,
     navigateToPlaces: () -> Unit,
-    navigateToPortalCare: () -> Unit
+    navigateToPortalCare: () -> Unit,
+    navigateToCharity: () -> Unit
 ) {
     Column(
         modifier = Modifier

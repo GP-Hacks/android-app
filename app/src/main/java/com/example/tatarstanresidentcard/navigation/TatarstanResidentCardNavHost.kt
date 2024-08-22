@@ -28,6 +28,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.charity.navigation.charityScreen
+import com.example.charity.navigation.navigateToCharity
 import com.example.chat_bot.navigation.chatBotScreen
 import com.example.chat_bot.navigation.navigateToChatBot
 import com.example.home.navigation.Home
@@ -63,6 +65,7 @@ fun TatarstanResidentCardNavHost(
         "com.example.stocks.navigation.Stocks" -> true
         "com.example.news.navigation.News" -> true
         "com.example.places.navigation.Places" -> true
+        "com.example.places.navigation.Charity" -> true
         else -> false
     }
     Log.i("ROUTE CURR", currentRouteReal.toString())
@@ -92,10 +95,14 @@ fun TatarstanResidentCardNavHost(
                 navigateToStocks = {
                     navController.navigateToStocks()
                 },
-                navigateToPortalCare = {}
+                navigateToPortalCare = {},
+                navigateToCharity = {
+                    navController.navigateToCharity()
+                }
             )
             stocksScreen()
             placesScreen()
+            charityScreen()
         }
     }
 

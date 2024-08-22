@@ -21,8 +21,8 @@ fun NavGraphBuilder.servicesScreen(
     navigateToSchoolElectronDiary: () -> Unit,
     navigateToStocks: () -> Unit,
     navigateToPlaces: () -> Unit,
-    navigateToPortalCare: () -> Unit
+    navigateToPortalCare: () -> Unit,
+    navigateToCharity: () -> Unit
 ) = composable<Services> {
-//    changeVisibleNavBar()
-    ServicesRoute(navigateToReadersDiary, navigateToVoting, navigateToSchoolElectronDiary, navigateToStocks, navigateToPlaces, navigateToPortalCare)
+    ServicesRoute(navigateToReadersDiary, navigateToVoting, navigateToSchoolElectronDiary, navigateToStocks, navigateToPlaces, navigateToPortalCare, navigateToCharity)
 }
