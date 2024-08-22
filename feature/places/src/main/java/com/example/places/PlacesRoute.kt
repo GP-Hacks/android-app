@@ -219,7 +219,7 @@ fun PlacesListColumn(
         mutableStateOf(false)
     }
     var currentItem by remember {
-        mutableStateOf(PlaceModel(0, "", "", 0.0, 0.0, "", "", "", "", emptyList()))
+        mutableStateOf(PlaceModel(0, "", "", 0.0, 0.0, "", "", "", "", emptyList(), 0, emptyList()))
     }
 
     if (isOpenDialog) {
@@ -256,7 +256,8 @@ fun PlacesListColumn(
                                 openDialog = {
                                     currentItem = it
                                     isOpenDialog = true
-                                }
+                                },
+                                cost = it.cost
                             )
                         } else {
                             PlaceCard(
@@ -269,7 +270,8 @@ fun PlacesListColumn(
                                 openDialog = {
                                     currentItem = it
                                     isOpenDialog = true
-                                }
+                                },
+                                cost = it.cost
                             )
                         }
                     }
@@ -295,7 +297,7 @@ fun PlacesMap(
 ) {
 
     var isOpenDialog by remember { mutableStateOf(false) }
-    var currentItem by remember { mutableStateOf(PlaceModel(0, "", "", 0.0, 0.0, "", "", "", "", emptyList())) }
+    var currentItem by remember { mutableStateOf(PlaceModel(0, "", "", 0.0, 0.0, "", "", "", "", emptyList(), 0, emptyList())) }
 
     if (isOpenDialog) {
         FullInfoPlaceDialog(

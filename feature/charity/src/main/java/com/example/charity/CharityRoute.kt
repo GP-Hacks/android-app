@@ -1,5 +1,6 @@
 package com.example.charity
 
+import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,7 +54,7 @@ fun CharityRoute(
 
     LaunchedEffect(Unit) {
         viewModel.loadCategories()
-        viewModel.loadPartners()
+        viewModel.loadCharity()
     }
 
     LaunchedEffect(firstVisibleItemIndex.value) {
@@ -136,14 +138,32 @@ fun CharityRoute(
                 }
             }
         }
-        PartnersListColumn(listPartners, listState)
+
+        val context = LocalContext.current
+        PartnersListColumn(
+            listPartners,
+            listState,
+            onDonate = { amount, id ->
+                viewModel.donateToCharity(
+                    id = id,
+                    amount = amount,
+                    onSuccess = {
+                        Toast.makeText(context, "Пожертвование прошло успешно!", Toast.LENGTH_LONG).show()
+                    },
+                    onFailure = {
+                        Toast.makeText(context, "Пожертвование не удалось.", Toast.LENGTH_LONG).show()
+                    }
+                )
+            }
+        )
     }
 }
 
 @Composable
 fun PartnersListColumn(
     listPartners: ResultModel<List<CharityModel>>,
-    listState: LazyListState
+    listState: LazyListState,
+    onDonate: (Int, Int) -> Unit
 ) {
 
     var isOpenDialog by remember {
@@ -159,7 +179,9 @@ fun PartnersListColumn(
             onDismissRequest = {
                 isOpenDialog = false
             },
-            onDonate = {}
+            onDonate = {
+                onDonate(it, currentItem)
+            }
         )
     }
 

@@ -18,6 +18,7 @@ object KdtApiRoutes {
     private const val CHARITY = "$BASE/charity"
     const val CHARITY_GET = "$CHARITY/get"
     const val CHARITY_CATEGORIES = "$CHARITY/categories"
+    const val CHARITY_DONATE = "$CHARITY/donate"
 
 }
 

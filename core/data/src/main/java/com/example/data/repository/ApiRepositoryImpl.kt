@@ -31,6 +31,12 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun donateToCharity(id: Int, amount: Int): Flow<ResultModel<Boolean>> = flow {
+        emit(ResultModel.loading())
+
+        emit(apiRemoteSource.donateToCharity(id, amount))
+    }
+
     override fun getCharityCategories(): Flow<ResultModel<List<String>>> = flow {
         emit(ResultModel.loading())
 

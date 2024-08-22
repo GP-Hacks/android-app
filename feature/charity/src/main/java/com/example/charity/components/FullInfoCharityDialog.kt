@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,11 +26,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,7 +46,7 @@ import com.example.ui.theme.mColors
 fun FullInfoCharityDialog(
     charity: CharityModel,
     onDismissRequest: () -> Unit,
-    onDonate: (Long) -> Unit
+    onDonate: (Int) -> Unit
 ) {
     var currentScreen by remember { mutableIntStateOf(0) }
 
@@ -127,7 +133,7 @@ fun InfoPage(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = charity.category,
-                fontSize = 12.sp,
+                fontSize = 8.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
@@ -138,30 +144,36 @@ fun InfoPage(
                     .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Уже собрано ${charity.current} р из ${charity.goal} р",
-                fontSize = 11.sp,
+                fontSize = 13.sp,
                 color = Color.Black,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(2.dp))
             LinearProgressIndicator(
                 progress = {
                     charity.current.toFloat() / charity.goal.toFloat()
                 },
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp)
+                    .height(2.dp),
                 trackColor = Color(0xFFE4E4E4),
                 color = mColors.primary,
-                strokeCap = StrokeCap.Round
+                strokeCap = StrokeCap.Round,
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
             if (charity.website != "") {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
                     Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.website, fontSize = 11.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.website, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             if (charity.phone != "") {
@@ -169,7 +181,7 @@ fun InfoPage(
                 Row {
                     Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.phone, fontSize = 11.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.phone, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -199,7 +211,73 @@ fun InfoPage(
 @Composable
 fun SelectSumForDonate(
     onBack: () -> Unit,
-    onDonate: (Long) -> Unit
+    onDonate: (Int) -> Unit
 ) {
-
+    var donateSum by remember {
+        mutableStateOf("")
+    }
+    
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Введите сумму, которую хотите пожертвовать",
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = donateSum,
+            onValueChange = {
+                donateSum = it
+            },
+            trailingIcon = {
+                Text(
+                    text = "₽",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = mColors.primary,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                unfocusedBorderColor = Color.Black,
+                focusedTrailingIconColor = mColors.primary,
+                unfocusedTrailingIconColor = Color.Black
+            ),
+            shape = RoundedCornerShape(20.dp),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Row {
+            Button(
+                onClick = { onBack() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = {
+                    onDonate(donateSum.toInt())
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = mColors.primary,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
 }

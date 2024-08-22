@@ -46,6 +46,31 @@ class ApiRemoteSource {
         }
     }
 
+    suspend fun donateToCharity(id: Int, amount: Int): ResultModel<Boolean> {
+        try {
+            val jsonBody = """
+                {
+                    "collection_id": $id,
+                    "amount": $amount
+                }
+            """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.CHARITY_DONATE) {
+                header(key = "Authorization", value = "Bearer example@gmail.com")
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                ResultModel.success(true)
+            } else {
+                Log.e("API RS", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("API RS", e.toString())
+            return ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
     suspend fun getCharityCategories(): ResultModel<CharityCategoriesResponse> {
         return try {
             val request = httpClient.get(KdtApiRoutes.CHARITY_CATEGORIES)
