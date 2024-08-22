@@ -23,8 +23,7 @@ class NewsViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _listNews = MutableStateFlow<PagingData<NewsModel>>(PagingData.empty())
-    val listNews: StateFlow<PagingData<NewsModel>>
-        get() = _listNews
+
 
     private val pageSize = 5
 

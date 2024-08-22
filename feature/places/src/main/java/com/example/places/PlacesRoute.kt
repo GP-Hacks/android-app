@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,8 +20,15 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -120,6 +128,35 @@ fun PlacesRoute(
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
                     Text(text = "Татарстан. Места", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = viewModel.currentSearch.value,
+                        onValueChange = {
+                            viewModel.updateSearch(it)
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color.White,
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            unfocusedBorderColor = Color.White,
+                            focusedTrailingIconColor = Color.White,
+                            unfocusedTrailingIconColor = Color.White,
+                            focusedLeadingIconColor = Color.White,
+                            unfocusedLeadingIconColor = Color.White,
+                            cursorColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedTextColor = Color.White,
+                            selectionColors = TextSelectionColors(
+                                handleColor = Color.White,
+                                backgroundColor = Color(0xFF008935)
+                            )
+                        ),
+                        shape = RoundedCornerShape(20.dp),
+                        leadingIcon = {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                        }
+                    )
                     Spacer(Modifier.height(16.dp))
                     AnimatedTab(
                         items = listOf("Список", "Карта"),
