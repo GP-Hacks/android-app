@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -124,69 +125,73 @@ fun InfoPage(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = charity.name,
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = charity.category,
-                fontSize = 8.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .background(
-                        Color(0xFF1E1E1E),
-                        RoundedCornerShape(7.dp)
+            LazyColumn {
+                item {
+                    Text(
+                        text = charity.name,
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
-            )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = charity.category,
+                        fontSize = 8.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(
+                                Color(0xFF1E1E1E),
+                                RoundedCornerShape(7.dp)
+                            )
+                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                    )
 
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Уже собрано ${charity.current} р из ${charity.goal} р",
-                fontSize = 13.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            LinearProgressIndicator(
-                progress = {
-                    charity.current.toFloat() / charity.goal.toFloat()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
-                    .height(2.dp),
-                trackColor = Color(0xFFE4E4E4),
-                color = mColors.primary,
-                strokeCap = StrokeCap.Round,
-            )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Уже собрано ${charity.current} р из ${charity.goal} р",
+                        fontSize = 13.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    LinearProgressIndicator(
+                        progress = {
+                            charity.current.toFloat() / charity.goal.toFloat()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp)
+                            .height(2.dp),
+                        trackColor = Color(0xFFE4E4E4),
+                        color = mColors.primary,
+                        strokeCap = StrokeCap.Round,
+                    )
 
-            Spacer(modifier = Modifier.height(8.dp))
-            if (charity.website != "") {
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.website, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    if (charity.website != "") {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = charity.website, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                    }
+                    if (charity.phone != "") {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = charity.phone, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = charity.description, fontSize = 11.sp, color = Color.Black)
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-            if (charity.phone != "") {
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.phone, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = charity.description, fontSize = 11.sp, color = Color.Black)
-            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
