@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.common.model.ResultModel
+import com.example.data.response.toCharityModel
 import com.example.data.response.toChatBotAnswerModel
 import com.example.data.response.toPartnersCategoryModel
 import com.example.data.response.toPartnersModel
@@ -30,8 +31,28 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun getCharityCategories(): Flow<ResultModel<List<String>>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getCharityCategories()
+
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.response))
+        } else {
+            emit(ResultModel.failure(result.message))
+        }
+    }
+
     override fun getListCharity(category: String): Flow<ResultModel<List<CharityModel>>> = flow {
         emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getCharity(category)
+
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.response.map { it.toCharityModel() }))
+        } else {
+            emit(ResultModel.failure(result.message))
+        }
     }
 
     override fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>> = flow {

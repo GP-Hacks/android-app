@@ -6,8 +6,8 @@ data class CharityModel(
     val name: String,
     val description: String,
     val organization: String,
+    val phone: String,
+    val website: String,
     val goal: Int,
-    val current: Int,
-    val site: String?,
-    val phone: String?
+    val current: Int
 )

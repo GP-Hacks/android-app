@@ -8,6 +8,7 @@ import com.example.common.model.ResultModel
 import com.example.domain.model.CharityModel
 import com.example.domain.model.PartnersCategoryModel
 import com.example.domain.model.PartnersModel
+import com.example.domain.usecase.GetCharityCategoriesUseCase
 import com.example.domain.usecase.GetCharityUseCase
 import com.example.domain.usecase.GetPartnersCategoriesUseCase
 import com.example.domain.usecase.GetPartnersListUseCase
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharityViewModel @Inject constructor(
-    private val getCharityUseCase: GetCharityUseCase
+    private val getCharityUseCase: GetCharityUseCase,
+    private val getCharityCategoriesUseCase: GetCharityCategoriesUseCase
 ): ViewModel() {
 
     private val _listCharity = MutableStateFlow<ResultModel<List<CharityModel>>>(ResultModel.none())
@@ -43,16 +45,16 @@ class CharityViewModel @Inject constructor(
     }
 
     fun loadCategories() {
-//        viewModelScope.launch {
-//            getPartnersCategoriesUseCase()
-//                .flowOn(Dispatchers.IO)
-//                .catch {
-//                    _listCategories.value = ResultModel.failure("Непредвиденная ошибка.")
-//                }
-//                .collect {
-//                    _listCategories.value = it
-//                }
-//        }
+        viewModelScope.launch {
+            getCharityCategoriesUseCase()
+                .flowOn(Dispatchers.IO)
+                .catch {
+                    _listCategories.value = ResultModel.failure("Непредвиденная ошибка.")
+                }
+                .collect {
+                    _listCategories.value = it
+                }
+        }
     }
 
     fun loadPartners() {

@@ -4,6 +4,9 @@ import android.util.Log
 import com.example.common.model.ResultModel
 import com.example.data.CardApiRoutes
 import com.example.data.KdtApiRoutes
+import com.example.data.response.CharityCategoriesResponse
+import com.example.data.response.CharityListResponse
+import com.example.data.response.CharityResponse
 import com.example.data.response.ChatBotAnswerResponse
 import com.example.data.response.ListNewsResponse
 import com.example.data.response.NewsResponse
@@ -40,6 +43,50 @@ class ApiRemoteSource {
                     ignoreUnknownKeys = true
                 }
             )
+        }
+    }
+
+    suspend fun getCharityCategories(): ResultModel<CharityCategoriesResponse> {
+        return try {
+            val request = httpClient.get(KdtApiRoutes.CHARITY_CATEGORIES)
+
+            if (request.status.value in 200..299) {
+                val response: CharityCategoriesResponse = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.e("API RS", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("API RS", e.toString())
+            ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun getCharity(category: String): ResultModel<CharityListResponse> {
+        try {
+            val jsonBody = """
+                {
+                    "category": "$category"
+                }
+            """.trimIndent()
+
+            val request = httpClient.post(KdtApiRoutes.CHARITY_GET) {
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                val response: CharityListResponse = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.e("API RS", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("API RS", e.toString())
+            return ResultModel.failure("Непредвиденная ошибка.")
         }
     }
 

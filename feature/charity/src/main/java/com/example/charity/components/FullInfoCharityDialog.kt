@@ -153,20 +153,20 @@ fun InfoPage(
                 strokeCap = StrokeCap.Round
             )
 
-            if (charity.site != null) {
+            if (charity.website != "") {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
 //                    Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.site!!, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.website, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
-            if (charity.phone != null) {
+            if (charity.phone != "") {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
 //                    Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.phone!!, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.phone, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

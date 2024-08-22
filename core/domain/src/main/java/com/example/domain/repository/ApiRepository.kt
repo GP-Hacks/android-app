@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
 
+    fun getCharityCategories(): Flow<ResultModel<List<String>>>
+
     fun getListCharity(category: String): Flow<ResultModel<List<CharityModel>>>
 
     fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>>
