@@ -103,7 +103,11 @@ fun PlacesRoute(
                 .fillMaxWidth()
                 .background(
                     Color(0xFF00B545),
-                    RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)
+                    if (selectedType == 0) {
+                        RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)
+                    } else {
+                        RoundedCornerShape(0.dp)
+                    }
                 )
                 .padding(16.dp)
         ) {
