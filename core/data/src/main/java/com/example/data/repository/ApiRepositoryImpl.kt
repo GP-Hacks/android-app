@@ -5,6 +5,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.common.model.ResultModel
 import com.example.data.response.toChatBotAnswerModel
+import com.example.data.response.toPartnersCategoryModel
+import com.example.data.response.toPartnersModel
 import com.example.data.response.toPlaceModel
 import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.paging.NewsPagingSource
@@ -12,6 +14,8 @@ import com.example.data.source.remote.ApiRemoteSource
 import com.example.data.utils.millisToUtcString
 import com.example.domain.model.ChatBotAnswerModel
 import com.example.domain.model.NewsModel
+import com.example.domain.model.PartnersCategoryModel
+import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
 import com.example.domain.repository.ApiRepository
 import kotlinx.coroutines.CoroutineScope
@@ -25,6 +29,18 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getPartnersCategories()
+
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.map { it.toPartnersCategoryModel() }))
+        } else {
+            emit(ResultModel.failure(result.message))
+        }
+    }
+
     override suspend fun sendDeviceToken(token: String) {
         sharedPreferenceLocalSource.setDeviceToken(token)
 //        TODO(Проверка на авторизацию)
@@ -51,6 +67,18 @@ class ApiRepositoryImpl @Inject constructor(
                     sharedPreferenceLocalSource.setBindDeviceTokenStatus(result)
                 }
             }
+        }
+    }
+
+    override fun getPartnersList(): Flow<ResultModel<List<PartnersModel>>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getPartners()
+
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.map { it.toPartnersModel() }))
+        } else {
+            emit(ResultModel.failure(result.message))
         }
     }
 

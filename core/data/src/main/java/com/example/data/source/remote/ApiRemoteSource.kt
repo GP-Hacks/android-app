@@ -7,6 +7,8 @@ import com.example.data.KdtApiRoutes
 import com.example.data.response.ChatBotAnswerResponse
 import com.example.data.response.ListNewsResponse
 import com.example.data.response.NewsResponse
+import com.example.data.response.PartnersCategoryResponse
+import com.example.data.response.PartnersResponse
 import com.example.data.response.PlaceListResponse
 import com.example.data.response.PlaceResponse
 import com.example.data.response.PlacesCategoriesResponse
@@ -41,11 +43,49 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun getPlacesCategories(): ResultModel<PlacesCategoriesResponse> {
+    suspend fun getPartnersCategories(): ResultModel<List<PartnersCategoryResponse>> {
+        return try {
+            val request = httpClient.get(CardApiRoutes.CATEGORIES)
+
+            if (request.status.value in 200..299) {
+                val response: List<PartnersCategoryResponse> = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.e("API RS", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("API RS", e.toString())
+            ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun getPartners(): ResultModel<List<PartnersResponse>> {
         try {
-            val request = httpClient.get(KdtApiRoutes.PLACES_CATEGORIES)
+            val request = httpClient.get(CardApiRoutes.PARTNERS) {
+                contentType(ContentType.Application.Json)
+            }
 
             return if (request.status.value in 200..299) {
+                val response: List<PartnersResponse> = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.i("API RS", request.body())
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.i("API RS", e.toString())
+            return ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun getPlacesCategories(): ResultModel<PlacesCategoriesResponse> {
+        return try {
+            val request = httpClient.get(KdtApiRoutes.PLACES_CATEGORIES)
+
+            if (request.status.value in 200..299) {
                 val response: PlacesCategoriesResponse = request.body()
 
                 ResultModel.success(response)
@@ -55,7 +95,7 @@ class ApiRemoteSource {
             }
         } catch (e: Exception) {
             Log.e("GET PLACES CAT", e.toString())
-            return ResultModel.failure("Непредвиденная ошибка.")
+            ResultModel.failure("Непредвиденная ошибка.")
         }
     }
 

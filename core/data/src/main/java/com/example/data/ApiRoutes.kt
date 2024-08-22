@@ -19,7 +19,11 @@ object KdtApiRoutes {
 
 object CardApiRoutes {
 
-    private const val BASE = "https://cardj.akbars.ru/widgetgateway/api"
-    const val NEWS = "$BASE/News"
+    private const val BASE_FIRST = "https://cardj.akbars.ru/widgetgateway/api"
+    const val NEWS = "$BASE_FIRST/News"
+
+    private const val BASE_SECOND = "https://api.card-rt.ru"
+    const val PARTNERS = "$BASE_SECOND/partner/default/get-partners"
+    const val CATEGORIES = "$BASE_SECOND/category/category"
 
 }

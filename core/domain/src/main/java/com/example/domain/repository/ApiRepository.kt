@@ -4,14 +4,20 @@ import androidx.paging.PagingData
 import com.example.common.model.ResultModel
 import com.example.domain.model.ChatBotAnswerModel
 import com.example.domain.model.NewsModel
+import com.example.domain.model.PartnersCategoryModel
+import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
 
+    fun getPartnersCategories(): Flow<ResultModel<List<PartnersCategoryModel>>>
+
     suspend fun sendDeviceToken(token: String)
 
     suspend fun sendDeviceToken()
+
+    fun getPartnersList(): Flow<ResultModel<List<PartnersModel>>>
 
     fun getPlacesCategories(): Flow<ResultModel<List<String>>>
 
