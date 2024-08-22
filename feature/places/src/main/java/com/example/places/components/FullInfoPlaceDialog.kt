@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -139,126 +140,156 @@ fun InfoPage(
         val pagerState = rememberPagerState(0, 0f, pageCount = {
             return@rememberPagerState if (place.photos.isEmpty()) 1 else place.photos.size
         })
-        HorizontalPager(state = pagerState, modifier = Modifier.background(mColors.surface)) {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = if (place.photos.isEmpty()) {
-                        ""
-                    } else {
-                        place.photos[it]
-                    },
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(160.dp)
-                        .background(Color(0xFFE3E3E3), RoundedCornerShape(25.dp))
-                        .clip(RoundedCornerShape(25.dp)),
-                    onLoading = {
-                        isLoading = true
-                    },
-                    onSuccess = {
-                        isLoading = false
-                    },
-                    onError = {
-                        isLoading = false
-                        isError = true
-                    },
-                    contentScale = ContentScale.Crop
-                )
-                if (isLoading) {
-                    CircularProgressIndicator(
-                        color = mColors.primary
-                    )
+        LazyColumn {
+            item {
+                HorizontalPager(state = pagerState, modifier = Modifier.background(mColors.surface)) {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AsyncImage(
+                            model = if (place.photos.isEmpty()) {
+                                ""
+                            } else {
+                                place.photos[it]
+                            },
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(160.dp)
+                                .background(Color(0xFFE3E3E3), RoundedCornerShape(25.dp))
+                                .clip(RoundedCornerShape(25.dp)),
+                            onLoading = {
+                                isLoading = true
+                            },
+                            onSuccess = {
+                                isLoading = false
+                            },
+                            onError = {
+                                isLoading = false
+                                isError = true
+                            },
+                            contentScale = ContentScale.Crop
+                        )
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                color = mColors.primary
+                            )
+                        }
+                        if (isError) {
+                            Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
+                        }
+                    }
                 }
-                if (isError) {
-                    Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = place.name,
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.location_icon),
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = place.location,
+                            color = Color(0xFF616161),
+                            fontSize = 10.sp,
+                            textAlign = TextAlign.End
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Box(
+                            modifier = Modifier
+                                .background(Color(0xFF00B545).copy(0.19f), RoundedCornerShape(7.dp))
+                                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                        ) {
+                            Text(
+                                text = "${place.cost} ₽",
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF00B545)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = place.category,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(
+                                Color(0xFF1E1E1E),
+                                RoundedCornerShape(7.dp)
+                            )
+                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                    )
+                    if (place.website != "") {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Icon(
+                                painter = painterResource(id = R.drawable.site_icon),
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = place.website,
+                                fontSize = 11.sp,
+                                color = Color.Black,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                    if (place.tel != "") {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Icon(
+                                painter = painterResource(id = R.drawable.phone_icon),
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = place.tel,
+                                fontSize = 11.sp,
+                                color = Color.Black,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                    if (place.description != "") {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = place.description, fontSize = 11.sp, color = Color.Black)
+                    }
                 }
             }
         }
-        Column(
-            modifier = Modifier.padding(16.dp)
+
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = place.name,
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Spacer(modifier = Modifier.width(32.dp))
+            Button(
+                onClick = { onNext() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(10.dp)
             ) {
-                Icon(painter = painterResource(id = R.drawable.location_icon), contentDescription = null)
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = place.location,
-                    color = Color(0xFF616161),
-                    fontSize = 10.sp,
-                    textAlign = TextAlign.End
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = Modifier
-                        .background(Color(0xFF00B545).copy(0.19f), RoundedCornerShape(7.dp))
-                        .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
-                ) {
-                    Text(text = "${place.cost} ₽", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF00B545))
-                }
+                Text(text = "Купить билет", fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = place.category,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .background(
-                        Color(0xFF1E1E1E),
-                        RoundedCornerShape(7.dp)
-                    )
-                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
-            )
-            if (place.website != "") {
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = place.website, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-            }
-            if (place.tel != "") {
-                Spacer(modifier = Modifier.height(4.dp))
-                Row {
-                    Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = place.tel, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
-            }
-            if (place.description != "") {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = place.description, fontSize = 11.sp, color = Color.Black)
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Spacer(modifier = Modifier.width(32.dp))
-                Button(
-                    onClick = { onNext() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Black,
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Text(text = "Купить билет", fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                }
-                Spacer(modifier = Modifier.width(32.dp))
-            }
+            Spacer(modifier = Modifier.width(32.dp))
         }
     }
 }
