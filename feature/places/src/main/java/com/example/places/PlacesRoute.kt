@@ -111,7 +111,7 @@ fun PlacesRoute(
                 contentAlignment = Alignment.TopStart
             ) {
                 if (paddingAnimation == 80.dp) {
-                    Image(painter = painterResource(id = R.drawable.background_image), contentDescription = null, modifier = Modifier.fillMaxWidth())
+                    Image(painter = painterResource(id = R.drawable.background_image_green), contentDescription = null, modifier = Modifier.fillMaxWidth())
                 }
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
