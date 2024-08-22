@@ -1,6 +1,7 @@
 package com.example.charity
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,7 +76,7 @@ fun CharityRoute(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    Color(0xFFE13437),
+                    Color(0xFFB262C0),
                     RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)
                 )
                 .padding(16.dp)
@@ -83,7 +85,7 @@ fun CharityRoute(
                 contentAlignment = Alignment.TopStart
             ) {
                 if (paddingAnimation == 80.dp) {
-//                    Image(painter = painterResource(id = R.drawable.background_image_red), contentDescription = null, modifier = Modifier.fillMaxWidth())
+                    Image(painter = painterResource(id = R.drawable.background_image), contentDescription = null, modifier = Modifier.fillMaxWidth())
                 }
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
@@ -101,7 +103,7 @@ fun CharityRoute(
                         modifier = Modifier
                             .background(
                                 if (viewModel.currentCategory.value == "all") Color(
-                                    0xFFCB1E21
+                                    0xFF9D4BAB
                                 ) else Color.Transparent, RoundedCornerShape(6.dp)
                             )
                             .clickable {
@@ -121,7 +123,7 @@ fun CharityRoute(
                             modifier = Modifier
                                 .background(
                                     if (viewModel.currentCategory.value == it) Color(
-                                        0xFFCB1E21
+                                        0xFF9D4BAB
                                     ) else Color.Transparent, RoundedCornerShape(6.dp)
                                 )
                                 .clickable {

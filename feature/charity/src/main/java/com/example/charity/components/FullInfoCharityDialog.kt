@@ -14,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,11 +26,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.charity.R
 import com.example.domain.model.CharityModel
 import com.example.ui.theme.mColors
 
@@ -145,28 +148,28 @@ fun InfoPage(
             Spacer(modifier = Modifier.height(2.dp))
             LinearProgressIndicator(
                 progress = {
-                    return@LinearProgressIndicator (charity.current / charity.goal).toFloat()
+                    charity.current.toFloat() / charity.goal.toFloat()
                 },
                 modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
-                trackColor = mColors.primary,
-                color = Color(0xFFE4E4E4),
+                trackColor = Color(0xFFE4E4E4),
+                color = mColors.primary,
                 strokeCap = StrokeCap.Round
             )
 
             if (charity.website != "") {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
-//                    Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
+                    Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.website, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.website, fontSize = 11.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             if (charity.phone != "") {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
-//                    Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
+                    Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = charity.phone, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = charity.phone, fontSize = 11.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
