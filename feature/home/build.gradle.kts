@@ -44,6 +44,7 @@ android {
 dependencies {
 
     implementation(project(":core:ui"))
+    implementation(project(":core:domain"))
 
     implementation("dev.chrisbanes.haze:haze:0.6.0")
 

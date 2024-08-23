@@ -36,6 +36,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.home.components.ImageBackground
 import com.example.ui.theme.mColors
 import com.skydoves.cloudy.cloudy
@@ -45,7 +46,8 @@ import dev.chrisbanes.haze.hazeChild
 
 @Composable
 fun HomeRoute(
-    navigateToAuthScreen: () -> Unit
+    navigateToAuthScreen: () -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     LazyColumn(
         modifier = Modifier
@@ -95,18 +97,20 @@ fun HomeRoute(
                     Text(text = "Выпустите Карту жителя Татарстана, чтобы получить привелегиии", fontSize = 12.sp, color = Color(0xFF858585), fontWeight = FontWeight.Light)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp)
-                        .fillMaxWidth(),
-                    onClick = { navigateToAuthScreen() },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = mColors.primary,
-                        contentColor = Color.White
-                    )
-                ) {
-                    Text(text = "Войти через АК Барс Банк", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                if (!viewModel.checkAuth()) {
+                    Button(
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp)
+                            .fillMaxWidth(),
+                        onClick = { navigateToAuthScreen() },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = mColors.primary,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Войти через АК Барс Банк", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    }
                 }
                 Button(
                     modifier = Modifier
