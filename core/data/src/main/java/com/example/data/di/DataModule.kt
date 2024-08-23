@@ -2,9 +2,11 @@ package com.example.data.di
 
 import android.content.Context
 import com.example.data.repository.ApiRepositoryImpl
+import com.example.data.repository.LocalDataRepositoryImpl
 import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.remote.ApiRemoteSource
 import com.example.domain.repository.ApiRepository
+import com.example.domain.repository.LocalDataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,9 @@ interface DataModule {
 
     @Binds
     fun bindApiRepository(impl: ApiRepositoryImpl): ApiRepository
+
+    @Binds
+    fun bindLocalDataRepository(impl: LocalDataRepositoryImpl): LocalDataRepository
 
     companion object {
         @Provides

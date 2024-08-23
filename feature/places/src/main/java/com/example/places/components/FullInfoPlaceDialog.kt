@@ -68,7 +68,8 @@ import java.util.Locale
 fun FullInfoPlaceDialog(
     place: PlaceModel,
     onDismissRequest: () -> Unit,
-    onBuyTicket: (Long, Long) -> Unit
+    onBuyTicket: (Long, Long) -> Unit,
+    isAuth: Boolean
 ) {
     var currentScreen by remember { mutableIntStateOf(0) }
     var isForward by remember { mutableStateOf(true) }
@@ -87,7 +88,7 @@ fun FullInfoPlaceDialog(
             )
         ) {
             when (currentScreen) {
-                0 -> InfoPage(place = place) {
+                0 -> InfoPage(place = place, isAuth = isAuth) {
                     isForward = true
                     currentScreen = 1
                 }
@@ -125,6 +126,7 @@ fun FullInfoPlaceDialog(
 @Composable
 fun InfoPage(
     place: PlaceModel,
+    isAuth: Boolean,
     onNext: () -> Unit
 ) {
     var isLoading by remember {
@@ -274,8 +276,14 @@ fun InfoPage(
             }
         }
 
+        if (!isAuth) {
+            Text(text = "Вы не авторизованы", color = Color.Black)
+            Spacer(modifier = Modifier.height(4.dp))
+        }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.width(32.dp))
@@ -285,6 +293,7 @@ fun InfoPage(
                     containerColor = Color.Black,
                     contentColor = Color.White
                 ),
+                enabled = isAuth,
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(text = "Купить билет", fontSize = 11.sp, fontWeight = FontWeight.Bold)

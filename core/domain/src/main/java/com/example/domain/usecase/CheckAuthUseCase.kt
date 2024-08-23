@@ -4,9 +4,9 @@ import com.example.domain.repository.LocalDataRepository
 import javax.inject.Inject
 
 class CheckAuthUseCase @Inject constructor(
-    private val apiRepository: LocalDataRepository
+    private val localDataRepository: LocalDataRepository
 ) {
 
-    operator fun invoke() = apiRepository.checkAuth()
+    operator fun invoke() = localDataRepository.checkAuth()
 
 }

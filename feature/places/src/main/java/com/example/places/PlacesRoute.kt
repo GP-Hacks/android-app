@@ -230,7 +230,7 @@ fun PlacesRoute(
                         Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                     }
                 )
-            })
+            }, isAuth = viewModel.checkAuth())
         } else {
             PlacesMap(listPlaces, onBuyTicket = { i, d, t ->
                 viewModel.buyTicket(
@@ -244,7 +244,7 @@ fun PlacesRoute(
                         Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                     }
                 )
-            })
+            }, isAuth = viewModel.checkAuth())
         }
     }
 }
@@ -253,7 +253,8 @@ fun PlacesRoute(
 fun PlacesListColumn(
     listPlaces: ResultModel<List<PlaceModel>>,
     listState: LazyListState,
-    onBuyTicket: (Int, Long, Long) -> Unit
+    onBuyTicket: (Int, Long, Long) -> Unit,
+    isAuth: Boolean
 ) {
 
     var isOpenDialog by remember {
@@ -271,7 +272,8 @@ fun PlacesListColumn(
             },
             onBuyTicket = { d, t ->
                 onBuyTicket(currentItem.id, d, t)
-            }
+            },
+            isAuth = isAuth
         )
     }
 
@@ -334,7 +336,8 @@ fun PlacesListColumn(
 @Composable
 fun PlacesMap(
     listPlaces: ResultModel<List<PlaceModel>>,
-    onBuyTicket: (Int, Long, Long) -> Unit
+    onBuyTicket: (Int, Long, Long) -> Unit,
+    isAuth: Boolean
 ) {
 
     var isOpenDialog by remember { mutableStateOf(false) }
@@ -348,7 +351,8 @@ fun PlacesMap(
             },
             onBuyTicket = { d, t ->
                 onBuyTicket(currentItem.id, d, t)
-            }
+            },
+            isAuth = isAuth
         )
     }
 

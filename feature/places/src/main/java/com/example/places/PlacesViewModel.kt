@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.PlaceModel
 import com.example.domain.usecase.BuyTicketForPlaceUseCase
+import com.example.domain.usecase.CheckAuthUseCase
 import com.example.domain.usecase.GetPlacesCategoriesUseCase
 import com.example.domain.usecase.GetPlacesUseCase
 import com.example.places.utils.LocationUtils
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class PlacesViewModel @Inject constructor(
     private val getPlacesUseCase: GetPlacesUseCase,
     private val buyTicketForPlaceUseCase: BuyTicketForPlaceUseCase,
-    private val getPlacesCategoriesUseCase: GetPlacesCategoriesUseCase
+    private val getPlacesCategoriesUseCase: GetPlacesCategoriesUseCase,
+    private val checkAuthUseCase: CheckAuthUseCase
 ): ViewModel() {
 
     private val _listPlaces = MutableStateFlow<ResultModel<List<PlaceModel>>>(ResultModel.none())
@@ -66,6 +68,8 @@ class PlacesViewModel @Inject constructor(
             _listPlacesAndSearch.value = _listPlaces.value
         }
     }
+
+    fun checkAuth() = checkAuthUseCase()
 
     private fun updateListFromSearch(list: List<PlaceModel>, search: String): Flow<ResultModel<List<PlaceModel>>> = flow {
         emit(ResultModel.loading())
