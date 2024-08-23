@@ -140,7 +140,9 @@ fun BottomNavigationBar(
             selected = currentRoute is Home,
             onClick = {
                 changeRoute(Home)
-                navController.navigateToHome()
+                navController.navigateToHome {
+                    popUpTo(0)
+                }
             },
             label = {
                 Text(text = "Главная")
@@ -188,7 +190,9 @@ fun BottomNavigationBar(
             selected = currentRoute is Services,
             onClick = {
                 changeRoute(Services)
-                navController.navigateToServices()
+                navController.navigateToServices {
+                    popUpTo(0)
+                }
             },
             label = {
                 Text(text = "Сервисы")
@@ -206,7 +210,9 @@ fun BottomNavigationBar(
             selected = currentRoute is News,
             onClick = {
                 changeRoute(News)
-                navController.navigateToNews()
+                navController.navigateToNews {
+                    popUpTo(0)
+                }
             },
             label = {
                 Text(text = "Новости")
