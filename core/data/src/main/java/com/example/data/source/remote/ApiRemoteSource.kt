@@ -8,6 +8,8 @@ import com.example.data.response.CharityCategoriesResponse
 import com.example.data.response.CharityListResponse
 import com.example.data.response.CharityResponse
 import com.example.data.response.ChatBotAnswerResponse
+import com.example.data.response.FullInfoVoteResponse
+import com.example.data.response.FullInfoVoteResponseGet
 import com.example.data.response.ListNewsResponse
 import com.example.data.response.NewsResponse
 import com.example.data.response.PartnersCategoryResponse
@@ -15,6 +17,8 @@ import com.example.data.response.PartnersResponse
 import com.example.data.response.PlaceListResponse
 import com.example.data.response.PlaceResponse
 import com.example.data.response.PlacesCategoriesResponse
+import com.example.data.response.VoteListResponse
+import com.example.data.response.VoteResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -43,6 +47,116 @@ class ApiRemoteSource {
                     ignoreUnknownKeys = true
                 }
             )
+        }
+    }
+
+    suspend fun getVotes(): ResultModel<VoteListResponse> {
+        return try {
+            val request = httpClient.get(KdtApiRoutes.VOTES)
+
+            if (request.status.value in 200..299) {
+                val response: VoteListResponse = request.body()
+
+                ResultModel.success(response)
+            } else {
+                Log.e("API RS VOTE", "code: ${request.status.value}; body: ${request.body<String>()}")
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            Log.e("API RS VOTE", e.toString())
+            ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun getFullInfoVoteById(id: Int): ResultModel<FullInfoVoteResponseGet> {
+        try {
+            val jsonBody = """
+                {
+                    "vote_id": $id
+                }
+            """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.VOTES_GET) {
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                val response: FullInfoVoteResponseGet = request.body()
+
+                ResultModel.success(response)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            return ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun sendVoteRate(id: Int, vote: String, authData: String): ResultModel<Boolean> {
+        try {
+            val jsonBody = """
+            {
+                "vote_id": $id,
+                "rating": $vote
+            }
+        """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.VOTES_RATE) {
+                header(key = "Authorization", value = "Bearer $authData")
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                ResultModel.success(true)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            return ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun sendVoteChoice(id: Int, vote: String, authData: String): ResultModel<Boolean> {
+        try {
+            val jsonBody = """
+            {
+                "vote_id": $id,
+                "choice": $vote
+            }
+        """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.VOTES_CHOICE) {
+                header(key = "Authorization", value = "Bearer $authData")
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                ResultModel.success(true)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            return ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun sendVotePetition(id: Int, vote: String, authData: String): ResultModel<Boolean> {
+        try {
+            val jsonBody = """
+            {
+                "vote_id": $id,
+                "support": $vote
+            }
+        """.trimIndent()
+            val request = httpClient.post(KdtApiRoutes.VOTES_PETITION) {
+                header(key = "Authorization", value = "Bearer $authData")
+                setBody(jsonBody)
+            }
+
+            return if (request.status.value in 200..299) {
+                ResultModel.success(true)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            return ResultModel.failure("Непредвиденная ошибка.")
         }
     }
 

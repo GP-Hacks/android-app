@@ -4,13 +4,21 @@ import androidx.paging.PagingData
 import com.example.common.model.ResultModel
 import com.example.domain.model.CharityModel
 import com.example.domain.model.ChatBotAnswerModel
+import com.example.domain.model.FullInfoVoteModel
 import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
 import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.VoteModel
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
+
+    fun getVotes(): Flow<ResultModel<List<VoteModel>>>
+
+    fun getFullInfoVoteById(id: Int): Flow<ResultModel<FullInfoVoteModel>>
+
+    fun sendVote(id: Int, category: String, vote: String): Flow<ResultModel<Boolean>>
 
     fun donateToCharity(id: Int, amount: Int): Flow<ResultModel<Boolean>>
 

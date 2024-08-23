@@ -6,31 +6,72 @@ import androidx.paging.PagingData
 import com.example.common.model.ResultModel
 import com.example.data.response.toCharityModel
 import com.example.data.response.toChatBotAnswerModel
+import com.example.data.response.toFullInfoVoteModel
 import com.example.data.response.toPartnersCategoryModel
 import com.example.data.response.toPartnersModel
 import com.example.data.response.toPlaceModel
+import com.example.data.response.toVoteModel
 import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.paging.NewsPagingSource
 import com.example.data.source.remote.ApiRemoteSource
 import com.example.data.utils.millisToUtcString
 import com.example.domain.model.CharityModel
 import com.example.domain.model.ChatBotAnswerModel
+import com.example.domain.model.FullInfoVoteModel
 import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
 import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.VoteModel
 import com.example.domain.repository.ApiRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun getVotes(): Flow<ResultModel<List<VoteModel>>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getVotes()
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.response.map { it.toVoteModel() }))
+        } else {
+            emit(ResultModel.failure("Непредвиденная ошибка."))
+        }
+    }
+
+    override fun getFullInfoVoteById(id: Int): Flow<ResultModel<FullInfoVoteModel>> = flow {
+        emit(ResultModel.loading())
+
+        val result = apiRemoteSource.getFullInfoVoteById(id)
+        if (result.status == ResultModel.Status.SUCCESS) {
+            emit(ResultModel.success(result.data!!.response.toFullInfoVoteModel()))
+        } else {
+            emit(ResultModel.failure(result.message))
+        }
+    }
+
+    override fun sendVote(id: Int, category: String, vote: String): Flow<ResultModel<Boolean>> = flow {
+        emit(ResultModel.loading())
+
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            emit(
+                when (category) {
+                    "choice" -> apiRemoteSource.sendVoteChoice(id, vote, authData)
+                    "rate" -> apiRemoteSource.sendVoteRate(id, vote, authData)
+                    "petition" -> apiRemoteSource.sendVotePetition(id, vote, authData)
+                    else -> ResultModel.failure("Непредвиденная ошибка.")
+                }
+            )
+        } else {
+            emit(ResultModel.failure("Непредвиденная ошибка."))
+        }
+    }
+
     override fun donateToCharity(id: Int, amount: Int): Flow<ResultModel<Boolean>> = flow {
         emit(ResultModel.loading())
 

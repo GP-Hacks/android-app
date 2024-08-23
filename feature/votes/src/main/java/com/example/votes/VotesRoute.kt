@@ -42,6 +42,10 @@ fun VotesRoute(
     var paddingState by remember { mutableStateOf(80.dp) }
     val firstVisibleItemIndex = remember { derivedStateOf { listState.firstVisibleItemIndex } }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadListVotes()
+    }
+
     LaunchedEffect(firstVisibleItemIndex.value) {
         val maxPadding = 80.dp
         val minPadding = 16.dp

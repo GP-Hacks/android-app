@@ -1,6 +1,6 @@
 package com.example.domain.model
 
-data class FullVoteModel(
+data class FullInfoVoteModel(
     val id: Int,
     val category: String,
     val name: String,
