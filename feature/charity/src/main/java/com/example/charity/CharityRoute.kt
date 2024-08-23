@@ -216,6 +216,7 @@ fun PartnersListColumn(
             },
             onDonate = {
                 onDonate(it, currentItem)
+                isOpenDialog = false
             }
         )
     }
@@ -233,7 +234,7 @@ fun PartnersListColumn(
                     item {
                         Spacer(modifier = Modifier.height(16.dp))
                         CharityCard(
-                            image = "",
+                            image = it.photo,
                             title = it.name,
                             category = it.category,
                             openDialog = {

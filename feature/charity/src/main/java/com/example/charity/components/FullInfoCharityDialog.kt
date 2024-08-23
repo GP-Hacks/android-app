@@ -2,6 +2,7 @@ package com.example.charity.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
@@ -29,8 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import coil.compose.AsyncImage
 import com.example.charity.R
 import com.example.domain.model.CharityModel
 import com.example.ui.theme.mColors
@@ -87,41 +92,43 @@ fun InfoPage(
     var isLoading by remember {
         mutableStateOf(false)
     }
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        // ДОБАВИТЬ ФОТКИ
-//        val pagerState = rememberPagerState(0, 0f, pageCount = {
-//            return@rememberPagerState 1
-//        })
-//        HorizontalPager(state = pagerState, modifier = Modifier.background(mColors.surface)) {
-//            Box(
-//                contentAlignment = Alignment.Center
-//            ) {
-//                AsyncImage(
-//                    model = charity.,
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(160.dp)
-//                        .background(Color(0xFFE3E3E3), RoundedCornerShape(25.dp))
-//                        .clip(RoundedCornerShape(25.dp)),
-//                    onLoading = {
-//                        isLoading = true
-//                    },
-//                    onSuccess = {
-//                        isLoading = false
-//                    },
-//                    contentScale = ContentScale.Crop
-//                )
-//                if (isLoading) {
-//                    CircularProgressIndicator(
-//                        color = mColors.primary
-//                    )
-//                }
-//            }
-//        }
+        Box {
+            AsyncImage(
+                model = charity.photo,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .background(Color(0xFFE3E3E3), RoundedCornerShape(25.dp))
+                    .clip(RoundedCornerShape(25.dp)),
+                onLoading = {
+                    isLoading = true
+                },
+                onSuccess = {
+                    isLoading = false
+                },
+                onError = {
+                    isLoading = false
+                    isError = true
+                },
+                contentScale = ContentScale.Crop
+            )
+            if (isLoading) {
+                CircularProgressIndicator(
+                    color = mColors.primary
+                )
+            }
+            if (isError) {
+                Icon(painter = painterResource(id = R.drawable.no_image_icon), contentDescription = null)
+            }
+        }
         Column(
             modifier = Modifier.padding(16.dp)
         ) {

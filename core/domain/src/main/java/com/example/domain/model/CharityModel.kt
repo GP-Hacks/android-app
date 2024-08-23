@@ -9,5 +9,6 @@ data class CharityModel(
     val phone: String,
     val website: String,
     val goal: Int,
-    val current: Int
+    val current: Int,
+    val photo: String
 )
