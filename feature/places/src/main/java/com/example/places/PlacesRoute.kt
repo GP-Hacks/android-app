@@ -2,6 +2,7 @@ package com.example.places
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -59,8 +60,11 @@ import com.example.ui.theme.mColors
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.MapObject
+import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
+import kotlin.math.roundToInt
 
 @Composable
 fun PlacesRoute(
@@ -341,16 +345,16 @@ fun PlacesMap(
 ) {
 
     var isOpenDialog by remember { mutableStateOf(false) }
-    var currentItem by remember { mutableStateOf(PlaceModel(0, "", "", 0.0, 0.0, "", "", "", "", emptyList(), 0, emptyList())) }
+    var currentItem by remember { mutableStateOf(0) }
 
     if (isOpenDialog) {
         FullInfoPlaceDialog(
-            place = currentItem,
+            place = listPlaces.data!![currentItem],
             onDismissRequest = {
                 isOpenDialog = false
             },
             onBuyTicket = { d, t ->
-                onBuyTicket(currentItem.id, d, t)
+                onBuyTicket(listPlaces.data!![currentItem].id, d, t)
             },
             isAuth = isAuth
         )
@@ -358,6 +362,20 @@ fun PlacesMap(
 
     var mapView by remember {
         mutableStateOf<MapView?>(null)
+    }
+    var listeners = mutableListOf<MapObjectTapListener>()
+    if (listPlaces.data != null) {
+        listeners = buildList<MapObjectTapListener> {
+            for (i in 0..listPlaces.data!!.size) {
+                add(
+                    object : MapObjectTapListener {
+                        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
+                            return true
+                        }
+                    }
+                )
+            }
+        }.toMutableList()
     }
     val context = LocalContext.current
 
@@ -384,11 +402,20 @@ fun PlacesMap(
             mapObjects.clear()
 
             if (listPlaces.data != null && listPlaces.status == ResultModel.Status.SUCCESS) {
-                listPlaces.data!!.forEach { place ->
+                listPlaces.data!!.forEachIndexed { index, place ->
+                    listeners[index] = object : MapObjectTapListener {
+                        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
+                            Log.i("MAP", "tap")
+                            currentItem = place.id
+                            isOpenDialog = true
+                            return true
+                        }
+                    }
+
                     val vectorDrawable = ContextCompat.getDrawable(context, R.drawable.location_point_icon)
                     val bitmap = Bitmap.createBitmap(
-                        vectorDrawable!!.intrinsicWidth,
-                        vectorDrawable.intrinsicHeight,
+                        (vectorDrawable!!.intrinsicWidth * 1.5).roundToInt(),
+                        (vectorDrawable.intrinsicHeight * 1.5).roundToInt(),
                         Bitmap.Config.ARGB_8888
                     )
                     val canvas = Canvas(bitmap)
@@ -397,13 +424,10 @@ fun PlacesMap(
 
                     val imageProvider = ImageProvider.fromBitmap(bitmap)
 
-                    val placemark = mapObjects.addPlacemark(Point(place.latitude, place.longitude))
-                    placemark.setIcon(imageProvider)
-
-                    placemark.addTapListener { _, _ ->
-                        isOpenDialog = true
-                        currentItem = place
-                        true
+                    val placemark = mapObjects.addPlacemark {
+                        it.setIcon(imageProvider)
+                        it.geometry = Point(place.latitude, place.longitude)
+                        it.addTapListener(listeners[index])
                     }
                 }
             }
@@ -413,6 +437,8 @@ fun PlacesMap(
     DisposableEffect(Unit) {
         onDispose {
             mapView?.onStop()
+            MapKitFactory.getInstance().onStop()
+            mapView = null
         }
     }
 }

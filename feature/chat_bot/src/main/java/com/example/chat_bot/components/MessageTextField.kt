@@ -36,7 +36,8 @@ fun MessageTextField(
     text: String,
     onSendButtonClick: () -> Unit,
     onChangeMessage: (String) -> Unit,
-    placeholder: String
+    placeholder: String,
+    enabled: Boolean
 ) {
 
     Card(
@@ -53,7 +54,9 @@ fun MessageTextField(
                     focusedContainerColor = mColors.surface,
                     unfocusedContainerColor = mColors.surface,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledContainerColor = mColors.background,
+                    disabledTrailingIconColor = Color.Gray
                 ),
             shape = RoundedCornerShape(30.dp),
             value = text,
@@ -62,10 +65,14 @@ fun MessageTextField(
                 Text(text = placeholder, color = Color(0xFFA1A1A1), fontSize = 12.sp, fontWeight = FontWeight.Normal)
             },
             trailingIcon = {
-                IconButton(onClick = { onSendButtonClick() }) {
-                    Icon(painter = painterResource(id = R.drawable.send_icon), contentDescription = null, tint = mColors.primary)
+                IconButton(
+                    onClick = { onSendButtonClick() },
+                    enabled = enabled
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.send_icon), contentDescription = null)
                 }
-            }
+            },
+            enabled = enabled
         )
     }
 

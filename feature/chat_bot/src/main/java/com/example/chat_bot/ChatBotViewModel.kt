@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.ChatBotAnswerModel
+import com.example.domain.usecase.CheckAuthUseCase
 import com.example.domain.usecase.GetChatBotAnswerByUserRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatBotViewModel @Inject constructor(
-    private val getChatBotAnswerByUserRequest: GetChatBotAnswerByUserRequest
+    private val getChatBotAnswerByUserRequest: GetChatBotAnswerByUserRequest,
+    private val checkAuthUseCase: CheckAuthUseCase
 ): ViewModel() {
 
     private val _chatHistory: MutableStateFlow<List<Pair<String, ResultModel<ChatBotAnswerModel>>>> = MutableStateFlow(
@@ -30,6 +32,8 @@ class ChatBotViewModel @Inject constructor(
         get() = _chatHistory
 
     private var currentRequest = 0
+
+    fun checkAuth() = checkAuthUseCase()
 
     fun sendUserRequest(userRequest: String) {
         if (userRequest != "") {

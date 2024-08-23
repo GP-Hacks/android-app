@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,7 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chat_bot.components.BotMessageLoading
 import com.example.chat_bot.components.ChatBotTopBar
@@ -66,7 +70,8 @@ fun ChatBotRoute(
                         userRequest = ""
                     },
                     onChangeMessage = { userRequest = it },
-                    placeholder = "Спросите"
+                    placeholder = "Спросите",
+                    enabled = viewModel.checkAuth()
                 )
             }
         }
@@ -100,6 +105,37 @@ fun ChatBotRoute(
                     item {
                         Message(text = it.first, isUserMessage = true, isError = false)
                     }
+                }
+
+                if (!viewModel.checkAuth()) {
+                    item {
+                        Text(
+                            text = "Войдите в аккаунт для использования",
+                            color = Color(0xFF8F8F8F),
+                            fontSize = 13.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp)
+                                .background(Color(0xFFF4F4F4), RoundedCornerShape(30.dp))
+                                .padding(8.dp),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                }
+
+                item {
+                    Text(
+                        text = "Я - ваш персональный ИИ помощник",
+                        color = Color(0xFF8F8F8F),
+                        fontSize = 13.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp)
+                            .background(Color(0xFFF4F4F4), RoundedCornerShape(30.dp))
+                            .padding(8.dp),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }

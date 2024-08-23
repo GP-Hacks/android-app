@@ -183,6 +183,7 @@ fun CharityRoute(
                     id = id,
                     amount = amount,
                     onSuccess = {
+                        viewModel.loadCharity()
                         Toast.makeText(context, "Пожертвование прошло успешно!", Toast.LENGTH_LONG).show()
                     },
                     onFailure = {
