@@ -125,7 +125,9 @@ fun CharityRoute(
                         shape = RoundedCornerShape(20.dp),
                         leadingIcon = {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
-                        }
+                        },
+                        singleLine = true,
+                        maxLines = 1
                     )
                     Spacer(Modifier.height(16.dp))
                 }
