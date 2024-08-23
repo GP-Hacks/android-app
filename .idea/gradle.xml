@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/feature/portal_care" />
             <option value="$PROJECT_DIR$/feature/services" />
             <option value="$PROJECT_DIR$/feature/stocks" />
+            <option value="$PROJECT_DIR$/feature/votes" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

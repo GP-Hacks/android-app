@@ -28,7 +28,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.auth.navigation.Auth
 import com.example.auth.navigation.authScreen
 import com.example.auth.navigation.navigateToAuth
 import com.example.charity.navigation.charityScreen
@@ -52,6 +51,8 @@ import com.example.stocks.navigation.navigateToStocks
 import com.example.stocks.navigation.stocksScreen
 import com.example.tatarstanresidentcard.R
 import com.example.ui.theme.mColors
+import com.example.votes.navigation.navigateToVotes
+import com.example.votes.navigation.votesScreen
 
 @Composable
 fun TatarstanResidentCardNavHost(
@@ -99,7 +100,9 @@ fun TatarstanResidentCardNavHost(
                     navController.navigateToPlaces()
                 },
                 navigateToReadersDiary = {},
-                navigateToVoting = {},
+                navigateToVotes = {
+                    navController.navigateToVotes()
+                },
                 navigateToSchoolElectronDiary = {},
                 navigateToStocks = {
                     navController.navigateToStocks()
@@ -122,6 +125,7 @@ fun TatarstanResidentCardNavHost(
                     popUpTo(0)
                 }
             }
+            votesScreen()
         }
     }
 

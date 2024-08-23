@@ -2,7 +2,6 @@ package com.example.services.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.example.services.ServicesRoute
@@ -17,12 +16,12 @@ fun NavController.navigateToServices(
 
 fun NavGraphBuilder.servicesScreen(
     navigateToReadersDiary: () -> Unit,
-    navigateToVoting: () -> Unit,
+    navigateToVotes: () -> Unit,
     navigateToSchoolElectronDiary: () -> Unit,
     navigateToStocks: () -> Unit,
     navigateToPlaces: () -> Unit,
     navigateToPortalCare: () -> Unit,
     navigateToCharity: () -> Unit
 ) = composable<Services> {
-    ServicesRoute(navigateToReadersDiary, navigateToVoting, navigateToSchoolElectronDiary, navigateToStocks, navigateToPlaces, navigateToPortalCare, navigateToCharity)
+    ServicesRoute(navigateToReadersDiary, navigateToVotes, navigateToSchoolElectronDiary, navigateToStocks, navigateToPlaces, navigateToPortalCare, navigateToCharity)
 }

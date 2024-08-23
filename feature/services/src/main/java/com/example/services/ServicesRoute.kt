@@ -27,7 +27,7 @@ import com.example.ui.theme.mColors
 @Composable
 fun ServicesRoute(
     navigateToReadersDiary: () -> Unit,
-    navigateToVoting: () -> Unit,
+    navigateToVotes: () -> Unit,
     navigateToSchoolElectronDiary: () -> Unit,
     navigateToStocks: () -> Unit,
     navigateToPlaces: () -> Unit,
@@ -98,7 +98,10 @@ fun ServicesRoute(
             Card(
                 modifier = Modifier
                     .height(100.dp)
-                    .weight(1f),
+                    .weight(1f)
+                    .clickable {
+                        navigateToVotes()
+                    },
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFF373EA4)
                 )
@@ -113,7 +116,7 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Голосовалка", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+                        Text(text = "Голос", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
                         Text(text = "Голосуйте за проекты", fontSize = 10.sp, color = Color.White)
                     }
                 }
