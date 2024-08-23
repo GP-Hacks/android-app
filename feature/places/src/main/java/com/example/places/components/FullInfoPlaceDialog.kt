@@ -277,7 +277,14 @@ fun InfoPage(
         }
 
         if (!isAuth) {
-            Text(text = "Вы не авторизованы", color = Color.Black)
+            Text(
+                text = "Вы не авторизованы",
+                color = Color.Black,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(4.dp))
         }
         Row(
