@@ -34,7 +34,12 @@ class ApiRepositoryImpl @Inject constructor(
     override fun donateToCharity(id: Int, amount: Int): Flow<ResultModel<Boolean>> = flow {
         emit(ResultModel.loading())
 
-        emit(apiRemoteSource.donateToCharity(id, amount))
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            emit(apiRemoteSource.donateToCharity(id, amount, authData))
+        } else {
+            emit(ResultModel.failure("Ошибка авторизации"))
+        }
     }
 
     override fun getCharityCategories(): Flow<ResultModel<List<String>>> = flow {
@@ -75,9 +80,10 @@ class ApiRepositoryImpl @Inject constructor(
 
     override suspend fun sendDeviceToken(token: String) {
         sharedPreferenceLocalSource.setDeviceToken(token)
-//        TODO(Проверка на авторизацию)
-        if (true) {
-            val result = apiRemoteSource.sendToken(token)
+
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            val result = apiRemoteSource.sendToken(token, authData)
 
             sharedPreferenceLocalSource.setBindDeviceTokenStatus(result)
         } else {
@@ -86,15 +92,16 @@ class ApiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendDeviceToken() {
-//        TODO(Проверка на авторизацию)
-        if (true) {
+
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
             val status = sharedPreferenceLocalSource.getBindDeviceTokenStatus()
 
             if (!status) {
                 val token = sharedPreferenceLocalSource.getDeviceToken()
 
                 if (token != null) {
-                    val result = apiRemoteSource.sendToken(token)
+                    val result = apiRemoteSource.sendToken(token, authData)
 
                     sharedPreferenceLocalSource.setBindDeviceTokenStatus(result)
                 }
@@ -155,24 +162,34 @@ class ApiRepositoryImpl @Inject constructor(
     override fun getChatBotAnswerToUserRequest(userRequest: String): Flow<ResultModel<ChatBotAnswerModel>> = flow {
         emit(ResultModel.loading())
 
-        val result = apiRemoteSource.getChatBotAnswerToUserRequest(userRequest)
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            val result = apiRemoteSource.getChatBotAnswerToUserRequest(userRequest, authData)
 
-        if (result.status == ResultModel.Status.SUCCESS) {
-            emit(ResultModel.success(result.data!!.toChatBotAnswerModel()))
+            if (result.status == ResultModel.Status.SUCCESS) {
+                emit(ResultModel.success(result.data!!.toChatBotAnswerModel()))
+            } else {
+                emit(ResultModel.failure(result.message))
+            }
         } else {
-            emit(ResultModel.failure(result.message))
+            emit(ResultModel.failure("Ошибка авторизации."))
         }
     }
 
     override fun buyTicketForPlace(id: Int, date: Long, time: Long): Flow<ResultModel<Boolean>> = flow {
         emit(ResultModel.loading())
 
-        val result = apiRemoteSource.buyTicketForPlace(id, millisToUtcString(date + time))
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            val result = apiRemoteSource.buyTicketForPlace(id, millisToUtcString(date + time), authData)
 
-        if (result.status == ResultModel.Status.SUCCESS) {
-            emit(ResultModel.success(result.data!!))
+            if (result.status == ResultModel.Status.SUCCESS) {
+                emit(ResultModel.success(result.data!!))
+            } else {
+                emit(ResultModel.failure(result.message))
+            }
         } else {
-            emit(ResultModel.failure(result.message))
+            emit(ResultModel.failure("Ошибка авторизации."))
         }
     }
 }

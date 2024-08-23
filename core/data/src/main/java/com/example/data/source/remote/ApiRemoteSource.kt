@@ -46,7 +46,7 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun donateToCharity(id: Int, amount: Int): ResultModel<Boolean> {
+    suspend fun donateToCharity(id: Int, amount: Int, authData: String): ResultModel<Boolean> {
         try {
             val jsonBody = """
                 {
@@ -55,7 +55,7 @@ class ApiRemoteSource {
                 }
             """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.CHARITY_DONATE) {
-                header(key = "Authorization", value = "Bearer example@gmail.com")
+                header(key = "Authorization", value = "Bearer $authData")
                 setBody(jsonBody)
             }
 
@@ -171,7 +171,7 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun sendToken(token: String): Boolean {
+    suspend fun sendToken(token: String, authData: String): Boolean {
         try {
             val jsonBody = """
                 {
@@ -179,7 +179,7 @@ class ApiRemoteSource {
                 }
             """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.USER_TOKEN) {
-                header(key = "Authorization", value = "Bearer example@gmail.com")
+                header(key = "Authorization", value = "Bearer $authData")
                 setBody(jsonBody)
             }
 
@@ -194,7 +194,7 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun buyTicketForPlace(id: Int, utc: String): ResultModel<Boolean> {
+    suspend fun buyTicketForPlace(id: Int, utc: String, authData: String): ResultModel<Boolean> {
         try {
             val jsonBody = """
                 {
@@ -203,7 +203,7 @@ class ApiRemoteSource {
                 }
             """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.PLACES_BUY) {
-                header(key = "Authorization", value = "Bearer example@gmail.com")
+                header(key = "Authorization", value = "Bearer $authData")
                 setBody(jsonBody)
             }
 
@@ -268,7 +268,7 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun getChatBotAnswerToUserRequest(userRequest: String): ResultModel<ChatBotAnswerResponse> {
+    suspend fun getChatBotAnswerToUserRequest(userRequest: String, authData: String): ResultModel<ChatBotAnswerResponse> {
         try {
             val jsonBody = """
                 {
@@ -282,7 +282,7 @@ class ApiRemoteSource {
             """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.CHAT_ASK) {
                 contentType(ContentType.Application.Json)
-                header(key = "Authorization", value = "Bearer example@gmail.com")
+                header(key = "Authorization", value = "Bearer $authData")
                 setBody(jsonBody)
             }
 
@@ -291,7 +291,6 @@ class ApiRemoteSource {
 
                 ResultModel.success(result)
             } else {
-                // TODO("Добавить обработчик ошибок")
                 Log.e("API ERRORS", request.body())
                 ResultModel.failure("Непредвиденная ошибка.")
             }
