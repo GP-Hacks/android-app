@@ -58,6 +58,7 @@ class ApiRemoteSource {
                 header(key = "Authorization", value = "Bearer $authData")
                 setBody(jsonBody)
             }
+            Log.i("API RS CHARITY", "Input: $jsonBody; Сode: ${request.status.value}; Data: ${request.body<String>()}")
 
             return if (request.status.value in 200..299) {
                 ResultModel.success(true)

@@ -218,7 +218,7 @@ fun PartnersListColumn(
                 isOpenDialog = false
             },
             onDonate = {
-                onDonate(it, currentItem)
+                onDonate(it, listPartners.data!![currentItem].id)
                 isOpenDialog = false
             },
             isAuth = isAuth
