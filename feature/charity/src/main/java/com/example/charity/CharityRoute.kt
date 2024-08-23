@@ -190,7 +190,8 @@ fun CharityRoute(
                         Toast.makeText(context, "Пожертвование не удалось.", Toast.LENGTH_LONG).show()
                     }
                 )
-            }
+            },
+            isAuth = viewModel.checkAuth()
         )
     }
 }
@@ -199,7 +200,8 @@ fun CharityRoute(
 fun PartnersListColumn(
     listPartners: ResultModel<List<CharityModel>>,
     listState: LazyListState,
-    onDonate: (Int, Int) -> Unit
+    onDonate: (Int, Int) -> Unit,
+    isAuth: Boolean
 ) {
 
     var isOpenDialog by remember {
@@ -218,7 +220,8 @@ fun PartnersListColumn(
             onDonate = {
                 onDonate(it, currentItem)
                 isOpenDialog = false
-            }
+            },
+            isAuth = isAuth
         )
     }
 

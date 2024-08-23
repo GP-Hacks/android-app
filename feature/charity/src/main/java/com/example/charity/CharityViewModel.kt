@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.CharityModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.usecase.CheckAuthUseCase
 import com.example.domain.usecase.DonateToCharityUseCase
 import com.example.domain.usecase.GetCharityCategoriesUseCase
 import com.example.domain.usecase.GetCharityUseCase
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class CharityViewModel @Inject constructor(
     private val getCharityUseCase: GetCharityUseCase,
     private val getCharityCategoriesUseCase: GetCharityCategoriesUseCase,
-    private val donateToCharityUseCase: DonateToCharityUseCase
+    private val donateToCharityUseCase: DonateToCharityUseCase,
+    private val checkAuthUseCase: CheckAuthUseCase
 ): ViewModel() {
 
     private val _listCharity = MutableStateFlow<ResultModel<List<CharityModel>>>(ResultModel.none())
@@ -41,6 +43,8 @@ class CharityViewModel @Inject constructor(
 
     var currentSearch = mutableStateOf("")
         private set
+
+    fun checkAuth() = checkAuthUseCase()
 
     fun updateSearch(newSearch: String) {
         currentSearch.value = newSearch

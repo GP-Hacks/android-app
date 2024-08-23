@@ -52,7 +52,8 @@ import com.example.ui.theme.mColors
 fun FullInfoCharityDialog(
     charity: CharityModel,
     onDismissRequest: () -> Unit,
-    onDonate: (Int) -> Unit
+    onDonate: (Int) -> Unit,
+    isAuth: Boolean
 ) {
     var currentScreen by remember { mutableIntStateOf(0) }
 
@@ -67,7 +68,7 @@ fun FullInfoCharityDialog(
             )
         ) {
             when (currentScreen) {
-                0 -> InfoPage(charity = charity) {
+                0 -> InfoPage(charity = charity, isAuth = isAuth) {
                     currentScreen = 1
                 }
                 1 -> SelectSumForDonate(
@@ -87,6 +88,7 @@ fun FullInfoCharityDialog(
 @Composable
 fun InfoPage(
     charity: CharityModel,
+    isAuth: Boolean,
     onNext: () -> Unit
 ) {
     var isLoading by remember {
@@ -99,7 +101,9 @@ fun InfoPage(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Box {
+        Box(
+            contentAlignment = Alignment.Center
+        ) {
             AsyncImage(
                 model = charity.photo,
                 contentDescription = null,
@@ -199,6 +203,17 @@ fun InfoPage(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+            if (!isAuth) {
+                Text(
+                    text = "Вы не авторизованы",
+                    color = Color.Black,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -210,7 +225,8 @@ fun InfoPage(
                         containerColor = Color.Black,
                         contentColor = Color.White
                     ),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    enabled = isAuth
                 ) {
                     Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                 }
