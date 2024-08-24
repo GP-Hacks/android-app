@@ -13,7 +13,7 @@ data class FullInfoVoteResponse(
     val end: String,
     val photo: String,
     val options: List<String>?,
-    val stats: Map<String, Int>
+//    val stats: Map<String, Int>
 )
 
 @Serializable
@@ -21,4 +21,4 @@ data class FullInfoVoteResponseGet(
     val response: FullInfoVoteResponse
 )
 
-fun FullInfoVoteResponse.toFullInfoVoteModel() = FullInfoVoteModel(id, category, name, description, organization, end, photo, options, stats)
+fun FullInfoVoteResponse.toFullInfoVoteModel() = FullInfoVoteModel(id, category, name, description, organization, end, photo, options, mapOf())

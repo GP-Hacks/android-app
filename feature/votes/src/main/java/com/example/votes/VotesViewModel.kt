@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.FullInfoVoteModel
 import com.example.domain.model.VoteModel
+import com.example.domain.usecase.CheckAuthUseCase
 import com.example.domain.usecase.GetFullInfoVoteByIdUseCase
 import com.example.domain.usecase.GetVotesUseCase
 import com.example.domain.usecase.SendVoteUseCase
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class VotesViewModel @Inject constructor(
     private val getVotesUseCase: GetVotesUseCase,
     private val getFullInfoVoteByIdUseCase: GetFullInfoVoteByIdUseCase,
-    private val sendVoteUseCase: SendVoteUseCase
+    private val sendVoteUseCase: SendVoteUseCase,
+    private val checkAuthUseCase: CheckAuthUseCase
 ): ViewModel() {
 
     private val _listVotes = MutableStateFlow<ResultModel<List<VoteModel>>>(ResultModel.none())
@@ -31,6 +33,8 @@ class VotesViewModel @Inject constructor(
     private val _fullInfoVote = MutableStateFlow<ResultModel<FullInfoVoteModel>>(ResultModel.none())
     val fullInfoVote: StateFlow<ResultModel<FullInfoVoteModel>>
         get() = _fullInfoVote
+
+    fun checkAuth() = checkAuthUseCase()
 
     fun loadListVotes() {
         viewModelScope.launch {

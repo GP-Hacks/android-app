@@ -84,9 +84,11 @@ class ApiRemoteSource {
 
                 ResultModel.success(response)
             } else {
+                Log.e("API RS VOTE", "code: ${request.status.value}; body: ${request.body<String>()}")
                 ResultModel.failure("Непредвиденная ошибка.")
             }
         } catch (e: Exception) {
+            Log.e("API RS VOTE", e.toString())
             return ResultModel.failure("Непредвиденная ошибка.")
         }
     }
@@ -119,7 +121,7 @@ class ApiRemoteSource {
             val jsonBody = """
             {
                 "vote_id": $id,
-                "choice": $vote
+                "choice": "$vote"
             }
         """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.VOTES_CHOICE) {
@@ -142,7 +144,7 @@ class ApiRemoteSource {
             val jsonBody = """
             {
                 "vote_id": $id,
-                "support": $vote
+                "support": "$vote"
             }
         """.trimIndent()
             val request = httpClient.post(KdtApiRoutes.VOTES_PETITION) {
@@ -153,6 +155,7 @@ class ApiRemoteSource {
             return if (request.status.value in 200..299) {
                 ResultModel.success(true)
             } else {
+                Log.e("API RS VOTE", "code: ${request.status.value}; body: ${request.body<String>()}")
                 ResultModel.failure("Непредвиденная ошибка.")
             }
         } catch (e: Exception) {

@@ -45,7 +45,8 @@ val darkColorScheme = darkColorScheme(
     secondary = Black,
     onSecondary = GrayGray,
     onTertiary = GrayGrayGray,
-    onSurfaceVariant = Green
+    onSurfaceVariant = Color.Gray,
+    surfaceContainerLow = White
 )
 
 
