@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.example.votes.R
 
@@ -90,7 +91,7 @@ fun VotesCard(
             text = name,
             color = Color.Black,
             fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
         )
     }
 

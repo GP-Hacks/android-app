@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.places.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -74,7 +75,7 @@ fun PlaceCard(
                     color = Color.Black,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1.7f)
+                    modifier = Modifier.weight(1.7f), fontFamily = evolentaFamily
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Row(
@@ -89,7 +90,7 @@ fun PlaceCard(
                         text = geo,
                         color = Color(0xFF616161),
                         fontSize = 10.sp,
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.End, fontFamily = evolentaFamily
                     )
                 }
             }
@@ -104,14 +105,14 @@ fun PlaceCard(
                         Color(0xFF1E1E1E),
                         RoundedCornerShape(7.dp)
                     )
-                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp), fontFamily = evolentaFamily
             )
             if (site != null) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row {
                     Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = site, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = site, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -123,7 +124,7 @@ fun PlaceCard(
                 modifier = Modifier
                     .clickable {
                         openDialog()
-                    }
+                    }, fontFamily = evolentaFamily
             )
 
         }

@@ -30,6 +30,7 @@ import com.example.chat_bot.components.ChatBotTopBar
 import com.example.chat_bot.components.Message
 import com.example.chat_bot.components.MessageTextField
 import com.example.common.model.ResultModel
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -118,7 +119,7 @@ fun ChatBotRoute(
                                 .padding(start = 16.dp, end = 16.dp)
                                 .background(Color(0xFFF4F4F4), RoundedCornerShape(30.dp))
                                 .padding(8.dp),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center, fontFamily = evolentaFamily
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
@@ -134,7 +135,7 @@ fun ChatBotRoute(
                             .padding(start = 16.dp, end = 16.dp)
                             .background(Color(0xFFF4F4F4), RoundedCornerShape(30.dp))
                             .padding(8.dp),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center, fontFamily = evolentaFamily
                     )
                 }
             }

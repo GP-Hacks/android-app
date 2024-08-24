@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.home.components.ImageBackground
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.skydoves.cloudy.cloudy
 import dev.chrisbanes.haze.HazeState
@@ -78,9 +79,9 @@ fun HomeRoute(
                         Column(
                             modifier = Modifier.padding(16.dp)
                         ) {
-                            Text(text = "10% кешбэк за оплату ЖКХ", color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                            Text(text = "10% кешбэк за оплату ЖКХ", color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 18.sp, fontFamily = evolentaFamily)
                             Spacer(modifier = Modifier.height(8.dp))
-                            Text(text = "Оплачивайте коммунальные \n" + "услуги Картой жителя РТ", color = Color.Black, fontSize = 12.sp)
+                            Text(text = "Оплачивайте коммунальные \n" + "услуги Картой жителя РТ", color = Color.Black, fontSize = 12.sp, fontFamily = evolentaFamily)
                         }
                     }
                 }
@@ -94,7 +95,7 @@ fun HomeRoute(
                 ) {
                     Icon(painter = painterResource(id = R.drawable.icon1), contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Выпустите Карту жителя Татарстана, чтобы получить привелегиии", fontSize = 12.sp, color = Color(0xFF858585), fontWeight = FontWeight.Light)
+                    Text(text = "Выпустите Карту жителя Татарстана, чтобы получить привелегиии", fontSize = 12.sp, color = Color(0xFF858585), fontWeight = FontWeight.Light, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 if (!viewModel.checkAuth()) {
@@ -109,7 +110,7 @@ fun HomeRoute(
                             contentColor = Color.White
                         )
                     ) {
-                        Text(text = "Войти через АК Барс Банк", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text(text = "Войти через АК Барс Банк", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = evolentaFamily)
                     }
                 }
                 Button(
@@ -123,7 +124,7 @@ fun HomeRoute(
                         contentColor = Color.White
                     )
                 ) {
-                    Text(text = "Выпустить карту", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text(text = "Выпустить карту", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.height(40.dp))
             }
@@ -143,7 +144,7 @@ fun HomeRoute(
             ) {
                 Icon(painter = painterResource(id = R.drawable.icon2), contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Узнайте как защитить деньги", color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 18.sp)
+                Text(text = "Узнайте как защитить деньги", color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 18.sp, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -166,7 +167,7 @@ fun HomeRoute(
                 ) {
                     Icon(painter = painterResource(id = R.drawable.icon3), contentDescription = null, tint = Color.Black)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Другие карты", fontWeight = FontWeight.SemiBold, fontSize = 16.sp, color = Color.Black)
+                    Text(text = "Другие карты", fontWeight = FontWeight.SemiBold, fontSize = 16.sp, color = Color.Black, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -175,7 +176,7 @@ fun HomeRoute(
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
                     color = Color(0xFF5E5E5E),
-                    fontSize = 12.sp
+                    fontSize = 12.sp, fontFamily = evolentaFamily
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
@@ -189,7 +190,7 @@ fun HomeRoute(
                         contentColor = Color.Black
                     ),
                 ) {
-                    Text(text = "Обркарта", color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 18.sp)
+                    Text(text = "Обркарта", color = Color.Black, fontWeight = FontWeight.Normal, fontSize = 18.sp, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }

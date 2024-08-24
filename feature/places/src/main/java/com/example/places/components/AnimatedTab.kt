@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.evolentaFamily
 
 @Composable
 fun AnimatedTab(
@@ -122,6 +123,6 @@ private fun MyTabItem(
             ) { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = title, color = if (isSelected) Color.Black else Color.White, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
+        Text(text = title, fontFamily = evolentaFamily, color = if (isSelected) Color.Black else Color.White, fontSize = 10.sp, fontWeight = FontWeight.SemiBold)
     }
 }

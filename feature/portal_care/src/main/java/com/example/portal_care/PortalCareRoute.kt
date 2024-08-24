@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -46,7 +47,7 @@ fun PortalCareRoute(
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Портал забота", color = Color.Black, fontWeight = FontWeight.Bold)
+                Text(text = "Портал забота", color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     ) {

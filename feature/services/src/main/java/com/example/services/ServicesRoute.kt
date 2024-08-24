@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -40,7 +41,7 @@ fun ServicesRoute(
             .background(mColors.surface)
             .padding(16.dp)
     ) {
-        Text(text = "Сервисы", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Medium)
+        Text(text = "Сервисы", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Medium, fontFamily = evolentaFamily)
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             Card(
@@ -61,7 +62,7 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Школьный электронный дневник", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+                        Text(text = "Школьный электронный дневник", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -87,8 +88,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Благотворительность", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Вкладывайтесь в добро", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Благотворительность", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Вкладывайтесь в добро", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -116,8 +117,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Голос", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Голосуйте за проекты", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Голос", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Голосуйте за проекты", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -143,8 +144,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Акции", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Скидки и кэшбэки", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Акции", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Скидки и кэшбэки", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -170,8 +171,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Портал Забота", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Социальные льготы и начисления", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Портал Забота", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Социальные льготы и начисления", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -199,8 +200,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Татарстан. Места", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Путешествуйте в родных краях", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Татарстан. Места", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Путешествуйте в родных краях", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -223,8 +224,8 @@ fun ServicesRoute(
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Читательский билет", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-                        Text(text = "Сохраняйте в электронном виде", fontSize = 10.sp, color = Color.White)
+                        Text(text = "Читательский билет", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Сохраняйте в электронном виде", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }

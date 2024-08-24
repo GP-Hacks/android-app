@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +39,7 @@ fun ChatBotTopBar(
 
     TopAppBar(
         title = {
-            Text(text = title, color = Color.Black, fontWeight = FontWeight.Medium, fontSize = 20.sp)
+            Text(text = title, color = Color.Black, fontWeight = FontWeight.Medium, fontSize = 20.sp, fontFamily = evolentaFamily)
         },
         actions = {
             Box(

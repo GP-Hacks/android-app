@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.chat_bot.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -62,7 +63,7 @@ fun MessageTextField(
             value = text,
             onValueChange = { onChangeMessage(it) },
             placeholder = {
-                Text(text = placeholder, color = Color(0xFFA1A1A1), fontSize = 12.sp, fontWeight = FontWeight.Normal)
+                Text(text = placeholder, color = Color(0xFFA1A1A1), fontSize = 12.sp, fontWeight = FontWeight.Normal, fontFamily = evolentaFamily)
             },
             trailingIcon = {
                 IconButton(

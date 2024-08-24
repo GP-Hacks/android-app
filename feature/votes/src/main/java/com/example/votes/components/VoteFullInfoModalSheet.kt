@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.common.model.ResultModel
 import com.example.domain.model.FullInfoVoteModel
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.example.votes.R
 
@@ -161,22 +162,22 @@ fun VoteFullInfoModalSheetInfo(
             text = fullInfoVote.data!!.name,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
+            fontSize = 16.sp, fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = "До ${fullInfoVote.data!!.end}",
             color = Color.Black,
-            fontSize = 10.sp
+            fontSize = 10.sp, fontFamily = evolentaFamily
         )
         Text(
             text = fullInfoVote.data!!.organization,
             color = Color.Black,
-            fontSize = 10.sp
+            fontSize = 10.sp, fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = fullInfoVote.data!!.description
+            text = fullInfoVote.data!!.description, fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(8.dp))
         fullInfoVote.data!!.stats.forEach {
@@ -184,12 +185,12 @@ fun VoteFullInfoModalSheetInfo(
                 Text(
                     text = "${it.key}: ",
                     color = Color.Black,
-                    fontSize = 10.sp
+                    fontSize = 10.sp, fontFamily = evolentaFamily
                 )
                 Text(
                     text = it.value.toString(),
                     color = mColors.primary,
-                    fontSize = 10.sp
+                    fontSize = 10.sp, fontFamily = evolentaFamily
                 )
             }
         }
@@ -209,7 +210,7 @@ fun VoteFullInfoModalSheetInfo(
                 enabled = enabled,
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(32.dp))
         }
@@ -295,7 +296,7 @@ fun VoteFullInfoModalSheetRate(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -308,7 +309,7 @@ fun VoteFullInfoModalSheetRate(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     }
@@ -336,7 +337,7 @@ fun VoteFullInfoModalSheetPetition(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "За",
-                color = Color.Black
+                color = Color.Black, fontFamily = evolentaFamily
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -352,7 +353,7 @@ fun VoteFullInfoModalSheetPetition(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "Против",
-                color = Color.Black
+                color = Color.Black, fontFamily = evolentaFamily
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -368,7 +369,7 @@ fun VoteFullInfoModalSheetPetition(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -381,7 +382,7 @@ fun VoteFullInfoModalSheetPetition(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     }
@@ -412,7 +413,7 @@ fun VoteFullInfoModalSheetChoice(
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = s,
-                        color = Color.Black
+                        color = Color.Black, fontFamily = evolentaFamily
                     )
                 }
                 if (index != listAnswers.size - 1) {
@@ -432,7 +433,7 @@ fun VoteFullInfoModalSheetChoice(
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
@@ -445,7 +446,7 @@ fun VoteFullInfoModalSheetChoice(
                     ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                 }
             }
         }

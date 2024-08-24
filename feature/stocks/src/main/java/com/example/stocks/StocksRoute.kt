@@ -44,6 +44,7 @@ import com.example.common.model.ResultModel
 import com.example.domain.model.PartnersModel
 import com.example.stocks.components.FullInfoPartnerDialog
 import com.example.stocks.components.PartnerCard
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -95,7 +96,7 @@ fun StocksRoute(
                 }
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
-                    Text(text = "Акции", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(text = "Акции", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
@@ -148,7 +149,7 @@ fun StocksRoute(
 //                                viewModel.loadPlaces()
                             }
                             .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                        color = Color.White
+                        color = Color.White, fontFamily = evolentaFamily
                     )
                 }
 
@@ -169,7 +170,7 @@ fun StocksRoute(
             //                                    viewModel.loadPlaces()
                                 }
                                 .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                            color = Color.White
+                            color = Color.White, fontFamily = evolentaFamily
                         )
                     }
                 }

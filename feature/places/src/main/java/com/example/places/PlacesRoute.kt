@@ -1,5 +1,6 @@
 package com.example.places
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.Log
@@ -56,6 +57,7 @@ import com.example.domain.model.PlaceModel
 import com.example.places.components.FullInfoPlaceDialog
 import com.example.places.components.PlaceCard
 import com.example.places.components.AnimatedTab
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -131,7 +133,7 @@ fun PlacesRoute(
                 }
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
-                    Text(text = "Татарстан. Места", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(text = "Татарстан. Места", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
@@ -195,7 +197,7 @@ fun PlacesRoute(
                                 viewModel.loadPlaces()
                             }
                             .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                        color = Color.White
+                        color = Color.White, fontFamily = evolentaFamily
                     )
                 }
 
@@ -216,7 +218,7 @@ fun PlacesRoute(
                                     viewModel.loadPlaces()
                                 }
                                 .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                            color = Color.White
+                            color = Color.White, fontFamily = evolentaFamily
                         )
                     }
                 }
@@ -345,94 +347,80 @@ fun PlacesMap(
     onBuyTicket: (Int, Long, Long) -> Unit,
     isAuth: Boolean
 ) {
-
     var isOpenDialog by remember { mutableStateOf(false) }
     var currentItem by remember { mutableStateOf(0) }
 
     if (isOpenDialog) {
         FullInfoPlaceDialog(
             place = listPlaces.data!![currentItem],
-            onDismissRequest = {
-                isOpenDialog = false
-            },
-            onBuyTicket = { d, t ->
-                onBuyTicket(listPlaces.data!![currentItem].id, d, t)
-            },
+            onDismissRequest = { isOpenDialog = false },
+            onBuyTicket = { d, t -> onBuyTicket(listPlaces.data!![currentItem].id, d, t) },
             isAuth = isAuth
         )
     }
 
-    var mapView by remember {
-        mutableStateOf<MapView?>(null)
-    }
-    var listeners = mutableListOf<MapObjectTapListener>()
-    if (listPlaces.data != null) {
-        listeners = buildList<MapObjectTapListener> {
-            for (i in 0..listPlaces.data!!.size) {
-                add(
-                    object : MapObjectTapListener {
-                        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
-                            return true
-                        }
-                    }
-                )
-            }
-        }.toMutableList()
-    }
+    var mapView by remember { mutableStateOf<MapView?>(null) }
     val context = LocalContext.current
 
+    // Pre-create the bitmap for the placemark
+    val bitmap by remember {
+        mutableStateOf(createBitmapForMarker(context))
+    }
+
+    // Manage listeners state and update it when listPlaces.data changes
+    val listeners = remember(listPlaces.data) {
+        listPlaces.data?.mapIndexed { index, place ->
+            object : MapObjectTapListener {
+                override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
+                    Log.i("MAP", "tap on ${place.id}")
+                    currentItem = index
+                    isOpenDialog = true
+                    return true
+                }
+            }
+        } ?: emptyList()
+    }
+
+    // Function to setup the map
+    fun setupMap(mapView: MapView) {
+        mapView.mapWindow.map.move(
+            CameraPosition(
+                Point(55.79718, 49.106453),
+                9.0f,
+                150.0f,
+                30.0f
+            )
+        )
+    }
+
+    // Function to update placemarks
+    fun updateMap(mapView: MapView) {
+        val mapObjects = mapView.mapWindow.map.mapObjects
+        mapObjects.clear()
+
+        listPlaces.data?.forEachIndexed { index, place ->
+            val imageProvider = ImageProvider.fromBitmap(bitmap)
+            mapObjects.addPlacemark {
+                it.geometry = Point(place.latitude, place.longitude)
+                it.setIcon(imageProvider)
+                it.addTapListener(listeners[index])
+            }
+        }
+    }
+
     AndroidView(
-        factory = { t ->
-            MapKitFactory.initialize(t)
-            MapView(t).apply {
-                mapWindow.map.move(
-                    CameraPosition(
-                        Point(55.79718, 49.106453),
-                        9.0f,
-                        150.0f,
-                        30.0f
-                    )
-                )
+        factory = { context ->
+            MapKitFactory.initialize(context)
+            MapView(context).apply {
+                setupMap(this)
                 onStart()
                 MapKitFactory.getInstance().onStart()
             }
         },
         modifier = Modifier.fillMaxSize(),
-        update = { it ->
+        update = {
             mapView = it
-            val mapObjects = it.mapWindow.map.mapObjects
-            mapObjects.clear()
-
-            if (listPlaces.data != null && listPlaces.status == ResultModel.Status.SUCCESS) {
-                listPlaces.data!!.forEachIndexed { index, place ->
-                    listeners[index] = object : MapObjectTapListener {
-                        override fun onMapObjectTap(p0: MapObject, p1: Point): Boolean {
-                            Log.i("MAP", "tap")
-                            currentItem = place.id
-                            isOpenDialog = true
-                            return true
-                        }
-                    }
-
-                    val vectorDrawable = ContextCompat.getDrawable(context, R.drawable.location_point_icon)
-                    val bitmap = Bitmap.createBitmap(
-                        (vectorDrawable!!.intrinsicWidth * 1.5).roundToInt(),
-                        (vectorDrawable.intrinsicHeight * 1.5).roundToInt(),
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(bitmap)
-                    vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-                    vectorDrawable.draw(canvas)
-
-                    val imageProvider = ImageProvider.fromBitmap(bitmap)
-
-                    val placemark = mapObjects.addPlacemark {
-                        it.setIcon(imageProvider)
-                        it.geometry = Point(place.latitude, place.longitude)
-                        it.addTapListener(listeners[index])
-                    }
-                }
-            }
+            updateMap(it)
         }
     )
 
@@ -443,4 +431,17 @@ fun PlacesMap(
             mapView = null
         }
     }
+}
+
+fun createBitmapForMarker(context: Context): Bitmap {
+    val vectorDrawable = ContextCompat.getDrawable(context, R.drawable.location_point_icon)
+    val bitmap = Bitmap.createBitmap(
+        (vectorDrawable!!.intrinsicWidth * 1.5).roundToInt(),
+        (vectorDrawable.intrinsicHeight * 1.5).roundToInt(),
+        Bitmap.Config.ARGB_8888
+    )
+    val canvas = Canvas(bitmap)
+    vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+    vectorDrawable.draw(canvas)
+    return bitmap
 }

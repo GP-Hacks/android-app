@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.news.components.NewsCard
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -42,7 +43,7 @@ fun NewsRoute(
         }
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Новости", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Medium, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            Text(text = "Новости", fontFamily = evolentaFamily, fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Medium, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
         }
         items(listNews.itemCount) {
             Spacer(modifier = Modifier.height(8.dp))

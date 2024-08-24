@@ -50,6 +50,7 @@ import com.example.services.navigation.servicesScreen
 import com.example.stocks.navigation.navigateToStocks
 import com.example.stocks.navigation.stocksScreen
 import com.example.tatarstanresidentcard.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.example.votes.navigation.navigateToVotes
 import com.example.votes.navigation.votesScreen
@@ -71,7 +72,9 @@ fun TatarstanResidentCardNavHost(
         "com.example.stocks.navigation.Stocks" -> true
         "com.example.news.navigation.News" -> true
         "com.example.places.navigation.Places" -> true
-        "com.example.places.navigation.Charity" -> true
+        "com.example.charity.navigation.Charity" -> true
+        "com.example.votes.navigation.Votes" -> true
+        "com.example.portal_care.navigation.PortalCare" -> true
         else -> false
     }
     Log.i("ROUTE CURR", currentRouteReal.toString())
@@ -149,7 +152,7 @@ fun BottomNavigationBar(
                 }
             },
             label = {
-                Text(text = "Главная")
+                Text(text = "Главная", fontFamily = evolentaFamily)
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,
@@ -167,7 +170,7 @@ fun BottomNavigationBar(
 //                navController.navigateToStocks()
             },
             label = {
-                Text(text = "Платежи")
+                Text(text = "Платежи", fontFamily = evolentaFamily)
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,
@@ -199,7 +202,7 @@ fun BottomNavigationBar(
                 }
             },
             label = {
-                Text(text = "Сервисы")
+                Text(text = "Сервисы", fontFamily = evolentaFamily)
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,
@@ -219,7 +222,7 @@ fun BottomNavigationBar(
                 }
             },
             label = {
-                Text(text = "Новости")
+                Text(text = "Новости", fontFamily = evolentaFamily)
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = mColors.primary,

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.charity.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -65,13 +66,13 @@ fun CharityCard(
                 overflow = TextOverflow.Ellipsis,
                 color = Color.Black,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = category,
                 fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold, fontFamily = evolentaFamily,
                 color = Color.White,
                 modifier = Modifier
                     .background(
@@ -84,7 +85,7 @@ fun CharityCard(
             Text(
                 text = "Подробнее",
                 fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold, fontFamily = evolentaFamily,
                 color = mColors.primary,
                 modifier = Modifier
                     .clickable {

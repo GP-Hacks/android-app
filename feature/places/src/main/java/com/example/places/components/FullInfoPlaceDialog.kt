@@ -59,6 +59,7 @@ import coil.compose.AsyncImage
 import com.example.domain.model.PlaceModel
 import com.example.places.R
 import com.example.places.utils.convertMillisToDate
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -189,7 +190,7 @@ fun InfoPage(
                         text = place.name,
                         color = Color.Black,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
@@ -204,7 +205,7 @@ fun InfoPage(
                             text = place.location,
                             color = Color(0xFF616161),
                             fontSize = 10.sp,
-                            textAlign = TextAlign.End
+                            textAlign = TextAlign.End, fontFamily = evolentaFamily
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Box(
@@ -216,7 +217,7 @@ fun InfoPage(
                                 text = "${place.cost} ₽",
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF00B545)
+                                color = Color(0xFF00B545), fontFamily = evolentaFamily
                             )
                         }
                     }
@@ -232,7 +233,7 @@ fun InfoPage(
                                 Color(0xFF1E1E1E),
                                 RoundedCornerShape(7.dp)
                             )
-                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp), fontFamily = evolentaFamily
                     )
                     if (place.website != "") {
                         Spacer(modifier = Modifier.height(4.dp))
@@ -247,7 +248,7 @@ fun InfoPage(
                                 fontSize = 11.sp,
                                 color = Color.Black,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily
                             )
                         }
                     }
@@ -264,13 +265,13 @@ fun InfoPage(
                                 fontSize = 11.sp,
                                 color = Color.Black,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily
                             )
                         }
                     }
                     if (place.description != "") {
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = place.description, fontSize = 11.sp, color = Color.Black)
+                        Text(text = place.description, fontSize = 11.sp, color = Color.Black, fontFamily = evolentaFamily)
                     }
                 }
             }
@@ -283,7 +284,7 @@ fun InfoPage(
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center, fontFamily = evolentaFamily
             )
             Spacer(modifier = Modifier.height(4.dp))
         }
@@ -303,7 +304,7 @@ fun InfoPage(
                 enabled = isAuth,
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Купить билет", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Купить билет", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(32.dp))
         }
@@ -342,7 +343,7 @@ fun DatePickerForBuyPage(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -357,7 +358,7 @@ fun DatePickerForBuyPage(
                 shape = RoundedCornerShape(10.dp),
                 enabled = (selectedDate != "") && ((datePickerState.selectedDateMillis ?: 0) >= System.currentTimeMillis())
             ) {
-                Text(text = "Продолжить", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Продолжить", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     }
@@ -380,7 +381,7 @@ fun TimePickerForBuy(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text(text = "Выберите время", color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(text = "Выберите время", color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
         Spacer(modifier = Modifier.height(8.dp))
         times.forEachIndexed { index, s ->
             Row(
@@ -391,7 +392,7 @@ fun TimePickerForBuy(
                     onClick = { selectedTime = index }
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = s, color = Color.Black, fontSize = 12.sp)
+                Text(text = s, color = Color.Black, fontSize = 12.sp, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -407,7 +408,7 @@ fun TimePickerForBuy(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -421,7 +422,7 @@ fun TimePickerForBuy(
                 shape = RoundedCornerShape(10.dp),
                 enabled = isTimeAfterCurrent(times[selectedTime], currentDate)
             ) {
-                Text(text = "Купить", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Купить", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
 

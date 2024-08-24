@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.news.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -88,10 +89,10 @@ fun NewsCard(
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = title, color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+        Text(text = title, color = Color.Black, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, fontFamily = evolentaFamily)
         Spacer(modifier = Modifier.height(4.dp))
         if (!isOpen) {
-            Text(text = text, maxLines = 2, overflow = TextOverflow.Ellipsis, color = Color.Black, fontSize = 14.sp)
+            Text(text = text, maxLines = 2, overflow = TextOverflow.Ellipsis, color = Color.Black, fontSize = 14.sp, fontFamily = evolentaFamily)
             Row {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -101,11 +102,11 @@ fun NewsCard(
                             isOpen = true
                         },
                     color = mColors.primary,
-                    fontSize = 10.sp
+                    fontSize = 10.sp, fontFamily = evolentaFamily
                 )
             }
         } else {
-            Text(text = text, color = Color.Black, fontSize = 14.sp)
+            Text(text = text, color = Color.Black, fontSize = 14.sp, fontFamily = evolentaFamily)
             Row {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -115,7 +116,7 @@ fun NewsCard(
                             isOpen = false
                         },
                     color = mColors.primary,
-                    fontSize = 10.sp
+                    fontSize = 10.sp, fontFamily = evolentaFamily
                 )
             }
         }

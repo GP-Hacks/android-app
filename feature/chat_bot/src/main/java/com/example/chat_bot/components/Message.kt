@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -53,7 +54,7 @@ fun UserMessage(
             )
             .padding(12.dp)
     ) {
-        Text(text = text, color = Color.White, fontWeight = FontWeight.Normal, fontSize = 12.sp)
+        Text(text = text, color = Color.White, fontWeight = FontWeight.Normal, fontSize = 12.sp, fontFamily = evolentaFamily)
     }
 }
 
@@ -70,7 +71,7 @@ fun BotMessage(
             )
             .padding(12.dp)
     ) {
-        Text(text = text, color = if (!isError) Color.Black else Color.Red, fontWeight = FontWeight.Normal, fontSize = 12.sp)
+        Text(text = text, color = if (!isError) Color.Black else Color.Red, fontWeight = FontWeight.Normal, fontSize = 12.sp, fontFamily = evolentaFamily)
     }
 }
 

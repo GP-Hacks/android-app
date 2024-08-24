@@ -40,6 +40,7 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.example.domain.model.PartnersModel
 import com.example.stocks.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -72,7 +73,7 @@ fun FullInfoPartnerDialog(
                         text = if (partner.cashBack != null) "Кэшбэк ${partner.cashBack}%" else if (partner.percentSale != null) "Скидка ${partner.percentSale}%" else "null",
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 13.sp
+                        fontSize = 13.sp, fontFamily = evolentaFamily
                     )
                 }
             }
@@ -138,7 +139,7 @@ fun FullInfoPartnerDialog(
                                 text = partner.title,
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color.Black
+                                color = Color.Black, fontFamily = evolentaFamily
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             if (partner.dateEnd != null) {
@@ -156,13 +157,13 @@ fun FullInfoPartnerDialog(
                                     Text(
                                         text = "Акция действует до ",
                                         color = Color.White,
-                                        fontSize = 11.sp
+                                        fontSize = 11.sp, fontFamily = evolentaFamily
                                     )
                                     Text(
                                         text = partner.dateEnd!!,
                                         color = Color.White,
                                         fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
                                     )
                                 }
                             }
@@ -184,18 +185,18 @@ fun FullInfoPartnerDialog(
 
                             if (partner.site != "" && partner.phone != "") {
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = "Подробнее по ссылке", fontSize = 13.sp, color = Color.Black)
-                                Text(text = partner.site, color = mColors.primary, fontSize = 13.sp)
-                                Text(text = "или по телефону", fontSize = 13.sp, color = Color.Black)
-                                Text(text = partner.phone, color = mColors.primary, fontSize = 13.sp)
+                                Text(text = "Подробнее по ссылке", fontSize = 13.sp, color = Color.Black, fontFamily = evolentaFamily)
+                                Text(text = partner.site, color = mColors.primary, fontSize = 13.sp, fontFamily = evolentaFamily)
+                                Text(text = "или по телефону", fontSize = 13.sp, color = Color.Black, fontFamily = evolentaFamily)
+                                Text(text = partner.phone, color = mColors.primary, fontSize = 13.sp, fontFamily = evolentaFamily)
                             } else if (partner.site != "") {
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = "Подробнее по ссылке", fontSize = 13.sp, color = Color.Black)
-                                Text(text = partner.site, color = mColors.primary, fontSize = 13.sp)
+                                Text(text = "Подробнее по ссылке", fontSize = 13.sp, color = Color.Black, fontFamily = evolentaFamily)
+                                Text(text = partner.site, color = mColors.primary, fontSize = 13.sp, fontFamily = evolentaFamily)
                             } else if (partner.phone != "") {
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = "Подробнее по телефону", fontSize = 13.sp, color = Color.Black)
-                                Text(text = partner.phone, color = mColors.primary, fontSize = 13.sp)
+                                Text(text = "Подробнее по телефону", fontSize = 13.sp, color = Color.Black, fontFamily = evolentaFamily)
+                                Text(text = partner.phone, color = mColors.primary, fontSize = 13.sp, fontFamily = evolentaFamily)
                             }
                         }
                     }

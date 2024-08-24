@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.stocks.R
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -104,7 +105,7 @@ fun PartnerCard(
                         .background(Color(0xFF00B545), RoundedCornerShape(5.dp))
                         .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
                 )
             }
         }
@@ -116,7 +117,7 @@ fun PartnerCard(
             fontWeight = FontWeight.Bold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = Color.Black
+            color = Color.Black, fontFamily = evolentaFamily
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -130,7 +131,7 @@ fun PartnerCard(
                     Color(0xFF1E1E1E),
                     RoundedCornerShape(7.dp)
                 )
-                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp), fontFamily = evolentaFamily
         )
 
         if (date != null) {
@@ -138,7 +139,7 @@ fun PartnerCard(
             Text(
                 text = "до $date",
                 color = Color(0xFF656565),
-                fontSize = 12.sp
+                fontSize = 12.sp, fontFamily = evolentaFamily
             )
         }
     }

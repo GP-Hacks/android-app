@@ -46,6 +46,7 @@ import com.example.charity.components.CharityCard
 import com.example.charity.components.FullInfoCharityDialog
 import com.example.common.model.ResultModel
 import com.example.domain.model.CharityModel
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -97,7 +98,7 @@ fun CharityRoute(
                 }
                 Column {
                     Spacer(Modifier.height(paddingAnimation))
-                    Text(text = "Благотворительность", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    Text(text = "Благотворительность", fontSize = 20.sp, color = Color.White, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
@@ -149,7 +150,7 @@ fun CharityRoute(
                                 viewModel.changeCategory("all")
                             }
                             .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                        color = Color.White
+                        color = Color.White, fontFamily = evolentaFamily
                     )
                 }
 
@@ -169,7 +170,7 @@ fun CharityRoute(
                                     viewModel.changeCategory(it)
                                 }
                                 .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                            color = Color.White
+                            color = Color.White, fontFamily = evolentaFamily
                         )
                     }
                 }

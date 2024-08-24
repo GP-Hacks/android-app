@@ -46,6 +46,7 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.example.charity.R
 import com.example.domain.model.CharityModel
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 
 @Composable
@@ -142,13 +143,13 @@ fun InfoPage(
                         text = charity.name,
                         color = Color.Black,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = charity.category,
                         fontSize = 8.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Bold, fontFamily = evolentaFamily,
                         color = Color.White,
                         modifier = Modifier
                             .background(
@@ -165,7 +166,7 @@ fun InfoPage(
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(), fontFamily = evolentaFamily
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     LinearProgressIndicator(
@@ -187,7 +188,7 @@ fun InfoPage(
                         Row {
                             Icon(painter = painterResource(id = R.drawable.site_icon), contentDescription = null)
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text(text = charity.website, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(text = charity.website, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily)
                         }
                     }
                     if (charity.phone != "") {
@@ -195,11 +196,11 @@ fun InfoPage(
                         Row {
                             Icon(painter = painterResource(id = R.drawable.phone_icon), contentDescription = null)
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text(text = charity.phone, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Text(text = charity.phone, fontSize = 13.sp, color = mColors.primary, maxLines = 1, overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily)
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = charity.description, fontSize = 11.sp, color = Color.Black)
+                    Text(text = charity.description, fontSize = 11.sp, color = Color.Black, fontFamily = evolentaFamily)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -210,7 +211,7 @@ fun InfoPage(
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center, fontFamily = evolentaFamily
                 )
                 Spacer(modifier = Modifier.height(4.dp))
             }
@@ -228,7 +229,7 @@ fun InfoPage(
                     shape = RoundedCornerShape(10.dp),
                     enabled = isAuth
                 ) {
-                    Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
                 }
                 Spacer(modifier = Modifier.width(32.dp))
             }
@@ -252,7 +253,7 @@ fun SelectSumForDonate(
         Text(
             text = "Введите сумму, которую хотите пожертвовать",
             color = Color.Black,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
@@ -265,7 +266,7 @@ fun SelectSumForDonate(
                 Text(
                     text = "₽",
                     color = Color.Black,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold, fontFamily = evolentaFamily
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
@@ -291,7 +292,7 @@ fun SelectSumForDonate(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Button(
@@ -304,7 +305,7 @@ fun SelectSumForDonate(
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Пожертвовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     }

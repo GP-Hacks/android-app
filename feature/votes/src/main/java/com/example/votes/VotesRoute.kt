@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.common.model.ResultModel
+import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.example.votes.components.VoteFullInfoModalSheet
 import com.example.votes.components.VotesCard
@@ -94,7 +95,7 @@ fun VotesRoute(
             color = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp), fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -104,7 +105,7 @@ fun VotesRoute(
             fontSize = 13.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp), fontFamily = evolentaFamily
         )
         Spacer(modifier = Modifier.height(16.dp))
 

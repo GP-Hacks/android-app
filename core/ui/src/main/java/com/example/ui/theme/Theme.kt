@@ -8,6 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import com.example.ui.R
 
 interface ColorScheme {
     val surface: Color
@@ -49,6 +53,12 @@ val darkColorScheme = darkColorScheme(
     surfaceContainerLow = White
 )
 
+val evolentaFamily get() = FontFamily(
+    Font(R.font.evolventa_regular, FontWeight.Normal),
+    Font(R.font.evolventa_bold, FontWeight.Bold),
+    Font(R.font.evolventa_bold, FontWeight.SemiBold),
+    Font(R.font.evolventa_bold, FontWeight.Medium)
+)
 
 @Composable
 fun TatarstanResidentCardTheme(
