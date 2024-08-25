@@ -69,7 +69,10 @@ fun AuthRoute(
             shape = RoundedCornerShape(20.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
-            )
+            ),
+            placeholder = {
+                Text(text = "Введите любую электронную почту", color = Color(0xFFA1A1A1), fontSize = 12.sp, fontWeight = FontWeight.Normal, fontFamily = evolentaFamily)
+            }
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
