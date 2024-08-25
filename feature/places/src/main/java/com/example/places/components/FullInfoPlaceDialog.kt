@@ -1,5 +1,6 @@
 package com.example.places.components
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -64,6 +65,7 @@ import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -380,6 +382,31 @@ fun getCurrentTime(): Long {
     return calendar.timeInMillis
 }
 
+@SuppressLint("SimpleDateFormat")
+fun isTimeGreaterThanCurrent(timeStr: String, currentMillis: Long): Boolean {
+    // Форматтер для времени
+    val timeFormatter = SimpleDateFormat("HH:mm")
+
+    // Парсим строку времени в Date
+    val parsedTime: Date = timeFormatter.parse(timeStr)!!
+
+    // Создаем объект Calendar и устанавливаем его время в parsedTime
+    val calendar = Calendar.getInstance()
+    calendar.time = parsedTime
+
+    // Из currentMillis получаем текущую дату в миллисекундах
+    val currentCalendar = Calendar.getInstance()
+    currentCalendar.timeInMillis = currentMillis
+
+    // Устанавливаем текущую дату в calendar
+    calendar.set(Calendar.YEAR, currentCalendar.get(Calendar.YEAR))
+    calendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH))
+    calendar.set(Calendar.DAY_OF_MONTH, currentCalendar.get(Calendar.DAY_OF_MONTH))
+
+    // Сравниваем даты
+    return calendar.time.after(currentCalendar.time)
+}
+
 @Composable
 fun TimePickerForBuy(
     times: List<String>,
@@ -436,7 +463,7 @@ fun TimePickerForBuy(
                     contentColor = Color.White
                 ),
                 shape = RoundedCornerShape(10.dp),
-                enabled = isTimeAfterCurrent(times[selectedTime], currentDate)
+                enabled = isTimeGreaterThanCurrent(times[selectedTime], currentDate)
             ) {
                 Text(text = "Купить", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }

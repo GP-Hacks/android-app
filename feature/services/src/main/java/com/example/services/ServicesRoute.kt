@@ -65,11 +65,12 @@ fun ServicesRoute(
                         .padding(16.dp),
                     contentAlignment = Alignment.BottomEnd
                 ) {
-                    Image(painter = painterResource(id = R.drawable.school_electron_diary_icon), contentDescription = null)
+                    Image(painter = painterResource(id = R.drawable.section_icon), contentDescription = null)
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(text = "Школьный электронный дневник", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Секции", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color.White, fontFamily = evolentaFamily)
+                        Text(text = "Вкладывайтесь в добро", fontSize = 10.sp, color = Color.White, fontFamily = evolentaFamily)
                     }
                 }
             }
