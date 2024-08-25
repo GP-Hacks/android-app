@@ -40,6 +40,9 @@ import com.example.home.navigation.navigateToHome
 import com.example.news.navigation.News
 import com.example.news.navigation.navigateToNews
 import com.example.news.navigation.newsScreen
+import com.example.payments.navigation.Payments
+import com.example.payments.navigation.navigateToPayments
+import com.example.payments.navigation.paymentsScreen
 import com.example.places.navigation.navigateToPlaces
 import com.example.places.navigation.placesScreen
 import com.example.portal_care.navigation.navigateToPortalCare
@@ -75,6 +78,7 @@ fun TatarstanResidentCardNavHost(
         "com.example.charity.navigation.Charity" -> true
         "com.example.votes.navigation.Votes" -> true
         "com.example.portal_care.navigation.PortalCare" -> true
+        "com.example.payments.navigation.Payments" -> true
         else -> false
     }
     Log.i("ROUTE CURR", currentRouteReal.toString())
@@ -129,6 +133,7 @@ fun TatarstanResidentCardNavHost(
                 }
             }
             votesScreen()
+            paymentsScreen()
         }
     }
 
@@ -164,10 +169,12 @@ fun BottomNavigationBar(
             icon = { Icon(painter = painterResource(id = R.drawable.house_icon), contentDescription = null) }
         )
         NavigationBarItem(
-            selected = false,
+            selected = currentRoute is Payments,
             onClick = {
-//                changeRoute(Stocks)
-//                navController.navigateToStocks()
+                changeRoute(Payments)
+                navController.navigateToPayments {
+                    popUpTo(0)
+                }
             },
             label = {
                 Text(text = "Платежи", fontFamily = evolentaFamily)

@@ -1,5 +1,6 @@
 package com.example.votes.components
 
+import android.graphics.Typeface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,6 +24,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +45,33 @@ import com.example.domain.model.FullInfoVoteModel
 import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.example.votes.R
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottomAxis
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStartAxis
+import com.patrykandpatrick.vico.compose.cartesian.fullWidth
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.compose.cartesian.rememberVicoScrollState
+import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
+import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberTextComponent
+import com.patrykandpatrick.vico.compose.common.of
+import com.patrykandpatrick.vico.core.cartesian.HorizontalLayout
+import com.patrykandpatrick.vico.core.cartesian.Zoom
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
+import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
+import com.patrykandpatrick.vico.core.common.Dimensions
+import com.patrykandpatrick.vico.core.common.data.ExtraStore
+import com.patrykandpatrick.vico.core.common.shader.DynamicShader
+import com.patrykandpatrick.vico.core.common.shape.Shape
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +103,10 @@ fun VoteFullInfoModalSheet(
                             "petition" -> currentPage = 3
                         }
                     },
-                    enabled = enabled
+                    enabled = enabled,
+                    onChart = {
+                        currentPage = 4
+                    }
                 )
                 1 -> VoteFullInfoModalSheetRate(
                     onVote = {
@@ -106,6 +136,28 @@ fun VoteFullInfoModalSheet(
                         currentPage = 0
                     }
                 )
+                4 -> {
+                    if (fullInfoVote.data!!.category == "rate") {
+                        VoteFullInfoModalSheetMid(mid = fullInfoVote.data!!.mid!!) {
+                            currentPage = 0
+                        }
+                    } else {
+                        VoteFullInfoModalSheetChart(
+                            if (fullInfoVote.data!!.category == "petition") {
+                                buildMap {
+                                    fullInfoVote.data!!.stats.forEach {
+                                        this[if (it.key == "true") "Да" else "Нет"] = it.value
+                                    }
+                                }
+                            } else {
+                                fullInfoVote.data!!.stats
+                            },
+                            onBack = {
+                                currentPage = 0
+                            }
+                        )
+                    }
+                }
             }
         }
 
@@ -116,6 +168,7 @@ fun VoteFullInfoModalSheet(
 fun VoteFullInfoModalSheetInfo(
     fullInfoVote: ResultModel<FullInfoVoteModel>,
     onNext: () -> Unit,
+    onChart: () -> Unit,
     enabled: Boolean
 ) {
 
@@ -170,6 +223,23 @@ fun VoteFullInfoModalSheetInfo(
             color = Color.Black,
             fontSize = 10.sp, fontFamily = evolentaFamily
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = when (fullInfoVote.data!!.category) {
+                "rate" -> "Рейтинг"
+                "choice" -> "Опрос"
+                "petition" -> "Петиция"
+                else -> "null"
+            },
+            color = Color.White,
+            modifier = Modifier
+                .background(Color.Black, RoundedCornerShape(4.dp))
+                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
+            fontFamily = evolentaFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 10.sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = fullInfoVote.data!!.organization,
             color = Color.Black,
@@ -177,47 +247,186 @@ fun VoteFullInfoModalSheetInfo(
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = fullInfoVote.data!!.description, fontFamily = evolentaFamily
+            text = fullInfoVote.data!!.description, fontFamily = evolentaFamily, fontSize = 10.sp
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        fullInfoVote.data!!.stats.forEach {
+        Spacer(modifier = Modifier.height(16.dp))
+        if (fullInfoVote.data!!.rate != null) {
             Row {
                 Text(
-                    text = "${it.key}: ",
+                    text = "Вы уже голосовали за: ",
                     color = Color.Black,
-                    fontSize = 10.sp, fontFamily = evolentaFamily
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp
                 )
                 Text(
-                    text = it.value.toString(),
-                    color = mColors.primary,
-                    fontSize = 10.sp, fontFamily = evolentaFamily
+                    text = fullInfoVote.data!!.rate.toString(),
+                    color = Color.Black,
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        } else if (fullInfoVote.data!!.choice != null) {
+            Row {
+                Text(
+                    text = "Вы уже голосовали за: ",
+                    color = Color.Black,
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = fullInfoVote.data!!.choice.toString(),
+                    color = Color.Black,
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        } else if (fullInfoVote.data!!.support != null) {
+            Row {
+                Text(
+                    text = "Вы уже голосовали за: ",
+                    color = Color.Black,
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = when (fullInfoVote.data!!.support) {
+                        "true" -> "Да"
+                        "false" -> "Нет"
+                        else -> "null"
+                    },
+                    color = Color.Black,
+                    fontFamily = evolentaFamily,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Spacer(modifier = Modifier.width(32.dp))
             Button(
-                onClick = { onNext() },
+                onClick = { onChart() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black,
                     contentColor = Color.White
                 ),
-                enabled = enabled,
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(text = "Результаты", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = {
+                    onNext()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = mColors.primary,
+                    contentColor = Color.White
+                ),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
-            Spacer(modifier = Modifier.width(32.dp))
         }
     } else if (fullInfoVote.status == ResultModel.Status.LOADING) {
         CircularProgressIndicator(color = mColors.primary)
     }
 
+}
+
+@Composable
+fun VoteFullInfoModalSheetMid(
+    mid: Float,
+    onBack: () -> Unit
+) {
+    Text(
+        text = "Результаты",
+        fontFamily = evolentaFamily,
+        fontSize = 15.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Black
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Row {
+        Text(
+            text = "Средняя оценка: ",
+            color = Color.Black,
+            fontFamily = evolentaFamily,
+            fontSize = 12.sp
+        )
+        Text(
+            text = mid.toString(),
+            color = mColors.primary,
+            fontFamily = evolentaFamily,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(
+        onClick = {
+            onBack()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Black,
+            contentColor = Color.White
+        ),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
+    }
+}
+
+@Composable
+fun VoteFullInfoModalSheetChart(
+    data: Map<String, Int>,
+    onBack: () -> Unit
+) {
+    val fullSum = data.values.sum()
+
+    Text(
+        text = "Результаты",
+        fontFamily = evolentaFamily,
+        fontSize = 15.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.Black
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    data.forEach {
+        Row {
+            Text(
+                text = "${it.key}: ",
+                color = Color.Black,
+                fontFamily = evolentaFamily,
+                fontSize = 12.sp
+            )
+            Text(
+                text = "${it.value * 100 / fullSum}% (${it.value})",
+                color = mColors.primary,
+                fontFamily = evolentaFamily,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+    }
+    Spacer(modifier = Modifier.height(12.dp))
+    Button(
+        onClick = {
+            onBack()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Black,
+            contentColor = Color.White
+        ),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Text(text = "Назад", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
+    }
 }
 
 @Composable
@@ -240,7 +449,7 @@ fun VoteFullInfoModalSheetRate(
                     contentColor = if (selectRate >= 1) Color.Yellow else Color.Gray
                 )
             ) {
-                Icon(imageVector = Icons.Default.Star, contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.star_icon), contentDescription = null)
             }
             Spacer(modifier = Modifier.width(4.dp))
             IconButton(
@@ -250,7 +459,7 @@ fun VoteFullInfoModalSheetRate(
                     contentColor = if (selectRate >= 2) Color.Yellow else Color.Gray
                 )
             ) {
-                Icon(imageVector = Icons.Default.Star, contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.star_icon), contentDescription = null)
             }
             Spacer(modifier = Modifier.width(4.dp))
             IconButton(
@@ -260,7 +469,7 @@ fun VoteFullInfoModalSheetRate(
                     contentColor = if (selectRate >= 3) Color.Yellow else Color.Gray
                 )
             ) {
-                Icon(imageVector = Icons.Default.Star, contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.star_icon), contentDescription = null)
             }
             Spacer(modifier = Modifier.width(4.dp))
             IconButton(
@@ -270,7 +479,7 @@ fun VoteFullInfoModalSheetRate(
                     contentColor = if (selectRate >= 4) Color.Yellow else Color.Gray
                 )
             ) {
-                Icon(imageVector = Icons.Default.Star, contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.star_icon), contentDescription = null)
             }
             Spacer(modifier = Modifier.width(4.dp))
             IconButton(
@@ -280,7 +489,7 @@ fun VoteFullInfoModalSheetRate(
                     contentColor = if (selectRate >= 5) Color.Yellow else Color.Gray
                 )
             ) {
-                Icon(imageVector = Icons.Default.Star, contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.star_icon), contentDescription = null)
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -384,6 +593,7 @@ fun VoteFullInfoModalSheetPetition(
             ) {
                 Text(text = "Проголосовать", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

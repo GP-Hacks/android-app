@@ -55,7 +55,10 @@ fun CharityCard(
         shape = RoundedCornerShape(25.dp),
         colors = CardDefaults.cardColors(
             containerColor = mColors.surface
-        )
+        ),
+        modifier = Modifier.clickable {
+            openDialog()
+        }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -81,17 +84,17 @@ fun CharityCard(
                     )
                     .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Подробнее",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold, fontFamily = evolentaFamily,
-                color = mColors.primary,
-                modifier = Modifier
-                    .clickable {
-                        openDialog()
-                    }
-            )
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(
+//                text = "Подробнее",
+//                fontSize = 10.sp,
+//                fontWeight = FontWeight.Bold, fontFamily = evolentaFamily,
+//                color = mColors.primary,
+//                modifier = Modifier
+//                    .clickable {
+//                        openDialog()
+//                    }
+//            )
 
         }
         Box(

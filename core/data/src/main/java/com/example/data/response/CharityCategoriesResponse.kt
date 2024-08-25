@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharityCategoriesResponse(
-    val response: List<String>
+    val categories: List<String>
 )

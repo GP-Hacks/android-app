@@ -32,10 +32,10 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
-    override fun getVotes(): Flow<ResultModel<List<VoteModel>>> = flow {
+    override fun getVotes(category: String): Flow<ResultModel<List<VoteModel>>> = flow {
         emit(ResultModel.loading())
 
-        val result = apiRemoteSource.getVotes()
+        val result = apiRemoteSource.getVotes(category)
         if (result.status == ResultModel.Status.SUCCESS) {
             emit(ResultModel.success(result.data!!.response.map { it.toVoteModel() }))
         } else {
@@ -46,7 +46,7 @@ class ApiRepositoryImpl @Inject constructor(
     override fun getFullInfoVoteById(id: Int): Flow<ResultModel<FullInfoVoteModel>> = flow {
         emit(ResultModel.loading())
 
-        val result = apiRemoteSource.getFullInfoVoteById(id)
+        val result = apiRemoteSource.getFullInfoVoteById(id, authData = sharedPreferenceLocalSource.getEmail())
         if (result.status == ResultModel.Status.SUCCESS) {
             emit(ResultModel.success(result.data!!.response.toFullInfoVoteModel()))
         } else {
@@ -89,7 +89,7 @@ class ApiRepositoryImpl @Inject constructor(
         val result = apiRemoteSource.getCharityCategories()
 
         if (result.status == ResultModel.Status.SUCCESS) {
-            emit(ResultModel.success(result.data!!.response))
+            emit(ResultModel.success(result.data!!.categories))
         } else {
             emit(ResultModel.failure(result.message))
         }

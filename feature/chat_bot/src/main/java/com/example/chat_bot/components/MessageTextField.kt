@@ -57,7 +57,9 @@ fun MessageTextField(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     disabledContainerColor = mColors.background,
-                    disabledTrailingIconColor = Color.Gray
+                    disabledTrailingIconColor = Color.Gray,
+                    unfocusedTrailingIconColor = mColors.primary,
+                    focusedTrailingIconColor = mColors.primary
                 ),
             shape = RoundedCornerShape(30.dp),
             value = text,

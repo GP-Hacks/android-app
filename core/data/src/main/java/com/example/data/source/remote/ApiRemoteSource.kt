@@ -6,19 +6,15 @@ import com.example.data.CardApiRoutes
 import com.example.data.KdtApiRoutes
 import com.example.data.response.CharityCategoriesResponse
 import com.example.data.response.CharityListResponse
-import com.example.data.response.CharityResponse
 import com.example.data.response.ChatBotAnswerResponse
-import com.example.data.response.FullInfoVoteResponse
 import com.example.data.response.FullInfoVoteResponseGet
 import com.example.data.response.ListNewsResponse
-import com.example.data.response.NewsResponse
 import com.example.data.response.PartnersCategoryResponse
 import com.example.data.response.PartnersResponse
 import com.example.data.response.PlaceListResponse
-import com.example.data.response.PlaceResponse
 import com.example.data.response.PlacesCategoriesResponse
 import com.example.data.response.VoteListResponse
-import com.example.data.response.VoteResponse
+import com.example.data.response.VotesCategoriesListResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -50,9 +46,27 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun getVotes(): ResultModel<VoteListResponse> {
+    suspend fun getVotesCategories(): ResultModel<VotesCategoriesListResponse> {
         return try {
-            val request = httpClient.get(KdtApiRoutes.VOTES)
+            val request = httpClient.get(KdtApiRoutes.VOTES_CATEGORIES)
+
+            if (request.status.value in 200..299) {
+                val response: VotesCategoriesListResponse = request.body()
+
+                ResultModel.success(response)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            ResultModel.failure("Непредвиденная ошибка.")
+        }
+    }
+
+    suspend fun getVotes(category: String): ResultModel<VoteListResponse> {
+        return try {
+            val request = httpClient.get(KdtApiRoutes.VOTES) {
+                parameter("category", category)
+            }
 
             if (request.status.value in 200..299) {
                 val response: VoteListResponse = request.body()
@@ -68,20 +82,25 @@ class ApiRemoteSource {
         }
     }
 
-    suspend fun getFullInfoVoteById(id: Int): ResultModel<FullInfoVoteResponseGet> {
+    suspend fun getFullInfoVoteById(id: Int, authData: String?): ResultModel<FullInfoVoteResponseGet> {
         try {
             val jsonBody = """
                 {
                     "vote_id": $id
                 }
             """.trimIndent()
-            val request = httpClient.post(KdtApiRoutes.VOTES_GET) {
-                setBody(jsonBody)
+            val request = httpClient.get(KdtApiRoutes.VOTES_INFO) {
+//                setBody(jsonBody)
+                if (authData != null) {
+                    header(key = "Authorization", value = "Bearer $authData")
+                }
+                parameter("vote_id", id)
             }
 
             return if (request.status.value in 200..299) {
                 val response: FullInfoVoteResponseGet = request.body()
 
+                Log.i("API RS VOTE F", request.body())
                 ResultModel.success(response)
             } else {
                 Log.e("API RS VOTE", "code: ${request.status.value}; body: ${request.body<String>()}")
@@ -215,8 +234,9 @@ class ApiRemoteSource {
                 }
             """.trimIndent()
 
-            val request = httpClient.post(KdtApiRoutes.CHARITY_GET) {
-                setBody(jsonBody)
+            val request = httpClient.get(KdtApiRoutes.CHARITY) {
+//                setBody(jsonBody)
+                parameter("category", category)
             }
 
             return if (request.status.value in 200..299) {
@@ -340,13 +360,13 @@ class ApiRemoteSource {
             val jsonBody = """
                 {
                     "latitude": $latitude,
-                    "longitude": $longitude,
-                    "category": "$category"
+                    "longitude": $longitude
                 }
             """.trimIndent()
 
-            val request = httpClient.post(KdtApiRoutes.PLACES_GET) {
+            val request = httpClient.post(KdtApiRoutes.PLACES) {
                 setBody(jsonBody)
+                parameter("category", category)
             }
 
             return if (request.status.value in 200..299) {

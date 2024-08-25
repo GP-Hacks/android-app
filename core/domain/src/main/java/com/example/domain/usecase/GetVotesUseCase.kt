@@ -7,6 +7,6 @@ class GetVotesUseCase @Inject constructor(
     private val apiRepository: ApiRepository
 ) {
 
-    operator fun invoke() = apiRepository.getVotes()
+    operator fun invoke(category: String = "all") = apiRepository.getVotes(category)
 
 }

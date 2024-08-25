@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
 
-    fun getVotes(): Flow<ResultModel<List<VoteModel>>>
+    fun getVotes(category: String): Flow<ResultModel<List<VoteModel>>>
 
     fun getFullInfoVoteById(id: Int): Flow<ResultModel<FullInfoVoteModel>>
 

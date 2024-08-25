@@ -7,24 +7,23 @@ object KdtApiRoutes {
     private const val CHAT = "$BASE/chat"
     const val CHAT_ASK = "$CHAT/ask"
 
-    private const val PLACES = "$BASE/places"
-    const val PLACES_GET = "$PLACES/get"
+    const val PLACES = "$BASE/places"
     const val PLACES_BUY = "$PLACES/buy"
     const val PLACES_CATEGORIES = "$PLACES/categories"
 
     private const val USER = "$BASE/user"
     const val USER_TOKEN = "$USER/token"
 
-    private const val CHARITY = "$BASE/charity"
-    const val CHARITY_GET = "$CHARITY/get"
+    const val CHARITY = "$BASE/charity"
     const val CHARITY_CATEGORIES = "$CHARITY/categories"
     const val CHARITY_DONATE = "$CHARITY/donate"
 
     const val VOTES = "$BASE/votes"
-    const val VOTES_GET = "$VOTES/get"
+    const val VOTES_INFO = "$VOTES/info"
     const val VOTES_RATE = "$VOTES/rate"
     const val VOTES_PETITION = "$VOTES/petition"
     const val VOTES_CHOICE = "$VOTES/choice"
+    const val VOTES_CATEGORIES = "$VOTES/categories"
 
 }
 

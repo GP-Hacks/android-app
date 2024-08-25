@@ -60,7 +60,10 @@ fun PlaceCard(
         shape = RoundedCornerShape(25.dp),
         colors = CardDefaults.cardColors(
             containerColor = mColors.surface
-        )
+        ),
+        modifier = Modifier.clickable {
+            openDialog()
+        }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -115,18 +118,17 @@ fun PlaceCard(
                     Text(text = site, fontSize = 11.sp, color = Color.Black, maxLines = 1, overflow = TextOverflow.Ellipsis, fontFamily = evolentaFamily)
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Подробнее",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                color = mColors.primary,
-                modifier = Modifier
-                    .clickable {
-                        openDialog()
-                    }, fontFamily = evolentaFamily
-            )
-
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(
+//                text = "Подробнее",
+//                fontSize = 10.sp,
+//                fontWeight = FontWeight.Bold,
+//                color = mColors.primary,
+//                modifier = Modifier
+//                    .clickable {
+//                        openDialog()
+//                    }, fontFamily = evolentaFamily
+//            )
         }
         Box(
             contentAlignment = Alignment.Center

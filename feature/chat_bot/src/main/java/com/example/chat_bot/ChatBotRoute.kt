@@ -50,7 +50,7 @@ fun ChatBotRoute(
             .background(mColors.surface),
         topBar = {
             ChatBotTopBar(
-                title = "Дракон (ИИ Ассистент)",
+                title = "Барс (ИИ Ассистент)",
                 image = "",
                 onBackPressed = { onBack() }
             )

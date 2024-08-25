@@ -9,5 +9,9 @@ data class FullInfoVoteModel(
     val end: String,
     val photo: String,
     val options: List<String>?,
-    val stats: Map<String, Int>
+    val stats: Map<String, Int>,
+    val choice: String?,
+    val support: String?,
+    val rate: Int?,
+    val mid: Float?
 )

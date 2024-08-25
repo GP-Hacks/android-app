@@ -31,6 +31,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
@@ -318,7 +319,7 @@ fun DatePickerForBuyPage(
     onNext: () -> Unit,
     onSelectDate: (Long) -> Unit
 ) {
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
     } ?: ""
@@ -356,12 +357,27 @@ fun DatePickerForBuyPage(
                     contentColor = Color.White
                 ),
                 shape = RoundedCornerShape(10.dp),
-                enabled = (selectedDate != "") && ((datePickerState.selectedDateMillis ?: 0) >= System.currentTimeMillis())
+                enabled = (selectedDate != "") && ((datePickerState.selectedDateMillis ?: 0) >= getCurrentTime())
             ) {
                 Text(text = "Продолжить", fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = evolentaFamily)
             }
         }
     }
+}
+
+fun getCurrentTime(): Long {
+    val currentTimeMillis = System.currentTimeMillis()
+
+    val calendar = Calendar.getInstance()
+
+    calendar.timeInMillis = currentTimeMillis
+
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+
+    return calendar.timeInMillis
 }
 
 @Composable
