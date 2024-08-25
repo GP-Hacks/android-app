@@ -12,6 +12,7 @@ import com.example.data.response.ListNewsResponse
 import com.example.data.response.PartnersCategoryResponse
 import com.example.data.response.PartnersResponse
 import com.example.data.response.PlaceListResponse
+import com.example.data.response.PlaceTicketResponseGet
 import com.example.data.response.PlacesCategoriesResponse
 import com.example.data.response.VoteListResponse
 import com.example.data.response.VotesCategoriesListResponse
@@ -43,6 +44,24 @@ class ApiRemoteSource {
                     ignoreUnknownKeys = true
                 }
             )
+        }
+    }
+
+    suspend fun getPlacesTickets(authData: String): ResultModel<PlaceTicketResponseGet> {
+        return try {
+            val request = httpClient.get(KdtApiRoutes.PLACES_TICKETS) {
+                header(key = "Authorization", value = "Bearer $authData")
+            }
+
+            if (request.status.value in 200..299) {
+                val response: PlaceTicketResponseGet = request.body()
+
+                ResultModel.success(response)
+            } else {
+                ResultModel.failure("Непредвиденная ошибка.")
+            }
+        } catch (e: Exception) {
+            ResultModel.failure("Непредвиденная ошибка.")
         }
     }
 

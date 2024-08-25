@@ -208,19 +208,19 @@ fun InfoPage(
                             fontSize = 10.sp,
                             textAlign = TextAlign.End, fontFamily = evolentaFamily
                         )
-                        Spacer(modifier = Modifier.weight(1f))
-                        Box(
-                            modifier = Modifier
-                                .background(Color(0xFF00B545).copy(0.19f), RoundedCornerShape(7.dp))
-                                .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
-                        ) {
-                            Text(
-                                text = "${place.cost} ₽",
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF00B545), fontFamily = evolentaFamily
-                            )
-                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFF00B545).copy(0.19f), RoundedCornerShape(7.dp))
+                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                    ) {
+                        Text(
+                            text = "${place.cost} ₽",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF00B545), fontFamily = evolentaFamily
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))

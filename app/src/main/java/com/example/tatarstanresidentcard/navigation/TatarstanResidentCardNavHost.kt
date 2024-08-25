@@ -3,10 +3,16 @@ package com.example.tatarstanresidentcard.navigation
 import android.util.Log
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -95,9 +101,38 @@ fun TatarstanResidentCardNavHost(
             popExitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None}
         ) {
-            chatBotScreen {
-                navController.popBackStack()
-            }
+            chatBotScreen(
+                navigateToVotes = {
+                    navController.navigateToVotes()
+                },
+                navigateToServices = {
+                    navController.navigateToServices()
+                },
+                navigateToPayments = {
+                    navController.navigateToPayments()
+                },
+                navigateToNews = {
+                    navController.navigateToNews()
+                },
+                navigateToHome = {
+                    navController.navigateToHome()
+                },
+                navigateToPlaces = {
+                    navController.navigateToPlaces()
+                },
+                navigateToStocks = {
+                    navController.navigateToStocks()
+                },
+                navigateToPortalCare = {
+                    navController.navigateToPortalCare()
+                },
+                navigateToCharity = {
+                    navController.navigateToCharity()
+                },
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
             homeScreen {
                 navController.navigateToAuth()
             }
@@ -188,17 +223,27 @@ fun BottomNavigationBar(
             ),
             icon = { Icon(painter = painterResource(id = R.drawable.payments_icon), contentDescription = null) }
         )
-        ElevatedButton(
-            modifier = Modifier.size(50.dp),
-            onClick = { navController.navigateToChatBot() },
+//        ElevatedButton(
+//            modifier = Modifier.size(50.dp),
+//            onClick = { navController.navigateToChatBot() },
+//            shape = RoundedCornerShape(15.dp),
+//            elevation = ButtonDefaults.buttonElevation(4.dp),
+//            colors = ButtonDefaults.elevatedButtonColors(
+//                containerColor = mColors.primary
+//            )
+//        ) {
+//            Image(painter = painterResource(id = R.drawable.chat_bot_icon), contentDescription = null, modifier = Modifier.fillMaxSize())
+//        }
+        Card(
+            modifier = Modifier
+                .size(50.dp)
+                .clickable {
+                    navController.navigateToChatBot()
+                },
             shape = RoundedCornerShape(15.dp),
-            elevation = ButtonDefaults.buttonElevation(4.dp),
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = mColors.onSecondary,
-                contentColor = Color.Transparent
-            )
+            elevation = CardDefaults.elevatedCardElevation(4.dp)
         ) {
-            Icon(painter = painterResource(id = R.drawable.stocks_icon), contentDescription = null)
+            Image(painter = painterResource(id = R.drawable.chat_bot_icon), contentDescription = null, modifier = Modifier.fillMaxSize())
         }
         NavigationBarItem(
             selected = currentRoute is Services,
@@ -242,3 +287,16 @@ fun BottomNavigationBar(
         )
     }
 }
+
+/*
+Ты будешь подсказывать пользователю название код если ему понадабится информация, которая в нем находится. Ты обязан выдавать ответ с кодом раздела если требующаяся информация пользователю там находится. Вот список разделов, до тире идет тег, а после тире описание:
+1) код - [|charity|], название - Благотворительность, слоган - вкладывайтесь в добро, описание - это один из сервисов, в нем люди могут пожертвовать свои деньги на помощь людям, животным или организациям. В нем есть поиск, фильтр по категориям и список того, куда можно пожертвовать. Пожертвовать можно только если пользователь авторизован
+2) код - [|home|], название - Главная, описание - главная страница, на ней особо ничего нет, только кнопки для навигации в другие разделы
+3) код - [|news|], название - Новости, описание - страница со списком новостей
+4) код - [|payments|], название - Платежи, описание - страница где собраны различные категории платежей: Детский сад, Транспортная карта, Обркарта, ЖКХ, Газ по штрих-коду, Интернет, Телевидение, Налоги, Штрафы, Госплатежи, Штрафы гибдд
+5) код - [|places|], название - Татарстан. Места, описание - сервис, который предоставляет список мест для посещения в татарстане, в нем есть поиск, фильтры по категориям, карта мест, список купленных билетов. В нем можно покупать билеты на места посещения. За 15 минут до мероприятия на которое куплен билет приходит пуш уведомление с напоминанием
+6) код - [|portal_care|], название - Портал забота.
+7) код - [|services|], название - Сервисы, это экран на котором собраны все сервисы: Благотворительность, Портал забота, Татарстан Места, Читательский билет, Голос, Акции, Секции
+8) код - [|stocks|], название - Акции, это сервис, который показывает пользователю акции от партнеров, в нем есть фильтры по категориям и поиск
+9) код - [|votes|], название - Голос, это сервис, который позволяет пользователю голосовать за проекты, оценивать их и голосовать за варинты развития
+ */

@@ -21,6 +21,15 @@ fun NavController.navigateToChatBot(
 ) = navigate(ChatBot, navOptions)
 
 fun NavGraphBuilder.chatBotScreen(
+    navigateToCharity: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToNews: () -> Unit,
+    navigateToPayments: () -> Unit,
+    navigateToPlaces: () -> Unit,
+    navigateToPortalCare: () -> Unit,
+    navigateToServices: () -> Unit,
+    navigateToStocks: () -> Unit,
+    navigateToVotes: () -> Unit,
     onBack: () -> Unit
 ) = composable<ChatBot>(
     enterTransition = {
@@ -40,7 +49,15 @@ fun NavGraphBuilder.chatBotScreen(
         ) + fadeOut()
     },
 ) {
-    ChatBotRoute {
-        onBack()
-    }
+    ChatBotRoute(
+        onBack = onBack,
+        navigateToCharity = navigateToCharity,
+        navigateToHome = navigateToHome,
+        navigateToNews = navigateToNews,
+        navigateToPayments = navigateToPayments,
+        navigateToPlaces = navigateToPlaces,
+        navigateToPortalCare = navigateToPortalCare,
+        navigateToServices = navigateToServices,
+        navigateToStocks = navigateToStocks,
+        navigateToVotes = navigateToVotes)
 }

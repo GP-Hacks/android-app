@@ -10,6 +10,7 @@ import com.example.data.response.toFullInfoVoteModel
 import com.example.data.response.toPartnersCategoryModel
 import com.example.data.response.toPartnersModel
 import com.example.data.response.toPlaceModel
+import com.example.data.response.toPlaceTicketModel
 import com.example.data.response.toVoteModel
 import com.example.data.source.local.SharedPreferenceLocalSource
 import com.example.data.source.paging.NewsPagingSource
@@ -22,6 +23,7 @@ import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
 import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.PlaceTicketModel
 import com.example.domain.model.VoteModel
 import com.example.domain.repository.ApiRepository
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +34,23 @@ class ApiRepositoryImpl @Inject constructor(
     private val apiRemoteSource: ApiRemoteSource,
     private val sharedPreferenceLocalSource: SharedPreferenceLocalSource
 ): ApiRepository {
+    override fun getPlacesTickets(): Flow<ResultModel<List<PlaceTicketModel>>> = flow {
+        emit(ResultModel.loading())
+
+        val authData = sharedPreferenceLocalSource.getEmail()
+        if (authData != null) {
+            val result = apiRemoteSource.getPlacesTickets(authData)
+
+            if (result.status == ResultModel.Status.SUCCESS) {
+                emit(ResultModel.success(result.data!!.response.map { it.toPlaceTicketModel() }))
+            } else {
+                emit(ResultModel.failure(result.message))
+            }
+        } else {
+            emit(ResultModel.failure("Ошибка авторизации."))
+        }
+    }
+
     override fun getVotes(category: String): Flow<ResultModel<List<VoteModel>>> = flow {
         emit(ResultModel.loading())
 

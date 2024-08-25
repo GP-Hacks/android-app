@@ -46,14 +46,18 @@ fun ChatBotTopBar(
             Text(text = title, color = Color.Black, fontWeight = FontWeight.Medium, fontSize = 20.sp, fontFamily = evolentaFamily)
         },
         actions = {
-            Image(
-                painter = painterResource(id = R.drawable.chat_bot_avatar),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(38.dp)
-                    .clip(CircleShape)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.chat_bot_avatar),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(45.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+            }
         },
         modifier = modifier,
         navigationIcon = {

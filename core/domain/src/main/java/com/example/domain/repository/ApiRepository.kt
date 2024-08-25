@@ -9,10 +9,13 @@ import com.example.domain.model.NewsModel
 import com.example.domain.model.PartnersCategoryModel
 import com.example.domain.model.PartnersModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.PlaceTicketModel
 import com.example.domain.model.VoteModel
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
+
+    fun getPlacesTickets(): Flow<ResultModel<List<PlaceTicketModel>>>
 
     fun getVotes(category: String): Flow<ResultModel<List<VoteModel>>>
 

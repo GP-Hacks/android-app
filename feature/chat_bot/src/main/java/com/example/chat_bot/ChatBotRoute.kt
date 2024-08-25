@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.chat_bot.components.BotMessageLoading
 import com.example.chat_bot.components.ChatBotTopBar
 import com.example.chat_bot.components.Message
@@ -37,7 +38,16 @@ import com.example.ui.theme.mColors
 @Composable
 fun ChatBotRoute(
     viewModel: ChatBotViewModel = hiltViewModel(),
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    navigateToCharity: () -> Unit,
+    navigateToHome: () -> Unit,
+    navigateToNews: () -> Unit,
+    navigateToPayments: () -> Unit,
+    navigateToPlaces: () -> Unit,
+    navigateToPortalCare: () -> Unit,
+    navigateToServices: () -> Unit,
+    navigateToStocks: () -> Unit,
+    navigateToVotes: () -> Unit,
 ) {
     var userRequest by remember {
         mutableStateOf("")
@@ -93,18 +103,49 @@ fun ChatBotRoute(
                     item {
                         when (it.second.status) {
                             ResultModel.Status.FAILURE -> {
-                                Message(text = it.second.message.toString(), isUserMessage = false, isError = true)
+                                Message(text = it.second.message.toString(), isUserMessage = false, isError = true,
+                                    navigateToCharity = navigateToCharity,
+                                    navigateToPortalCare = navigateToPortalCare,
+                                    navigateToStocks = navigateToStocks,
+                                    navigateToPlaces = navigateToPlaces,
+                                    navigateToHome = navigateToHome,
+                                    navigateToNews = navigateToNews,
+                                    navigateToPayments = navigateToPayments,
+                                    navigateToServices = navigateToServices,
+                                    navigateToVotes = navigateToVotes)
                             }
                             ResultModel.Status.LOADING -> {
                                 BotMessageLoading()
                             }
                             else -> {
-                                Message(text = it.second.data?.response.toString(), isUserMessage = false, isError = false)
+                                Message(
+                                    text = it.second.data?.response.toString(),
+                                    isUserMessage = false,
+                                    isError = false,
+                                    navigateToCharity = navigateToCharity,
+                                    navigateToPortalCare = navigateToPortalCare,
+                                    navigateToStocks = navigateToStocks,
+                                    navigateToPlaces = navigateToPlaces,
+                                    navigateToHome = navigateToHome,
+                                    navigateToNews = navigateToNews,
+                                    navigateToPayments = navigateToPayments,
+                                    navigateToServices = navigateToServices,
+                                    navigateToVotes = navigateToVotes
+                                )
                             }
                         }
                     }
                     item {
-                        Message(text = it.first, isUserMessage = true, isError = false)
+                        Message(text = it.first, isUserMessage = true, isError = false,
+                            navigateToCharity = navigateToCharity,
+                            navigateToPortalCare = navigateToPortalCare,
+                            navigateToStocks = navigateToStocks,
+                            navigateToPlaces = navigateToPlaces,
+                            navigateToHome = navigateToHome,
+                            navigateToNews = navigateToNews,
+                            navigateToPayments = navigateToPayments,
+                            navigateToServices = navigateToServices,
+                            navigateToVotes = navigateToVotes)
                     }
                 }
 

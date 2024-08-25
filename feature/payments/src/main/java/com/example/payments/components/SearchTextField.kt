@@ -35,10 +35,11 @@ fun SearchTextField(
         shape = RoundedCornerShape(30.dp)
     ) {
         TextField(
-            maxLines = 6,
+            maxLines = 1,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(47.dp),
+                .fillMaxWidth(),
+            singleLine = true,
+//                .height(50.dp),
             colors = TextFieldDefaults
                 .colors(
                     focusedContainerColor = mColors.surface,

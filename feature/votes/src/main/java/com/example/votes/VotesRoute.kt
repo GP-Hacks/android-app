@@ -114,7 +114,8 @@ fun VotesRoute(
                 .fillMaxSize()
                 .background(mColors.surface, RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            state = listState
         ) {
 
             if (listVotes.status == ResultModel.Status.LOADING) {

@@ -54,9 +54,11 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.common.model.ResultModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.PlaceTicketModel
 import com.example.places.components.FullInfoPlaceDialog
 import com.example.places.components.PlaceCard
 import com.example.places.components.AnimatedTab
+import com.example.places.components.TicketCard
 import com.example.ui.theme.evolentaFamily
 import com.example.ui.theme.mColors
 import com.yandex.mapkit.MapKitFactory
@@ -81,6 +83,8 @@ fun PlacesRoute(
     val listState = rememberLazyListState()
     var paddingState by remember { mutableStateOf(80.dp) }
     val firstVisibleItemIndex = remember { derivedStateOf { listState.firstVisibleItemIndex } }
+
+    val listTickets by viewModel.listTicket.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadPlacesCategories()
@@ -117,7 +121,7 @@ fun PlacesRoute(
                 .fillMaxWidth()
                 .background(
                     Color(0xFF00B545),
-                    if (selectedType == 0) {
+                    if (selectedType == 0 || selectedType == 2) {
                         RoundedCornerShape(bottomStart = 25.dp, bottomEnd = 25.dp)
                     } else {
                         RoundedCornerShape(0.dp)
@@ -167,7 +171,7 @@ fun PlacesRoute(
                     )
                     Spacer(Modifier.height(16.dp))
                     AnimatedTab(
-                        items = listOf("Список", "Карта"),
+                        items = if (viewModel.checkAuth()) listOf("Список", "Карта", "Билеты") else listOf("Список", "Карта"),
                         modifier = Modifier
                             .padding(start = 80.dp, end = 80.dp)
                             .height(25.dp),
@@ -179,47 +183,49 @@ fun PlacesRoute(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-            val categoriesList = viewModel.listPlacesCategories.collectAsState()
-            LazyRow {
-                item {
-                    Text(
-                        text = "Все",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp,
-                        modifier = Modifier
-                            .background(
-                                if (viewModel.currentCategory.value == "all") Color(
-                                    0xFF008935
-                                ) else mColors.primary, RoundedCornerShape(6.dp)
-                            )
-                            .clickable {
-                                viewModel.changeCategory("all")
-                                viewModel.loadPlaces()
-                            }
-                            .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
-                        color = Color.White, fontFamily = evolentaFamily
-                    )
-                }
-
-                categoriesList.value.data?.forEach {
+            if (selectedType != 2) {
+                val categoriesList = viewModel.listPlacesCategories.collectAsState()
+                LazyRow {
                     item {
                         Text(
-                            text = it,
+                            text = "Все",
                             fontWeight = FontWeight.Bold,
                             fontSize = 15.sp,
                             modifier = Modifier
                                 .background(
-                                    if (viewModel.currentCategory.value == it) Color(
+                                    if (viewModel.currentCategory.value == "all") Color(
                                         0xFF008935
                                     ) else mColors.primary, RoundedCornerShape(6.dp)
                                 )
                                 .clickable {
-                                    viewModel.changeCategory(it)
+                                    viewModel.changeCategory("all")
                                     viewModel.loadPlaces()
                                 }
                                 .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
                             color = Color.White, fontFamily = evolentaFamily
                         )
+                    }
+
+                    categoriesList.value.data?.forEach {
+                        item {
+                            Text(
+                                text = it,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                modifier = Modifier
+                                    .background(
+                                        if (viewModel.currentCategory.value == it) Color(
+                                            0xFF008935
+                                        ) else mColors.primary, RoundedCornerShape(6.dp)
+                                    )
+                                    .clickable {
+                                        viewModel.changeCategory(it)
+                                        viewModel.loadPlaces()
+                                    }
+                                    .padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
+                                color = Color.White, fontFamily = evolentaFamily
+                            )
+                        }
                     }
                 }
             }
@@ -239,7 +245,7 @@ fun PlacesRoute(
                     }
                 )
             }, isAuth = viewModel.checkAuth())
-        } else {
+        } else if (selectedType == 1) {
             PlacesMap(listPlaces, onBuyTicket = { i, d, t ->
                 viewModel.buyTicket(
                     i,
@@ -253,6 +259,10 @@ fun PlacesRoute(
                     }
                 )
             }, isAuth = viewModel.checkAuth())
+        } else {
+            PlacesListTickets(listTickets = listTickets) {
+                if (viewModel.checkAuth()) viewModel.loadTickets()
+            }
         }
     }
 }
@@ -429,6 +439,27 @@ fun PlacesMap(
             mapView?.onStop()
             MapKitFactory.getInstance().onStop()
             mapView = null
+        }
+    }
+}
+
+@Composable
+fun PlacesListTickets(
+    listTickets: ResultModel<List<PlaceTicketModel>>,
+    loadData: () -> Unit
+) {
+    LaunchedEffect(Unit) {
+        loadData()
+    }
+
+    LazyColumn(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        listTickets.data?.forEach {
+            item {
+                TicketCard(name = it.name, location = it.location, eventTime = it.eventTime)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }

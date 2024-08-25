@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.model.ResultModel
 import com.example.domain.model.PlaceModel
+import com.example.domain.model.PlaceTicketModel
 import com.example.domain.usecase.BuyTicketForPlaceUseCase
 import com.example.domain.usecase.CheckAuthUseCase
 import com.example.domain.usecase.GetPlacesCategoriesUseCase
+import com.example.domain.usecase.GetPlacesTicketsUseCase
 import com.example.domain.usecase.GetPlacesUseCase
 import com.example.places.utils.LocationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +30,8 @@ class PlacesViewModel @Inject constructor(
     private val getPlacesUseCase: GetPlacesUseCase,
     private val buyTicketForPlaceUseCase: BuyTicketForPlaceUseCase,
     private val getPlacesCategoriesUseCase: GetPlacesCategoriesUseCase,
-    private val checkAuthUseCase: CheckAuthUseCase
+    private val checkAuthUseCase: CheckAuthUseCase,
+    private val getPlacesTicketsUseCase: GetPlacesTicketsUseCase
 ): ViewModel() {
 
     private val _listPlaces = MutableStateFlow<ResultModel<List<PlaceModel>>>(ResultModel.none())
@@ -39,6 +42,10 @@ class PlacesViewModel @Inject constructor(
     private val _listPlacesCategories = MutableStateFlow<ResultModel<List<String>>>(ResultModel.none())
     val listPlacesCategories: StateFlow<ResultModel<List<String>>>
         get() = _listPlacesCategories
+
+    private val _listTickets = MutableStateFlow<ResultModel<List<PlaceTicketModel>>>(ResultModel.none())
+    val listTicket: StateFlow<ResultModel<List<PlaceTicketModel>>>
+        get() = _listTickets
 
     var currentCategory = mutableStateOf("all")
         private set
@@ -109,6 +116,19 @@ class PlacesViewModel @Inject constructor(
                     updateSearch(currentSearch.value)
                     Log.i("NO PAR", it.data.toString())
                     Log.i("NO PAR", it.message.toString())
+                }
+        }
+    }
+
+    fun loadTickets() {
+        viewModelScope.launch {
+            getPlacesTicketsUseCase()
+                .flowOn(Dispatchers.IO)
+                .catch {
+                    _listTickets.value = ResultModel.failure("Непредвиденная ошибка.")
+                }
+                .collect {
+                    _listTickets.value = it
                 }
         }
     }

@@ -48,8 +48,8 @@ fun MessageTextField(
         TextField(
             maxLines = 6,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(47.dp),
+                .fillMaxWidth(),
+//                .height(47.dp),
             colors = TextFieldDefaults
                 .colors(
                     focusedContainerColor = mColors.surface,
