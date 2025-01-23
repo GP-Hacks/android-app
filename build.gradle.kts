@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     id("com.google.dagger.hilt.android") version "2.49" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
